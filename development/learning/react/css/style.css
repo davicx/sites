@@ -1,0 +1,34 @@
+.greeting {
+	color: black;
+}
+
+.Comment {
+	border: 1px solid blue;
+	width: 240px;
+	height: 250px;
+	margin: 40px; 
+}
+
+.UserInfo {
+	width: 100%;
+	height: 140px;
+	border-bottom: 1px solid black;
+}
+
+.Comment-text {
+	width: 100%;
+	height: 50px;
+	border-bottom: 1px solid black;
+
+}
+
+.Comment-date {
+	width: 100%;
+	height: 50px;
+	border-bottom: 0px solid black;
+	background-color: #f4f4f4;
+}
+
+
+.Avatar {
+}
