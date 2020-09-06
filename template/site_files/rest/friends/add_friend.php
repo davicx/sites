@@ -6,18 +6,26 @@ header('Content-Type: application/json');
 require_once('../../../../functions/rest_header.php');
 require_once('../../../../functions/classes/User.php');
 
-if (isset($_POST["request_from"]) && (!empty($_POST["request_to"]))) { 
-		
-		$current_friend->request_from = $_POST["request_from"];
-		$current_friend->request_to = $_POST["request_to"];
 
-		$current_friend_json = json_encode($current_friend);
-		echo $current_friend_json;
+
+$json = file_get_contents('php://input');
+$request_object = json_decode($json);
+
+$request_from = $request_object->request_from;
+$request_to = $request_object->request_to;
+
+if (isset($request_from) && (!empty($request_to))) { 
+	$current_friend->request_from = $request_from;
+	$current_friend->request_to = $request_to;
+
+	$current_friend_json = json_encode($current_friend);
+	echo $current_friend_json;
 	/*
 	$user_name = $_GET["user_name"];
 	$friends_array = array();		
 		
 	$result = mysqli_query($conn,"SELECT * FROM friends WHERE user_name = '$user_name'");
+
 
 	while($row = mysqli_fetch_array($result)) {		
 		$friend_user_name = $row['friend_user_name'];
@@ -41,8 +49,8 @@ if (isset($_POST["request_from"]) && (!empty($_POST["request_to"]))) {
 	*/
 } else {
 	
-		$current_friend->request_from = "NA";
-		$current_friend->request_to ="NA";
+		$current_friend->request_from = "Didn't work";
+		$current_friend->request_to ="Didn't work To";
 		
 		$current_friend_json = json_encode($current_friend);
 		echo $current_friend_json;
