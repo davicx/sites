@@ -55,8 +55,12 @@ class User{
 	public $totalGroups = 0;	
 	public $totalPosts = 0;	
 	public $totalLists = 0;
+	
+	/* Friend Related */
 	public $friendListID = array();
 	public $friendListUserNames = array();
+	public $addFriendOutcome = 0;	
+	public $addFriendMessage = "";	
 	
 	/* Notifications and Requests */
 	public $pendingRequests = array();
@@ -240,8 +244,7 @@ class User{
 		//Type 5: Total Pending Requests 
 
 	} 	
- 
-	
+
 	//Method A4: Request a Friend
 	public function addFriend($requestFrom, $requestTo) {
 		global $conn;
@@ -288,9 +291,10 @@ class User{
 				$insert_friend_one = $conn->prepare("INSERT INTO friends(user_name, user_id, friend_user_name, friend_id, request_pending, friend_key) VALUES (?, ?,?,?,?,?) ");
 				$insert_friend_one->bind_param('sisiis', $request_sent_from, $request_sent_from_id, $request_sent_to, $request_sent_to_id, $request_status, $request_key);
 				if ($insert_friend_one->execute()) {
-					echo "success f1";
+					//echo "success f1";
 				} else {
-					echo "fail f1";		
+					$this->addFriendOutcome = 0;
+					//echo "fail f1";		
 				}
 
 				//Insert Friendship 2			
@@ -298,20 +302,29 @@ class User{
 				$insert_friend_one = $conn->prepare("INSERT INTO friends(user_name, user_id, friend_user_name, friend_id, request_pending, friend_key) VALUES (?, ?,?,?,?,?) ");
 				$insert_friend_one->bind_param('sisiis', $request_sent_to, $request_sent_to_id, $request_sent_from, $request_sent_from_id, $request_status, $request_key_two);
 				if ($insert_friend_one->execute()) {
-					echo "success f2";
+					//echo "success f2";
 				} else {
-					echo "fail f2";		
+					$this->addFriendOutcome = 0;
+					//echo "fail f2";		
 				}
 							
 			//Handle Error						
 			} else {
-				echo "error";
+				$this->addFriendOutcome = 0;
+				//echo "error";
 			}	
+			
+			$this->addFriendOutcome = 1;	
+			$this->addFriendMessage = "Friendship was added!";		
 			
 		//Handle Error	
 		} else {
-			echo "Request already exists or you are friends";	
+			$this->addFriendOutcome = 0;
+			$this->addFriendMessage = "Request already exists or you are friends";
+			//echo "Request already exists or you are friends";	
 		}
+
+		
 	} 
 
 	
