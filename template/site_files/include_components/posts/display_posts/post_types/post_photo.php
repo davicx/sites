@@ -1,1 +1,0 @@
-<img src="../../user_uploads/post_images/<?php echo $image_url; ?>" alt="Wall Post Photo" class = " post-photo-image">
