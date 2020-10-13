@@ -75,7 +75,7 @@
 			
 				<!-- Login Form -->
 				<form id = "" class="" method="post" action="">		
-					
+
 					<!-- Login Inputs -->
 					<input type="text" placeholder="Username" name="username" id="username" class ="login-username-input  login-text" value = "<?php echo $attempted_login_name; ?>"> 
 					<input type="password" placeholder="Password" name="password" id="password" class ="login-password-input login-text">	

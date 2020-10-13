@@ -24,6 +24,7 @@
 	
 	<body> 
 		<p> groups </p>
+		<?php include_once('include_components/logout/logout.php'); ?>	
 		<?php 
 			//Redirect if User is Logged In 
 			if(isset($_SESSION['authenticated'])){
