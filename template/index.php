@@ -30,11 +30,9 @@
 	//Redirect if User is Logged In 
 	if(isset($_SESSION['authenticated'])){
 		header("Location: site_files/groups.php");
- 
-		echo "logged in";
-	} else {
- 
-		echo "NOT logged in";
+		//echo "logged in";
+	} else { 
+		//echo "NOT logged in";
 	}
 
 ?>
@@ -61,7 +59,7 @@
 
     </head>
 		
-		<body>
+		<body id = "index-page">
 			
 			<!-- HEADER: Login Header -->
 			<header>
@@ -70,10 +68,50 @@
 			</header>	
 			
 			<!-- BODY: Login Page Body -->
-			<div id = "" class = "">	
-			
-			
+			<div id = "index-body">	
+		
 				<!-- Login Form -->
+				<div id = "login-area">
+					<p> login </p>
+				
+				
+				</div>
+			
+			</div>
+	
+		<!-- Include all JS Files -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="../js/mobile.js"></script>	
+
+	</body>
+</html>
+
+
+<?php 
+/*
+				<div id = "login-area">
+					
+					<!-- Logo -->
+					<h1 id = "logo-logo-text">  </h1>
+			
+					<!-- Login Form -->
+					<form id = "" class="" method="post" action="">		
+						
+						<!-- Login Inputs -->
+						<input type="text" placeholder="Username" name="username" id="username" class ="login-username-input  login-text" value = "<?php echo $attempted_login_name; ?>"> 
+						<input type="password" placeholder="Password" name="password" id="password" class ="login-password-input login-text">	
+															
+						<!-- Submit Button -->	
+						<button type="submit" name = "login" id="login-btn" class="login-button">Log In</button>		
+						
+						<!-- Error: Handle Login Errors -->
+					
+					</form>
+			
+				</div>	
+				
+				
 				<form id = "" class="" method="post" action="">		
 
 					<!-- Login Inputs -->
@@ -84,19 +122,18 @@
 					<button type="submit" name = "login" id="login-btn" class="login-button">Log In</button>		
 					
 					<!-- Error: Handle Login Errors -->
-				
+					<?php 
+						if(isset($_SESSION['authenticated'])){
+							echo "logged in";
+						} else {
+							echo "NOT logged in";
+						}
+					?>
 				</form>
 				
-				
-			</div>
-	
-		<!-- Include all JS Files -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-        <script src="../js/mobile.js"></script>	
+*/
+?>
 
-	</body>
-</html>
 
 
 				<?php /*

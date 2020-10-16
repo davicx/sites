@@ -73,7 +73,57 @@ header {
 /****************************************************
 SECTION 4A: Login Page
 *****************************************************/
+#index-body {		
+	width: 99%;
+	max-width: 1240px;
+	min-width: 300px;
+	overflow: auto;	
+	margin: 0px auto 0px auto;
+	padding-top: 0px;
 
+}
+
+body#index-page {
+	background-image:		
+	url('../images/background/overlay/overlay.png'),		
+	-moz-linear-gradient(top, rgba(0,0,0,0) 75%, rgba(0,0,0,0.65)),		
+	url('../../images/background/shareshare_background.jpg'); 
+	
+	background-image:		
+	url('../images/background/overlay/overlay.png'),		
+	-webkit-linear-gradient(top, rgba(0,0,0,0) 75%, rgba(0,0,0,0.65)),	
+	url('../../images/background/shareshare_background.jpg'); 
+	
+	background-image:		
+	url('../images/background/overlay/overlay.png'),		
+	-o-linear-gradient(top, rgba(0,0,0,0) 75%, rgba(0,0,0,0.65)),		
+	url('../../images/background/shareshare_background.jpg'); 
+	
+	background-image:		
+	url('../images/background/overlay/overlay.png'),	
+	-ms-linear-gradient(top, rgba(0,0,0,0) 75%, rgba(0,0,0,0.65)),		
+	url('../../images/background/shareshare_background.jpg'); 
+	
+	background-image:		
+	url('../images/background/overlay/overlay.png'),		
+	linear-gradient(top, rgba(0,0,0,0) 75%, rgba(0,0,0,0.65)),			
+	url('../../images/background/shareshare_background.jpg'); 
+	
+	background-position: top left, bottom left, auto;
+	background-size: auto, 100% 100%, cover;
+	background-repeat: repeat, no-repeat, auto;	
+	min-height: 100%;	
+	min-height: 700px;	
+}
+
+#login-area {
+	overflow: auto;
+	margin: 0px auto 0px auto;
+	margin-top: 300px;	
+	width: 440px;	
+	max-width: 440px;
+	background-color: #FFFFFF;		
+}
 
 
 
