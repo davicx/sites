@@ -68,15 +68,15 @@
 			</header>	
 			
 			<!-- BODY: Login Page Body -->
-			<div id = "index-body">	
+			<div id = "index-body">		
+				<section id = "login-area">
+					<p> logo </p>
+					<p> name </p>
+					<p> pw </p>
+					<p> button </p>
 		
-				<!-- Login Form -->
-				<div id = "login-area">
-					<p> login </p>
-				
-				
-				</div>
-			
+
+				<section>
 			</div>
 	
 		<!-- Include all JS Files -->
