@@ -69,12 +69,38 @@
 			
 			<!-- BODY: Login Page Body -->
 			<div id = "index-body">		
+			
+				<!-- SECTION: Login -->
 				<section id = "login-area">
-					<p> logo </p>
-					<p> name </p>
-					<p> pw </p>
-					<p> button </p>
-		
+
+					<!-- Logo -->
+					<div id = "login-area-logo">
+						<h1 class = "login-logo-heading logo"> ShareShare </h1>
+						<p class = "login-logo-subheading hide"> Share what you love </p>
+					</div>			
+				
+					<!-- Login -->
+					<form id = "" class="" method="post" action="">
+
+						<!-- Login Inputs: Username and Password -->
+						<div id = "">
+							
+							<input type="text" placeholder="Username" name="username" id="username" class ="" value = "<?php echo $attempted_login_name; ?>"> 
+							<input type="password" placeholder="Password" name="password" id="password" class ="">	
+							<button type="submit" name = "login" id="login-btn" class="">Log In</button>							
+						
+						</div>	
+											
+						<!-- Error Message (hidden) -->
+						<div class = "<?php echo $login_error_display; ?>  ">
+							<p class = "login-error-message-text"> It appears your username or password was entered incorrectly. Would you like to</p>
+							<p class = "login-error-message-text"> <a href="site_files/request_password.php">Reset your password</a></p>
+							<p class = "login-error-message-text"> or </p>
+							<p class = "login-error-message-text"><a href="site_files/request_username.php">Request your username </a></p>
+						</div>
+
+					</form>
+			
 
 				<section>
 			</div>
@@ -87,6 +113,52 @@
 	</body>
 </html>
 
+
+<?php
+/*
+		<!-- Site Wrapper -->
+		<div id = "index-site-wrapper" class = "">			
+			
+			<!-- SECTION: Login -->
+			<section id = "" class = "login-area">
+			
+				<!-- Logo -->
+				<div id = "login-area-logo" class = "">
+					<h1 class = "login-logo-heading"> ShareShare </h1>
+					<p class = "login-logo-subheading hide"> Share what you love </p>
+				</div>			
+			
+				<!-- Login -->
+				<form id = "" class="" method="post" action="">
+
+					<!-- Login Inputs: Username and Password -->
+					<div id = "login-area-input-form">
+						
+						<input type="text" placeholder="Username" name="username" id="username" class ="login-field-index-top login-text" value = "<?php echo $attempted_login_name; ?>"> 
+						<input type="password" placeholder="Password" name="password" id="password" class ="login-field-index-bottom  login-text">	
+			
+					</div>	
+										
+					<!-- Submit Button -->	
+					<button type="submit" name = "login" id="login-btn" class="login-button-large main-login-button-position main-login-button-size ">Log In</button>		
+					
+					<!-- Error Message (hidden) -->
+					<div class = "<?php echo $login_error_display; ?> login-error-message-holder uk-alert uk-alert-danger">
+						<p class = "login-error-message-text"> It appears your username or password was entered incorrectly. Would you like to</p>
+						<p class = "login-error-message-text"> <a href="site_files/request_password.php" class = "login-error-message-link-text">Reset your password</a></p>
+						<p class = "login-error-message-text"> or </p>
+						<p class = "login-error-message-text"><a href="site_files/request_username.php" class = "login-error-message-link-text">Request your username </a></p>
+					</div>
+
+				</form>
+				
+			</section>	
+ 	
+		</div>
+
+*/
+
+ ?>
 
 <?php 
 /*
