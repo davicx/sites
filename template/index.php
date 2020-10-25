@@ -63,7 +63,7 @@
 			
 			<!-- HEADER: Login Header -->
 			<header>
-			
+				<?php include_once('site_files/include_components/headers/header_index_page.php') ?>	
 
 			</header>	
 			
@@ -83,20 +83,20 @@
 					<form id = "" class="" method="post" action="">
 
 						<!-- Login Inputs: Username and Password -->
-						<div id = "">
+						<div id = "login-input-area">
 							
-							<input type="text" placeholder="Username" name="username" id="username" class ="" value = "<?php echo $attempted_login_name; ?>"> 
-							<input type="password" placeholder="Password" name="password" id="password" class ="">	
-							<button type="submit" name = "login" id="login-btn" class="">Log In</button>							
+							<input type="text" placeholder="Username" name="username" id="username" class = "login-username-input login-text" value = "<?php echo $attempted_login_name; ?>"> 
+							<input type="password" placeholder="Password" name="password" id="password" class ="login-password-input login-text">	
+							<button type="submit" name = "login" id="login-btn" class="login-button">Log In</button>							
 						
 						</div>	
 											
 						<!-- Error Message (hidden) -->
-						<div class = "<?php echo $login_error_display; ?>  ">
+						<div id = "login-error-message-area" class = "<?php echo $login_error_display; ?>  ">
 							<p class = "login-error-message-text"> It appears your username or password was entered incorrectly. Would you like to</p>
-							<p class = "login-error-message-text"> <a href="site_files/request_password.php">Reset your password</a></p>
+							<p class = "login-error-message-link"> <a href="site_files/request_password.php">Reset your password</a></p>
 							<p class = "login-error-message-text"> or </p>
-							<p class = "login-error-message-text"><a href="site_files/request_username.php">Request your username </a></p>
+							<p class = "login-error-message-link"><a href="site_files/request_username.php">Request your username </a></p>
 						</div>
 
 					</form>

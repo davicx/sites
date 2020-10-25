@@ -41,7 +41,7 @@
 	</body>
 </html>
 
-	<?php /*
+
 		<!-- SECTION: Header -->
 		<header class = "">
 			<?php include_once('include_components/headers/header.php') ?>
@@ -52,7 +52,7 @@
 			<p> &nbsp </p>
 		</div>		
 			
-		
+			<?php /*		
 		<!-- SECTION: Groups -->	
 		<div id = "site-wrapper">
 	 
