@@ -23,7 +23,20 @@
     </head>
 	
 	<body> 
+	
+	
+		<!-- SECTION: Header -->
+		<header class = "">
+			<?php include_once('include_components/headers/header.php') ?>
+		</header>
+		
+		<!-- Spacer --> 
+		<div id = "site-wrapper-spacer">
+			<p> &nbsp </p>
+		</div>		
+
 		<p> groups </p>
+
 		<?php include_once('include_components/logout/logout.php'); ?>	
 		<?php 
 			//Redirect if User is Logged In 
@@ -42,16 +55,6 @@
 </html>
 
 
-		<!-- SECTION: Header -->
-		<header class = "">
-			<?php include_once('include_components/headers/header.php') ?>
-		</header>
-		
-		<!-- Spacer --> 
-		<div id = "site-wrapper-spacer">
-			<p> &nbsp </p>
-		</div>		
-			
 			<?php /*		
 		<!-- SECTION: Groups -->	
 		<div id = "site-wrapper">

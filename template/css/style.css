@@ -27,12 +27,12 @@ APPENDIX A: CSS defaults
 SECTION 1: Main Body, Global Styles
 *****************************************************/
 html {	
-	height: 100%;
 	background-color: #F4F4F4;		
 	background-color: #F8F9FA;	
 	background-color: #FFFFFF;	
 	background-color: #100B20;	
 	background-color: #FFFFFF;		
+	height: 100%;
 }
 
 body {	
@@ -41,14 +41,20 @@ body {
 	background-color: #F8F9FA;		
 	background-color: #100B20;	
 	background-color: #FFFFFF;		
-	height: 100%;	
 }
 
+body#index-page {
+	height: 100%;
+}
 
 /****************************************************
 SECTION 2: Site Structure
 *****************************************************/
-
+#site-wrapper-spacer {
+	float: left;
+	height: 62px;
+	width: 100%;
+}
 
 
 /****************************************************
@@ -61,13 +67,122 @@ header {
 	background-color: #343A40;		
 	background-color: #FFFFFF;	
 	width: 100%;	
-	height: 68px;
+	height: 62px;
 	border-bottom: 2px solid #614092;	
 	border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);	
 	z-index: 10;
 }
+
+
+#logo {
+	float: left;
+	width: 20%;
+	height: 62px;	
+	border-right: 1px solid rgba(0, 0, 0, 0);
+	background-color: blue;
+}
+
+#search {
+	float: left;
+	width: 40%;
+	height: 62px;		
+}
+
+#icons {
+	float: left;
+	width: 39%;
+	height: 62px;		
+	border-left: 1px solid rgba(0, 0, 0, 0);
+	background-color: blue;	
+}
+
+/* LOGO */
+
+
+/* SEARCH */
+#header-search-holder {
+
+	width: 80%;
+	margin-left: 10%;
+	height: 42px;
+	margin-top: 10px;
+}
+
+
+input.search-input[type=text]{
+	height: 28px;
+	margin-top: 4px;
+	width: 75%;
+	margin-left: 10%;	
+
+	 
+	/*
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+     border-radius: 2px;	
+	 border: 1px solid black;
+	 */
+	 
+}
+    
+input.search-input[type=text]:focus {
+/*
+     outline: none;
+     border: 1px solid #a0d18c;
+     color: #2d9fd9;
+*/	 
+} 
+
+
+
+/*
+background-attachment: scroll;
+background-clip: border-box;
+background-color: rgba(0, 0, 0, 0);
+background-image: none;
+background-origin: padding-box;
+background-position: 0% 0%;
+background-position-x: 0%;
+background-position-y: 0%;
+background-repeat: repeat;
+background-size: auto;
+border-bottom-color: rgb(0, 0, 0);
+border-bottom-style: none;
+border-bottom-width: 0px;
+border-image-outset: 0;
+border-image-repeat: stretch;
+border-image-slice: 100%;
+border-image-source: none;
+border-image-width: 1;
+border-left-color: rgb(0, 0, 0);
+border-left-style: none;
+border-left-width: 0px;
+border-right-color: rgb(0, 0, 0);
+border-right-style: none;
+border-right-width: 0px;
+border-top-color: rgb(0, 0, 0);
+border-top-style: none;
+border-top-width: 0px;
+display: flex;
+flex-basis: 1e-9px;
+flex-direction: row;
+flex-grow: 1;
+flex-shrink: 1;
+font-family: Roboto, Arial, sans-serif;
+font-size: 10px;
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+padding-bottom: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-top: 0px;
+-moz-text-size-adjust: none
+*/
+/* ICONS */
 
 
 /****************************************************
@@ -202,9 +317,7 @@ body#index-page {
 	width: 100%;
 	min-height: 75px;
 	margin-bottom: 20px;	
- 
 }
- 
 
 #login-error-message-area {
 	float: left;
