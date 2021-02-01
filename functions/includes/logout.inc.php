@@ -9,7 +9,7 @@ if (isset($_POST['logout'])) {
 
 	$logged_in_user = $_POST['logout-user'];
 	
-	updateLogoutStatus($logged_in_user); 
+	//updateLogoutStatus($logged_in_user); 
 
   // empty the $_SESSION array
   $_SESSION = array();

@@ -98,10 +98,29 @@ if (isset($_POST["auto_complete_input_u_g"]) && (!empty($_POST["auto_complete_in
 	}	
 	
 	//Return output (Array of Associative Arrays)
-	echo json_encode($master_autocomplete_array);		
+	echo json_encode($master_autocomplete_array);	
 	
 	
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -25,7 +25,7 @@ class Requests {
 		global $conn;
 	
 		$request_type 		= "new_group";
-		$request_type_text  = "invited you to a group";
+		$request_type_text  = "New Group Invite";
 		$request_is_pending = 1;
 	
 		//STEP 1: Make sure Notification is not a duplicate

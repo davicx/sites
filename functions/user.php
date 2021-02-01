@@ -17,7 +17,7 @@ FUNCTIONS A: All User Related Functions
 	
 FUNCTIONS B: USER ACCOUNT 	
 	1) Function B1: Edit User Profile
-	2) Function B2: Change User Image 	
+	2) Function B2: Upload New User Image	
 	3) Function B3: Delete User
 	4) Function B4: Request Username  
 	5) Function B5: Request Password Send Email (Part 1)
@@ -25,92 +25,9 @@ FUNCTIONS B: USER ACCOUNT
 	6) Function B6: Request Password Update to New Password (Part 2)
 	7) Function B7: Check Password Length *No PHP	
 	8) Function B8: Check that both Passwords are the same *No PHP	
+
 	
-FUNCTIONS C: SITE ACTIVITY	
-	1) Function C1: Get New Group Posts
-	2) Function C2: Update Group Posts to Seen
-	3) Function C3: Get New Discussion Posts
-	4) Function C4: Update Group Discussion to Seen
-	5) Function C5: Get New File Activity
-	6) Function C6: Update New File Activity to Seen
-	
-FUNCTIONS D: Following
-	1) Function D1: Follow a User 
-	2) Function D2: Unfollow a User	
 */
-
-
-//FUNCTIONS D: Following
-//Function D1: Follow a User 
-if (isset($_POST["follow_id"]) && (!empty($_POST["logged_in_user"]))) {
-	$logged_in_user = $_POST["logged_in_user"];
-	$follow_id = $_POST["follow_id"];
-	
-	//This is the person doing the following
-	$user_name = $logged_in_user;
-	$user_id = getUserID($user_name);
-	
-	//This is who they are going to follow
-	$follower_user_name = getUserName($follow_id);
-	$follower_user_id = $follow_id;
-
-	//STEP 1: Make Sure they are not already following the user
-	$result = mysqli_query($conn, "SELECT * FROM followers WHERE user_id = '$user_id' AND follower_id = '$follower_user_id'");
-	$following_record_found = mysqli_num_rows($result);
-	
-	if($following_record_found == 0) {
-		//STEP 2: Follow the user 
-		$follow_user = $conn->prepare("INSERT INTO followers(user_name, user_id, follower_user_name, follower_id, created) VALUES (?,?,?,?, NOW()) ");
-		$follow_user->bind_param('sisi', $user_name, $user_id, $follower_user_name, $follower_user_id);
-		
-		if ($follow_user->execute()) {
-			
-			//STEP 3: Create a Notification
-			$master_site = "master";
-			$notification_from = $logged_in_user;
-			$notification_to = $follower_user_name;
-			$notification_message =  "followed you";
-			$notification_link = "#";
-			$notification_type = "follower";
-			
-			$Current_Notification = new Notifications($logged_in_user);	
-			$Current_Notification->createNotification($master_site, $notification_from, $notification_to, $notification_message, $notification_link, $notification_type);	
-				
-		} else {
-			echo "Failed";		
-		}
-	} else {
-		echo "Following";
-	}	
-}
-
-//Function D2: Unfollow a User	
-if (isset($_POST["unfollow_id"]) && (!empty($_POST["logged_in_user"]))) {
-	$logged_in_user = $_POST["logged_in_user"];
-	$unfollow_id = $_POST["unfollow_id"];
-	
-	//This is the person doing the following
-	$user_name = $logged_in_user;
-	$user_id = getUserID($user_name);
-	
-	//This is who they are going to follow
-	$unfollower_user_name = getUserName($unfollow_id);
-	$unfollower_user_id = $unfollow_id;
-
-
-	//STEP 1: UnFollow the user 
-	$sql = "DELETE FROM followers WHERE user_id='$user_id' and follower_id = '$unfollower_user_id'";
-
-	//Step 1: Delete both Pending Friends Records 
-	if ($conn->query($sql) === TRUE) {
-		echo "Record deleted successfully";
-	} else {
-		echo "Error deleting record: " . $conn->error;
-	}
-}
-
-
-
 
 //FUNCTIONS A: All User Related Functions
 //Function A1: Add a Friend
@@ -121,11 +38,10 @@ if (isset($_POST["add_friend_id"]) && (!empty($_POST["logged_in_user"]))) {
 	$add_friend_name   	= getUserName($add_friend_id);
 	$current_date 		= date("Y-m-d H:i:s");
 	
-
 	//STEP 1: Call Method A4 Request a Friend
 	$Current_User = new User($logged_in_user);
-	$Current_User->addFriend($logged_in_user, $add_friend_name);	
-
+	echo $Current_User->addFriend($logged_in_user, $add_friend_name);	
+	
 	//STEP 2: Create a Notification
 	$notification_from = $logged_in_user;
 	$notification_to = $add_friend_name;
@@ -133,10 +49,8 @@ if (isset($_POST["add_friend_id"]) && (!empty($_POST["logged_in_user"]))) {
 	$notification_message =  "requested to be friends";
 	$notification_link = "#";
 	$notification_type = "friend_request";
-	
 	$Current_Notification = new Notifications($logged_in_user);	
 	$Current_Notification->createNotification($master_site, $notification_from, $notification_to, $notification_message, $notification_link, $notification_type);
-	
 }
 
 
@@ -314,27 +228,7 @@ if (isset($_POST["decline_group_request_id"]) && (!empty($_POST["decline_group_r
 //FUNCTIONS B: USER ACCOUNT 	
 //Function B1: Edit User Profile
 if (isset($_POST["update_user_info"]) && (!empty($_POST["logged_in_user"]))) {
-	$update_boolean 	=  $_POST["update_user_info"];
-	$logged_in_user 	=  $_POST['logged_in_user'];
-	$first_name			=  $_POST['first_name'];
-	$last_name			=  $_POST['last_name'];
-	$biography			=  $_POST['biography'];
-
-	//Update User Profile Table 
-	$sql = "UPDATE user_profile SET first_name = ?, last_name = ?, biography = ? WHERE user_name = ?";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('ssss', $first_name, $last_name, $biography, $logged_in_user);
-	$stmt->execute();
 	
-	if ($stmt->execute()) {
-		echo "User Updated";
-	} else {
-		echo "Error: <br>" . mysqli_error($conn);
-	}
-	$stmt->close();		
-
-
-	/*
 	//User Info Variables
 	$logged_in_user 	=  $_POST['logged_in_user'];
 	$first_name			=  $_POST['first_name'];
@@ -388,129 +282,11 @@ if (isset($_POST["update_user_info"]) && (!empty($_POST["logged_in_user"]))) {
 		echo "Error: <br>" . mysqli_error($conn);
 	}
 	$stmt->close();	
-	*/
+
 } 
 
 
-//Function B2: Change User Image 
-$uploadResult = false;
-$max = 10485760;
-if (isset($_POST['change-user-image'])) {	
-	$destination = USER_IMAGE;	
-	$redirect = "Location:" . SITE_ROOT . "site_files/user_profile_edit.php";
-	
-	require_once(FUNCTIONS_FOLDER . 'classes/Upload.php');
-	try {
-		
-		
-		//Get all Upload File Information 
-		if(isset($_POST['destination'])){ $destination = $_POST['destination']; }	
-		$upload = new Upload($destination);
-		$upload->setMaxSize($max);
-		$originalFileName = $upload->getName();
-		$upload->move();
-		$upload_result = $upload->getMessages();
-		$uploadResult = $upload->getUploadOutcome(); 
-		$serverImageName = $upload_result[0]; 	
-		$file_name_server = $serverImageName; 
-
-		if(isset($_POST['logged-in-user'])){ $logged_in_user = $_POST['logged-in-user']; } 
-		$no_file_added_test = "No file selected.";
-
-		//Make Sure a File was Selected 
-		if(strcasecmp($file_name_server,$no_file_added_test) != 0 ) {
-			if (!($stmt = $conn->prepare("UPDATE user_profile SET image_name=? WHERE user_name='$logged_in_user'"))) {
-				echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-			}
-					
-			if (!$stmt->bind_param('s', $serverImageName)) {
-				echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-			}
-			if (!$stmt->execute()) {
-				echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-			}	
-			
-		}		
-		
-		header($redirect);
-		die();
-	
-	} catch (Exception $e) {
-			echo $e->getMessage();
-	}
-		
-} 
-
-
-/*
-if (isset($_POST['change-user-image'])) {
-	global $conn; 
-	
-	require_once(FUNCTIONS_FOLDER . 'classes/Upload.php');
-	try {
-
-		//Get all Upload File Information 
-		if(isset($_POST['destination'])){ $destination = $_POST['destination']; }	
-		$upload = new Upload($destination);
-		$upload->setMaxSize($max);
-		$originalFileName = $upload->getName();
-		$upload->move();
-		$upload_result = $upload->getMessages();
-		$uploadResult = $upload->getUploadOutcome(); 
-		$serverImageName = $upload_result[0]; 	
-
-		
-		//FILE: Upload Variables
-		//The upload key is used to handle any file uploaded since this handles all file uploads across sites
-		if(isset($_POST['upload-key'])){ $upload_key = $_POST['upload-key']; }
-		if(isset($_POST['redirect'])){ $redirect = $_POST['redirect']; } 	
-		if(isset($_POST['upload-folder'])){ $upload_folder_id = $_POST['upload-folder']; } else { $upload_folder_id = 0;}
-		
-		//Database File Information 
-		if(isset($_POST['master-site'])){ $master_site = $_POST['master-site']; } 
-		if(isset($_POST['group-id'])){ $group_id = $_POST['group-id']; } 
-		if(isset($_POST['post-id'])){ $post_id = $_POST['post-id']; } 
-		if(isset($_POST['parent'])){ $parent = $_POST['parent']; } 
-		$file_name = $originalFileName; 
-		$file_type = pathinfo($file_name, PATHINFO_EXTENSION);
-		$file_name_server = $serverImageName; 
-		$file_path_server = $destination;
-		$file_path = getFilePath($parent);
-		$is_folder = 0;
-		if(isset($_POST['folder'])){ $folder_name = $_POST['folder']; } 
-		if(isset($_POST['user'])){ $logged_in_user = $_POST['user']; } 
-		$file_image = getFileType($serverImageName, $logged_in_user); 
-		$user_name = $logged_in_user; 		
-		$user_id = getUserID($logged_in_user); 		
-		if (isset($_POST['file-caption'])){ $file_caption = $_POST['file-caption']; } else { $file_caption = ""; }		
-		$file_seen = 0;
-		$file_status = 1;
-		$recycle_status = 0;
-		$no_file_added_test = "No file selected.";
-
-		//Make Sure a File was Selected 
-		if(strcasecmp($file_name_server,$no_file_added_test) != 0 ) {
-			if (!($stmt = $conn->prepare("UPDATE user_profile SET image_name=? WHERE user_name='$logged_in_user'"))) {
-				echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-			}
-					
-			if (!$stmt->bind_param('s', $serverImageName)) {
-				echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-			}
-			if (!$stmt->execute()) {
-				echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-			}	
-			
-		}
-
-	} catch (Exception $e) {
-		echo $e->getMessage();
-	}
-
-}
-*/	
-
-
+//Function B2: Upload New User Image
 /*
 if (isset($_POST['upload-user-image'])) {
 		

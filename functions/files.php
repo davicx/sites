@@ -26,23 +26,55 @@ FUNCTIONS C: Global File Functions
 
 FUNCTIONS D: Right Click, Dropzone Related and Drag and Drop  
 	1) Function D1: File Right Click Code  
-	2) Function D2: Drag and Drop Code
-		
+	
 	
 */
 
 //FUNCTIONS A: File 
-//*Client Side
+	
+//FUNCTIONS B: Folder Related 
 
-//FUNCTIONS B: Upload Handling
+//Function B5: Save New Folder
 
 
-//Function B4: Upload File (only server code)
+//FUNCTIONS C: Global File Functions   
+//Function C1: Global Rename Folder 
+if (isset($_POST["new_file_name"]) && (!empty($_POST["file_id"]))) {
+	$file_id 				= $_POST["file_id"];
+	$new_file_name 	  		= $_POST["new_file_name"];
+	$logged_in_user 		= $_POST["logged_in_user"];
+
+	//Rename File 
+	//$Current_File = new File($file_id);
+	//$Current_File->renameFile($file_id, $new_file_name);	
+	$sql = "UPDATE files SET file_name = ?, file_last_modified = NOW() WHERE file_id='$file_id'";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('s', $new_file_name);
+	if ($stmt->execute()) {
+		echo $new_file_name;
+	} else {
+		echo "error renaming";
+	}	
+}
+
+//Function C2: Global Delete File
+if (isset($_POST["file_id_delete"]) && (!empty($_POST["file_id_delete"]))) {
+	$file_id 				= $_POST["file_id_delete"];
+	$logged_in_user 		= $_POST["logged_in_user"];
+
+	//echo $file_id . " " . $logged_in_user;
+	//$Current_File = new File($file_id);
+	//$Current_File->deleteFile($file_id);
+
+	mysqli_query($conn,"UPDATE files SET file_status = 0, recycle_status = 1, file_last_modified = now() WHERE file_id = $file_id");	
+}
+
+
+//Function B4: Upload File to File System 
 $uploadResult = false;
 $max = 10485760;
 if (isset($_POST['submit-file-trigger'])) {
-	//echo "set";
-	
+
 	require_once(FUNCTIONS_FOLDER . 'classes/Upload.php');
 	try {
 		$destination = "../../user_uploads/user_file_uploads/";
@@ -137,46 +169,6 @@ if (isset($_POST['submit-file-trigger'])) {
 	}
 		
 } 
-
-
-
-//FUNCTIONS C: Global File Functions   
-//Function C1: Global Rename Folder 
-if (isset($_POST["new_file_name"]) && (!empty($_POST["file_id"]))) {
-	$file_id 				= $_POST["file_id"];
-	$new_file_name 	  		= $_POST["new_file_name"];
-	$logged_in_user 		= $_POST["logged_in_user"];
-
-	//Rename File 
-	//$Current_File = new File($file_id);
-	//$Current_File->renameFile($file_id, $new_file_name);	
-	$sql = "UPDATE files SET file_name = ?, file_last_modified = NOW() WHERE file_id='$file_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('s', $new_file_name);
-	if ($stmt->execute()) {
-		echo $new_file_name;
-	} else {
-		echo "error renaming";
-	}	
-}
-
-//Function C2: Global Delete File
-if (isset($_POST["file_id_delete"]) && (!empty($_POST["file_id_delete"]))) {
-	$file_id 				= $_POST["file_id_delete"];
-	$logged_in_user 		= $_POST["logged_in_user"];
-
-	//echo $file_id . " " . $logged_in_user;
-	//$Current_File = new File($file_id);
-	//$Current_File->deleteFile($file_id);
-
-	mysqli_query($conn,"UPDATE files SET file_status = 0, recycle_status = 1, file_last_modified = now() WHERE file_id = $file_id");	
-}
-
-
-//FUNCTIONS D: Right Click, Dropzone Related and Drag and Drop  
-//Function D1: File Right Click Code  
-//Function D2: Drag and Drop Code
-	
 //APPENDIX 
 /*
 file_id

@@ -1,8 +1,9 @@
 <?php
 require_once('includes/constants.inc.php');
 require_once('includes/connection.inc.php');	
-//require_once('classes/Notifications.php'); 
-//require_once('../../functions/classes/Posts.php');
+
+//require_once('http://people.oregonstate.edu/~vasquezd/sites/functions/includes/constants.inc.php');
+//require_once('http://people.oregonstate.edu/~vasquezd/sites/functions/includes/connection.inc.php');
 
 /* FUNCTIONS 
 FUNCTIONS A: Security 
@@ -66,17 +67,16 @@ FUNCTIONS G: User Related
 	6) Function G6: Get image from a user 	
 	7) Function G7: Check for valid UserName
 	8) Function G8: Update Password
-	9) Function G9: Check if email taken 
+	9) Function G9: 
 	10) Function G10: Convert array of usernames to user ids
 	11) Function G11: Get User Image
 	12) Function G12: Check if two users are Already Friends
  	13) Function G13: Get Friend Status 
  	14) Function G14: Get Friend Description 
  	15) Function G15: Get Users First Name or Return UserName
-    16) Function G16: Get Users First and Last Name or Return UserName
-	17) Function G17: Get Friend Count 
-	18) Function G18: Get Follow Status  
-	
+	16) Function G16: Check if email taken 
+	17) Function G17: Check if username is taken 
+
 FUNCTIONS H: Group Related 
 	1) Function H1: Get All User Groups
 	2) Function H2: Check if User has Default Group and Create if They Do Not *Implement on Page Header 
@@ -1550,7 +1550,7 @@ function getUserImage($current_user) {
 	if(file_exists(USER_IMAGE . $userImage)) {
 		return $userImage; 
 	} else {
-		return "user.png"; 	
+		return "default.jpg"; 	
 	}
 }
 
@@ -1606,44 +1606,6 @@ function checkValidUsername($user_name_temporary) {
  
 	$register_user_name_array['user_name_length_test'] 		= $user_name_length_test;			
 	return $register_user_name_array;
-}
-
-
-//Function G9: Check if email taken (returns 1 if it is available, 0 if taken)
-function checkEmailTaken($email_to_test) {
-	global $conn;	
-	//$registration_email = "vasquezd@oregonstate.edu";
-	//$registration_email = "Vasquezd@onid.orst.edu";
-	//$email_is_taken = checkEmailTaken($registration_email);
-				
-	$result = mysqli_query($conn,"SELECT * FROM user_profile WHERE email = '$email_to_test' ");
-	$email_count = mysqli_num_rows($result);
-
-	if($email_count == 0) {
-		$email_taken = 0;
-	} else {
-		$email_taken = 1;
-	}
-	
-	/*
-	if ($result = mysqli_prepare($conn, "SELECT email FROM user_profile WHERE email=?")) {
-		$result -> bind_param("s", $email_to_test);
-		$result -> execute();
-		$result -> bind_result($result_email);
-		$result -> fetch();
-		$user_email = $result_email;
-		$result -> close();
-		if(empty($user_email)) {
-			//$email_available_test =   "AVAILABLE " . 1;
-			$email_available_test = 1;
-		} else {
-			//$email_available_test ="TAKEN " .  0;	
-			$email_available_test = 0;	
-		}
-	}	
-	*/
-	return $email_taken;
-
 }
 
 
@@ -1750,29 +1712,94 @@ function getUserFirstName($user_name){
 
 	return $user_displayed_name;
 }
-//Function G16: Get Users First and Last Name or Return UserName
-function getUserFullName($user_name){ 
+
+
+
+
+//Function G16: Check if email is Taken
+function checkEmailTaken($email_to_test) {
 	global $conn;	
 	
-	$result = mysqli_query($conn,"SELECT * FROM user_profile WHERE user_name = '$user_name' ");
-	
-	while($row = mysqli_fetch_array($result)) {		
-		$first_name 		= $row['first_name'];	
-		$last_name 			= $row['last_name'];	
-		
-		//Check if they have a first or last name that is set 
-		if((isset($first_name)) && !empty($first_name) || (isset($last_name)) && !empty($last_name) ) {
-			$user_full_name = ucfirst(strtolower($first_name)) . " " .  ucfirst(strtolower($last_name)); 
-	
+	if ($result = mysqli_prepare($conn, "SELECT email FROM user_profile WHERE email=?")) {
+		$result -> bind_param("s", $email_to_test);
+		$result -> execute();
+		$result -> bind_result($result_email);
+		$result -> fetch();
+		$user_email = $result_email;
+		$result -> close();
+		if(empty($user_email)) {
+			$email_taken_test = 0;
 		} else {
-			$user_full_name = ucfirst(strtolower($user_name)); 				
-		}	
+			$email_taken_test = 1;	
+		}
+	}	
+	return $email_taken_test;
 
-	}
-	return $user_full_name;
 }
 
-//Function G17: Get Friend Count 
+//Function G17: Check if username is taken 
+function checkUserNameTaken($username_to_test) {
+	global $conn;	
+	
+	if ($result = mysqli_prepare($conn, "SELECT user_name FROM user_profile WHERE user_name=?")) {
+		$result -> bind_param("s", $username_to_test);
+		$result -> execute();
+		$result -> bind_result($result_user_id);
+		$result -> fetch();
+		$user_id = $result_user_id;
+		$result -> close();
+		if(empty($user_id)) {
+			$user_name_taken_test = 1;	
+		} else {
+			$user_name_taken_test = 0;
+		}
+	} 
+	return $user_name_taken_test;
+
+}
+//Function G18: Check if email is Taken
+function checkEmailAvailable($email_to_test) {
+	global $conn;	
+	
+	if ($result = mysqli_prepare($conn, "SELECT email FROM user_profile WHERE email=?")) {
+		$result -> bind_param("s", $email_to_test);
+		$result -> execute();
+		$result -> bind_result($result_email);
+		$result -> fetch();
+		$user_email = $result_email;
+		$result -> close();
+		if(empty($user_email)) {
+			$email_available_test = 1;
+		} else {
+			$email_available_test = 0;	
+		}
+	}	
+	return $email_available_test;
+
+}
+
+//Function G19: Check if username is taken 
+function checkUserNameAvailable($username_to_test) {
+	global $conn;	
+	
+	if ($result = mysqli_prepare($conn, "SELECT user_name FROM user_profile WHERE user_name=?")) {
+		$result -> bind_param("s", $username_to_test);
+		$result -> execute();
+		$result -> bind_result($result_user_id);
+		$result -> fetch();
+		$user_id = $result_user_id;
+		$result -> close();
+		if(empty($user_id)) {
+			$user_name_taken_available = 1;	
+		} else {
+			$user_name_taken_available = 0;
+		}
+	} 
+	return $user_name_taken_available;
+
+}
+
+//Function F10: Get Friend Count 
 function getUserFriendCount($userName){ 
 	global $conn;	
 	
@@ -1793,26 +1820,7 @@ function getUserFriendCount($userName){
 	return $friend_count;
 }
 
-//Function G18: Get Follow Status  
-function getFollowStatus($current_user, $user_friend){ 
-	global $conn;	
 
-	$result_friends = mysqli_query($conn, "SELECT * FROM followers WHERE user_name = '$current_user' AND follower_user_name = '$user_friend'");
-	$friend_records_found = mysqli_num_rows($result_friends);	
-	
-	//This is You
-	if(strcasecmp($current_user, $user_friend) == 0) {
-		return 2;
-	
-	//All Other Users 
-	} else {
-		if($friend_records_found > 0 ) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
-}
 
 //FUNCTIONS H: Group Related 
 //Function H1: Get All User Groups

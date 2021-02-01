@@ -1,0 +1,75 @@
+﻿HOSTING
+GoDaddy
+Site: http://redlineaerospace.com/test/
+Login Site: Go Daddy
+UserName: Vasquezd
+Password: old onid end 8
+
+
+DATABASE: 
+$host		= "localhost";
+$user_name	= "charles-db";
+$password 	= "gCtLRbXMWWS2SwNg";
+$dbname 	= "shareshare";
+
+
+FTP
+Shareshare.co:
+Document Root: public_html/shareshare.co
+FTP Client (/shareshare directory) :
+FTP Username: shareshare
+FTP server: ftp.redlineaerospace.com
+FTP & explicit FTPS port:  21
+PW: Old onid + 8
+
+
+shareshare:
+FTP Client (/shareshare directory) :
+FTP Username: shareshare@redlineaerospace.com
+FTP server: ftp.redlineaerospace.com
+FTP & explicit FTPS port:  21
+PW: Old onid + 8
+
+Wishlist:
+FTP Client (/wishlist directory) :
+FTP Username: wishlist@redlineaerospace.com
+FTP server: ftp.redlineaerospace.com
+FTP & explicit FTPS port:  21
+PW: Old onid + 8
+
+
+DOMAINS
+David@mywishlist.co
+PW: old onid + 8
+
+
+--------
+OLD 
+Other 
+Username: Vasquezd
+PW: new onid 8
+vasquezd@onid.orst.edu
+Call pin: 2015
+Cpanel
+david@redlineaerospace.com
+David15!%
+PW: New Onid 8
+Files: 
+/home/californiachris/
+public_html/david
+/home/californiachris/public_html/david
+
+Website: http://redlineaerospace.com/test/
+
+FTP Username: Vasquezd@redlineaerospace.com
+FTP server: ftp.redlineaerospace.com
+FTP & explicit FTPS port:  21
+
+Database
+	$host		= "localhost";
+	$user_name	= "charles-db";
+	$password 	= "gCtLRbXMWWS2SwNg";
+	$dbname 	= "shareshare";
+
+Godaddy1
+godaddy

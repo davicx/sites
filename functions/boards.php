@@ -9,96 +9,41 @@ require_once('classes/Groups.php');
 /*
 FUNCTIONS A: All Functions Related to Boards
 	1) Function A1: Create a Board 
-	2) Function A2: Rename a Board
-	3) Function A3: Delete a Board 	
+	
 */
 
 //FUNCTIONS A: All Functions Related to Boards
 //Function A1: Create a Board 
+
+/*
+new_board_name: new_board_name, 
+: group_id, 
+logged_in_user: logged_in_user, 
+: group_is_private }, 
+*/
 if (isset($_POST["new_board_name"]) && (!empty($_POST["new_board_name"]))) {
 	global $conn;	
-	$board_name 		= $_POST["new_board_name"];	
+	$board_name 	= $_POST["new_board_name"];	
 	$group_id	 		= $_POST["group_id"];		
-	$board_type	 		= $_POST["board_type"];		
-	$created_by_name 	= $_POST["logged_in_user"];		
+	$created_by_name 		= $_POST["logged_in_user"];		
 	$group_is_private	= $_POST["group_is_private"];	
 	$active_status		= 1;
 	$group_key		 	= uniqid(microtime(),1);
 
 	//STEP 1: Create new group and insert into groups table (This can't be done inside the class because you need Group ID to instantiate class)
-	$stmt = $conn->prepare("INSERT INTO boards (board_name, group_id, board_type, created_by_name, active_status, updated, created) VALUES (?,?,?,?,?, NOW(), NOW()) ");
-	$stmt->bind_param('sissi', $board_name, $group_id, $board_type, $created_by_name, $active_status);
+	$stmt = $conn->prepare("INSERT INTO boards (board_name, group_id, created_by_name, active_status, updated, created) VALUES (?,?,?,?, NOW(), NOW()) ");
+	$stmt->bind_param('sisi', $board_name, $group_id, $created_by_name, $active_status);
 
 	//Success
 	if ($stmt->execute()) {
 		echo "success";
 
 	} else {
-		echo "Error:<br>" . mysqli_error($conn);
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 	}
-}	
-
-//Function A2: Rename a Board
-
-//Function A3: Delete a Board 
-if (isset($_POST["delete_board_id"]) && (!empty($_POST["logged_in_user"]))) {		
-	$board_id = $_POST["delete_board_id"];
-	$logged_in_user = $_POST["logged_in_user"];
-	$active_status = 0;
 	
-	$sql = "UPDATE boards SET active_status = ? WHERE board_id='$board_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('i', $active_status);
-	if ($stmt->execute()) {
-		echo "success";
-	} else {
-		echo "error";
-	}
-} 
-
-
-
-/////////////////////////////
-
 /*
-
-delete_board_id, logged_in_user:
-
-//board_id, logged_in_user:
-//Function G10: Delete Group 
-if (isset($_POST["delete_group_id"]) && (!empty($_POST["logged_in_user"]))) {		
-	$group_id = $_POST["delete_group_id"];
-	$logged_in_user = $_POST["logged_in_user"];
-	$active_member = 0;
-	$group_deleted = 1;
-	
-	//Set group_followers active_member = 0
-	$sql = "UPDATE group_followers SET active_member = ? WHERE group_id='$group_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('i', $active_member);
-	if ($stmt->execute()) {
-		echo "success";
-	}	
-	
-	//Update group_users
-	$sql = "UPDATE group_users SET active_member = ? WHERE group_id='$group_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('i', $active_member);
-	if ($stmt->execute()) {
-		echo "success";
-	}		
-	//Update groups	
-	$sql = "UPDATE groups SET group_deleted = ? WHERE group_id='$group_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('i', $group_deleted);
-	if ($stmt->execute()) {
-		echo "success";
-	}	
-	
-} 
-*/
-
-/*
+Fatal error</b>:  Call to a member function bind_param() on a non-object in <b>/nfs/onid-fs1/u2/v/vasquezd/public_html/sites/functions/boards.php</b> on line <b>35</b><br />
 board_name
 group_id
 created_by_name
@@ -109,6 +54,36 @@ recycle_status
 updated
 created
 	
+	//STEP 1: Create new group and insert into groups table (This can't be done inside the class because you need Group ID to instantiate class)
+	$stmt = $conn->prepare("INSERT INTO groups (group_type, created_by, group_key, group_name, group_private) VALUES (?,?,?,?,?) ");
+	$stmt->bind_param('ssssi', $group_type, $logged_in_user, $group_key, $group_name, $group_is_private);
+
+	//Success
+	if ($stmt->execute()) {
+		//STEP 2: Select group ID and use this to populate the rest of the fields		
+		$query = "SELECT group_id FROM groups WHERE group_key ='$group_key' AND created_by = '$logged_in_user' LIMIT 1";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($result);
+		$new_group_id = $row['group_id'];
+
+		//STEP 3: Create a Class and Add all Users to this Group
+		$active_member = 1;
+		$sql = 'INSERT INTO group_users (group_id, user_name, active_member) VALUES (?, ?, ?)';			  
+		$stmt = $conn->stmt_init();
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('isi', $new_group_id, $logged_in_user, $active_member);
+		$stmt->execute();		
+		$stmt->close();	
+
+	} else {
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	}
+	*/	
+}
+
+
+
+/*
 ///SORT 
 
 

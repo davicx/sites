@@ -11,11 +11,6 @@ FUNCTIONS A: USER RELATED
 	5) Method A5: Cancel a Sent Friend Request
 	6) Method A6: Remove a Friend
 	7) Method A7: Update User Info
-
-FUNCTIONS: Following 
-	1) Method B1: Follow a User
-	2) Method B2: Unfollow a User 
-	3) Method B3: Get list a User is Following 
 	
 FUNCTIONS B: REQUEST RELATED	
 	1) Method B1: Accept Friend Request
@@ -26,22 +21,21 @@ FUNCTIONS B: REQUEST RELATED
 	6) Method B6: Decline List Request
 	
 FUNCTIONS C: USER SITE ACTIVITY 
-	1) Method C1: Get Total Posts
-	1) Method C2: Get Total Groups
-	1) Method C3: Get New Group Posts
-	2) Method C4: Get New Group Discussions
-	3) Method C5: Get New File Activity
-	4) Method C6: Update Group Posts to Seen	
-	5) Method C7: Update Group Discussion to Seen
-	6) Method C8: Update New File Activity to Seen		
+	1) Method C1: Get New Group Posts
+	2) Method C2: Get New Groups Discussions
+	3) Method C3: Get New File Activity
+	4) Method C4: Update Group Posts to Seen	
+	5) Method C5: Update Group Discussion to Seen
+	6) Method C6: Update New File Activity to Seen		
 
 FUNCTIONS D: USER ACCOUNT	
 	1) Method D1: Register User
-	2) Method D2: Register User with Email
-	3) Method D3: Delete User
-	4) Method D4: Request Username *currently this happens in the user.php file 
-	5) Method D5: Request Password Send Email (Part 1) *currently this happens in the user.php file 
-	6) Method D6: Request Password Update to New Password (Part 2) *currently this happens in the user.php file 	
+	2) Method D2: Register User API
+	2) Method D3: Register User with Email
+	3) Method D4: Delete User
+	4) Method D5: Request Username *currently this happens in the user.php file 
+	5) Method D6: Request Password Send Email (Part 1) *currently this happens in the user.php file 
+	6) Method D7: Request Password Update to New Password (Part 2) *currently this happens in the user.php file 	
 
 */
 
@@ -55,14 +49,18 @@ class User{
 	public $email = "";
 	public $biography = "";
 	public $userImage = "";
-	public $totalFriends = "";
-	public $totalFollowers = "";
-	public $totalFollowing = "";
-	public $totalGroups = "";	
-	public $totalPosts = "";	
-	public $totalLists = "";
+	public $totalFriends = 0;
+	public $totalFollowers = 0;
+	public $totalFollowing = 0;
+	public $totalGroups = 0;	
+	public $totalPosts = 0;	
+	public $totalLists = 0;
+	
+	/* Friend Related */
 	public $friendListID = array();
 	public $friendListUserNames = array();
+	public $addFriendOutcome = 0;	
+	public $addFriendMessage = "";	
 	
 	/* Notifications and Requests */
 	public $pendingRequests = array();
@@ -95,17 +93,6 @@ class User{
 		$this->userName = $userName;
 	}
 
-/*
-//Get total groups user is in    
-$result_groups = mysqli_query($conn, "SELECT * FROM group_users WHERE user_name = '$userName'");
-$user_groups = mysqli_num_rows($result_groups);
-$this->totalGroups = $user_groups;
-
-//Get total posts user has made     
-$result_posts = mysqli_query($conn, "SELECT * FROM posts WHERE post_from = '$userName' AND post_status = '1'");
-$user_posts = mysqli_num_rows($result_posts);
-$this->totalPosts = $user_posts;
-*/
 	
 	//METHODS A: USER RELATED
 	//Method A1: Get User Info 
@@ -137,7 +124,10 @@ $this->totalPosts = $user_posts;
 				}	
 
 				//Get current user image and make sure that it exists 	
-				$user_image 		= $row['image_name'];			
+				$user_image 		= $row['image_name'];	
+				$this->userImage 	= $user_image; 				
+				
+				/*
 				$file_exists_test = "../../user_uploads/user_image/" . $user_image;
 				if(file_exists($file_exists_test)==1) {
 					$this->userImage 	= $user_image; 			
@@ -145,10 +135,21 @@ $this->totalPosts = $user_posts;
 					$this->userImage 	= "default.png"; 	
 				}
 				
+				*/
 				$this->email 		= $row['email']; 
 				$this->biography 	= $row['biography'];		
-			}
+			  }
+			  
+			//Get total groups user is in    
+			$result_groups = mysqli_query($conn, "SELECT * FROM group_users WHERE user_name = '$userName'");
+			$user_groups = mysqli_num_rows($result_groups);
+			$this->totalGroups = $user_groups;
 
+			//Get total posts user has made     
+			$result_posts = mysqli_query($conn, "SELECT * FROM posts WHERE post_to = '$userName' AND post_status = '1'");
+			$user_posts = mysqli_num_rows($result_posts);
+			$this->totalPosts = $user_posts;
+			
 			$result_clothes = mysqli_query($conn,"SELECT * FROM user_size WHERE user_name = '$userName' ");
 
 			while($row_clothes = mysqli_fetch_array($result_clothes)) {		
@@ -243,8 +244,7 @@ $this->totalPosts = $user_posts;
 		//Type 5: Total Pending Requests 
 
 	} 	
- 
-	
+
 	//Method A4: Request a Friend
 	public function addFriend($requestFrom, $requestTo) {
 		global $conn;
@@ -291,9 +291,10 @@ $this->totalPosts = $user_posts;
 				$insert_friend_one = $conn->prepare("INSERT INTO friends(user_name, user_id, friend_user_name, friend_id, request_pending, friend_key) VALUES (?, ?,?,?,?,?) ");
 				$insert_friend_one->bind_param('sisiis', $request_sent_from, $request_sent_from_id, $request_sent_to, $request_sent_to_id, $request_status, $request_key);
 				if ($insert_friend_one->execute()) {
-					echo "success f1";
+					//echo "success f1";
 				} else {
-					echo "fail f1";		
+					$this->addFriendOutcome = 0;
+					//echo "fail f1";		
 				}
 
 				//Insert Friendship 2			
@@ -301,20 +302,29 @@ $this->totalPosts = $user_posts;
 				$insert_friend_one = $conn->prepare("INSERT INTO friends(user_name, user_id, friend_user_name, friend_id, request_pending, friend_key) VALUES (?, ?,?,?,?,?) ");
 				$insert_friend_one->bind_param('sisiis', $request_sent_to, $request_sent_to_id, $request_sent_from, $request_sent_from_id, $request_status, $request_key_two);
 				if ($insert_friend_one->execute()) {
-					echo "success f2";
+					//echo "success f2";
 				} else {
-					echo "fail f2";		
+					$this->addFriendOutcome = 0;
+					//echo "fail f2";		
 				}
 							
 			//Handle Error						
 			} else {
-				echo "error";
+				$this->addFriendOutcome = 0;
+				//echo "error";
 			}	
+			
+			$this->addFriendOutcome = 1;	
+			$this->addFriendMessage = "Friendship was added!";		
 			
 		//Handle Error	
 		} else {
-			echo "Request already exists or you are friends";	
+			$this->addFriendOutcome = 0;
+			$this->addFriendMessage = "Request already exists or you are friends";
+			//echo "Request already exists or you are friends";	
 		}
+
+		
 	} 
 
 	
@@ -554,40 +564,9 @@ $this->totalPosts = $user_posts;
 	//Method B6: Decline List Request
 	//* Need to Write 
 	
+	
 	//FUNCTIONS C: USER SITE ACTIVITY 	
-	//Method C1: Get Total Posts
-		public function getUserTotalPosts($current_user) {
-		global $conn;
-	
-		$result_posts = mysqli_query($conn, "SELECT * FROM posts WHERE post_from = '$current_user' 
-			AND post_status = '1' 
-			AND post_type = 'post'");	
-			//photo video article file text 
-		$total_post_count = mysqli_num_rows($result_posts);
-		$this->totalPosts = $total_post_count; 
-
-	}		
-	
-	
-	//Method C2: Get Total Groups
-
-
-
-/*
-//Get total groups user is in    
-$result_groups = mysqli_query($conn, "SELECT * FROM group_users WHERE user_name = '$userName'");
-$user_groups = mysqli_num_rows($result_groups);
-$this->totalGroups = $user_groups;
-
-//Get total posts user has made     
-$result_posts = mysqli_query($conn, "SELECT * FROM posts WHERE post_from = '$userName' AND post_status = '1'");
-$user_posts = mysqli_num_rows($result_posts);
-$this->totalPosts = $user_posts;
-*/
-	
-
-
-	//Method C3: Get New Group Posts
+	//Method C1: Get New Group Posts
 	public function getNewGroupPosts($logged_in_user, $group_id) {
 		global $conn;
 		
@@ -607,7 +586,7 @@ $this->totalPosts = $user_posts;
 		}
 	}		
 	
-	//Method C4: Get New Group Discussions
+	//Method C2: Get New Groups Discussions
 	public function getNewDiscussionPosts($logged_in_user, $group_id) {
 		global $conn;
 
@@ -627,10 +606,10 @@ $this->totalPosts = $user_posts;
 		}
 	}			
 	
-	//Method C5: Get New File Activity
+	//Method C3: Get New File Activity
 	//* Need to Write 
 
-	//Method C6: Update Group Posts to Seen	
+	//Method C4: Update Group Posts to Seen	
 	public function setGroupPostsLastSeen($logged_in_user, $group_id) {
 		global $conn;
 		
@@ -646,7 +625,7 @@ $this->totalPosts = $user_posts;
 		}	
 	}	
 	
-	//Method C7: Update Group Discussion to Seen
+	//Method C5: Update Group Discussion to Seen
 	public function setGroupDiscussionLastSeen($logged_in_user, $group_id) {
 		global $conn;
 	
@@ -662,7 +641,7 @@ $this->totalPosts = $user_posts;
 		}	
 	}		
 	
-	//Method C8: Update New File Activity to Seen
+	//Method C6: Update New File Activity to Seen
 	public function setGroupFilesLastSeen($logged_in_user, $group_id) {
 		global $conn;
 	
@@ -678,8 +657,8 @@ $this->totalPosts = $user_posts;
 		}	
 	}			
 	
-	
-	//FUNCTIONS D: USER ACCOUNT	
+
+	//FUNCTIONS U: USER ACCOUNT	
 	//Method D1: Register User
 	public function registerUser($user_name, $first_name, $last_name, $email, $pword) {
 		global $conn;
@@ -730,8 +709,6 @@ $this->totalPosts = $user_posts;
 		$stmt->execute();
 		$stmt->close();
 
-		
-		//echo "success";
 		//Create new folder on server for new user creation (*If needed)
 		/*
 		if (!file_exists('user_files/user_uploads/'.$username.'')) {
@@ -756,7 +733,61 @@ $this->totalPosts = $user_posts;
 		*/
 	}
 	
-	//Method D2: Register User with Email
+	
+	//Method D2: Register User API
+	public function registerUserAPI($user_name, $first_name, $last_name, $email, $pword, $user_key) {
+		global $conn;
+		
+		//Create a salt using the current timestamp and encrypt the password and salt with SHA1
+		$salt = time();
+		$pwd = sha1($pword . $salt);
+		$username =  $user_name;
+		
+		//Insert into User Login Table 
+		$sql = 'INSERT INTO user_login (user_name, user_email, salt, password, user_key) VALUES (?, ?, ?, ?, ?)';
+		$stmt = $conn->stmt_init();
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('ssiss', $username, $email, $salt, $pwd, $user_key);
+		$stmt->execute();
+		$stmt->close();
+
+		//Pull user_id and update user_profile table with this id 
+		if ($result_id = mysqli_prepare($conn, "SELECT user_id FROM user_login WHERE user_name=?")) {
+			$result_id -> bind_param("s", $username);
+			$result_id -> execute();
+			$result_id -> bind_result($result_user_id);
+			$result_id -> fetch();
+			$user_id = $result_user_id;
+			$result_id -> close();
+		} 
+		
+		//Insert user data into User Profile 
+		$default_image = "david.jpg";
+		$biography = "They are (or were) a little people, about half our height, and smaller than the bearded dwarves. 
+		Hobbits have no beards. There is little or no magic about them except the ordinary everyday sort which helps 
+		them to disappear quietly and quickly when large stupid folk like you and me come blundering along, 
+		making a noise like elephants which they can hear a mile off ";
+		
+		$sql = "INSERT INTO user_profile (user_name, user_id, image_name, root_folder, biography, first_name, last_name, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";		  
+		$stmt = $conn->stmt_init();
+		$stmt = $conn->prepare($sql);
+		
+		$stmt->bind_param('sissssss', $username, $user_id, $default_image, $username, $biography, $first_name, $last_name, $email);
+		$stmt->execute();
+		$stmt->close();
+		
+		//Insert into User Size (*If needed)
+		$sql = "INSERT INTO user_size (user_name, user_id) VALUES (?, ?)";		  
+		$stmt = $conn->stmt_init();
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('si', $username, $user_id);
+		$stmt->execute();
+		$stmt->close();
+
+	}
+	
+	
+	//Method D3: Register User with Email
 	public function registerUserEmail($user_name, $first_name, $last_name, $email, $pword, $hash, $request_from_friend) {
 		global $conn;
 		
@@ -863,7 +894,7 @@ $this->totalPosts = $user_posts;
 		}	
 	}
 	
-	//Method D3: Delete User	
+	//Method D5: Delete User	
 	public function deleteUser() {
 		//Update on Client Side 
 		echo "Delete User";

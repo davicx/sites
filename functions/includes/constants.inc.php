@@ -6,7 +6,6 @@ define("DEBUG", False);
 
 /** SHARESHARE **/ 
 //WAMP 
-
 $host		= "localhost";
 $user_name	= "root";
 $password 	= "";
@@ -27,13 +26,13 @@ define("FUNCTIONS_FOLDER", "../../functions/");
 define("FILE_UPLOAD", "C:/wamp/www/sites/user_uploads/user_file_uploads/");
 define("POST_UPLOAD", "C:/wamp/www/sites/user_uploads/post_images/");
 define("POST_PHOTO_DISPLAY", "../../user_uploads/post_images/");
-define("POST_PHOTO_UPLOAD", "../../user_uploads/post_images/");
 define("FILE_UPLOAD_DISPLAY", "../../user_uploads/user_file_uploads/");
 define("TEMP_ARTICLE_UPLOAD", "C:/wamp/www/sites/user_uploads/temp_article_image/");
 define("USER_IMAGE", "../../user_uploads/user_image/");
 define("USER_UPLOADS", "../user_uploads/");
 define("SITE_IMAGES", "../../images/");
 define("FAVICONS", "../../user_uploads/favicons/");
+define("POST_PHOTO_UPLOAD", "../../user_uploads/post_images/");
 define("USER_FILE_UPLOADS", "../../user_uploads/user_file_uploads/");
 define("RELATIVE_FILE_PATH", "../../user_uploads\user_file_uploads\/");
 define("FAVICON", "C:/wamp/www/sites/user_uploads/favicons/");

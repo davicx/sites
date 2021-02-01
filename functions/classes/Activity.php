@@ -6,7 +6,9 @@ require_once('connection.inc.php');
 
 FUNCTIONS A: ACTIVITY 
 	1) Method A1: Get Total Activity for Header Display
-	2) Method A2: Get Total Unseen Notifications 
+	2) Method A2: Get Group Post Activity 
+	3) Method A3: Get Group Discussion Activity 
+	4) Method A4: Get Group File Activity 
 
 FUNCTIONS B: CLICK AND ACTION RELATED
 	1) Method B1: Update Last Click for Notificaitons Icon in Header
@@ -20,19 +22,143 @@ FUNCTIONS C: GROUP SPECIFIC ACTIVITY FUNCTIONS
 class Activity {
 	public $userName = "";
 	public $totalHeaderActivity = "";
+	public $totalsPosts = 0;
+	public $newPosts = 0;
+	public $totalsDiscussions = 0;
+	public $newDiscussions = 0;	
+	public $totalFiles = 0;
+	public $newFiles = 0;	
 	
-	
-	//Instantiate: Instantiate User
-	public function __construct($userName ) {
+	//Instantiate Activity 
+	public function __construct($userName, $group_id) {
 		$this->userName = $userName;
 	}
 
 
-	//FUNCTIONS C: GROUP SPECIFIC ACTIVITY FUNCTIONS
-	//Method C1: 
+	//FUNCTIONS A: ACTIVITY 
+	//Method A2: Get Group Post Activity 
+	public function getGroupPostActivity($logged_in_user, $group_id, $group_last_visit) {
+		global $conn;	
+		
+		//Total Posts 
+		$total_post_count = 0;
+			
+		$result_post_count = mysqli_query($conn,"SELECT * FROM posts WHERE post_status = 1
+			AND post_to = '$group_id'
+			AND post_type != 'discussion'
+			AND post_status = 1 ");
+	 
+		while($row_post_count = mysqli_fetch_array($result_post_count)) {
+			$total_post_count = $total_post_count + 1;	
+		}		
+		
+		$this->totalsPosts = $total_post_count;
+
+		//New Posts 
+		$total_new_post_count = 0;
+			
+		$result_post_count = mysqli_query($conn,"SELECT * FROM posts WHERE post_status = 1
+			AND post_to = '$group_id'
+			AND post_type != 'discussion'
+			AND post_status = 1
+			AND post_from != '$logged_in_user'
+			AND created >= '$group_last_visit'
+			LIMIT 100 ");
+	 
+		while($row_post_count = mysqli_fetch_array($result_post_count)) {
+			$total_new_post_count = $total_new_post_count + 1;	
+		}
+		
+		$this->newPosts = $total_new_post_count;	
+	}	
+		
+	/*
+	
+	//LIVE 
+	$result_discussion_count = mysqli_query($conn,"SELECT * FROM posts WHERE 
+		post_type = 'discussion' 
+		AND post_status = 1
+		AND post_to = '$group_id'
+		AND group_id = '$group_id'
+		AND created >= '$group_last_visit' LIMIT 100 ");	
+	*/
+	
+	//Method A3: Get Group Discussion Activity 
+	public function getGroupDiscussionActivity($logged_in_user, $group_id, $group_last_visit) {
+		global $conn;	
+			
+		//Total Discussions 
+		$total_disccusion_count = 0;
+
+		//ONID
+		$result_discussion_count = mysqli_query($conn,"SELECT * FROM posts WHERE 
+			post_type = 'discussion' 
+			AND post_status = 1
+			AND group_id = '$group_id'
+			AND post_to = '$group_id'
+			AND post_from != '$logged_in_user' ");		
+		
+		while($row_discussion_count = mysqli_fetch_array($result_discussion_count)) {
+			$total_disccusion_count = $total_disccusion_count + 1;	
+		}		
+
+		$this->totalsDiscussions = $total_disccusion_count;
+	
+		//New Discussions 
+		$total_new_disccusion_count = 0;
+
+		//ONID
+		$result_discussion_count = mysqli_query($conn,"SELECT * FROM posts WHERE 
+			post_type = 'discussion' 
+			AND post_status = 1
+			AND group_id = '$group_id'
+			AND post_to = '$group_id'
+			AND post_from != '$logged_in_user' 
+			AND updated >= '$group_last_visit' ");		
+		
+		while($row_discussion_count = mysqli_fetch_array($result_discussion_count)) {
+			$total_new_disccusion_count = $total_new_disccusion_count + 1;	
+		}		
+		
+		$this->newDiscussions = $total_new_disccusion_count;
+
+	}	
 	
 
-	//FUNCTIONS A: ACTIVITY 
+	//Method A4: Get Group File Activity 
+	public function getGroupFileActivity($logged_in_user, $group_id, $group_last_visit) {
+		global $conn;	
+			
+		//Total Files
+		$total_file_count = 0;
+			
+		$result_file_count = mysqli_query($conn,"SELECT * FROM files WHERE file_status = 1
+			AND group_id = '$group_id'
+			AND user_name != '$logged_in_user' ");
+	 
+		while($row_file_count = mysqli_fetch_array($result_file_count)) {
+
+			$total_file_count = $total_file_count + 1;	
+		}	
+		$this->totalFiles = $total_file_count;
+
+		//New Files
+		$total_new_file_count = 0;
+			
+		$result_post_count = mysqli_query($conn,"SELECT * FROM files WHERE file_status = 1
+			AND group_id = '$group_id'
+			AND user_name != '$logged_in_user'
+			AND file_created >= '$group_last_visit'
+			LIMIT 100 ");
+	 
+		while($row_post_count = mysqli_fetch_array($result_post_count)) {
+
+			$total_new_file_count = $total_new_file_count + 1;	
+		}	
+		$this->newFiles = $total_new_file_count;
+	}	
+	
+	
 	//Method A1: Get Total Activity for Header Display	
 	public function getTotalHeaderActivity($logged_in_user) {
 		global $conn;
@@ -139,6 +265,9 @@ class Activity {
 			echo "ERROR ";
 		}	
 	}
+	
+		//FUNCTIONS C: GROUP SPECIFIC ACTIVITY FUNCTIONS
+	//Method C1: 
 	
 
 }

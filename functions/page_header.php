@@ -15,7 +15,6 @@
 	require_once(CODE_ROOT .  '../functions/functions.php'); 
 	require_once(CODE_ROOT .  '../functions/files.php');	
 	require_once(CODE_ROOT .  '../functions/discussion.php');	
-	require_once(CODE_ROOT .  '../functions/search.php');	
 		
 	//STEP 2: Include Classes
 	require_once(CODE_ROOT .  '../functions/classes/MasterList.php');	
@@ -27,7 +26,6 @@
 	include (CODE_ROOT . '../functions/classes/Groups.php');
 	include (CODE_ROOT . '../functions/classes/Activity.php');
 	include (CODE_ROOT . '../functions/classes/Comments.php');
-	include (CODE_ROOT . '../functions/classes/Event.php');
 
 	//STEP 3: Create Any Site Variables Needed
 	$master_site 			= "shareshare";
@@ -60,6 +58,7 @@
 	$logged_in_users_friends_count = count($logged_in_users_friends_array);	
 	
 	//STEP 6: Find out what type of page you are visiting
+	
 	//Type 1: Visiting a List 
 	if(isset($_GET["list_id"])) {
 		$list_id = base64_decode($_GET['list_id']);

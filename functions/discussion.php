@@ -10,8 +10,6 @@ require_once('includes/constants.inc.php');
 
 FUNCTIONS A: All Functions Related to Discussion
 	1) Function A1: Submit Discussion Post  
-	2) Function A2: Edit Discussion Post
-	3) Function A3: Delete Discussion Post
 	
 */
 
@@ -26,7 +24,6 @@ if (isset($_POST["post_discussion"]) && (!empty($_POST["logged_in_user"]))) {
 	$post_to    			= $_POST["post_to"];
 	$parent	    			= $_POST["parent_discussion"];
 	$group_id		   		= $_POST["group_id"];
-	$board_id		   		= $_POST["board_id"];
 	$post_type   			= $_POST["post_type"];	
 	$post_status 			= 1;
 	$notification_message 	= $_POST["notification_message"];
@@ -35,13 +32,13 @@ if (isset($_POST["post_discussion"]) && (!empty($_POST["logged_in_user"]))) {
 	
 	
 	//STEP 1: Insert into posts table 	
-	$stmt = $conn->prepare("INSERT INTO posts(master_site, parent, group_id, board_id, post_from, post_to, post_caption, 
-	post_type, post_status, updated, created ) VALUES (?,?,?,?,?,?,?,?,?, NOW(), NOW())");
-	$stmt->bind_param("siiissssi", $master_site, $parent, $group_id, $board_id, $post_from, $post_to, $post_caption, 
+	$stmt = $conn->prepare("INSERT INTO posts(master_site, parent, group_id, post_from, post_to, post_caption, 
+	post_type, post_status, updated, created ) VALUES (?,?,?,?,?,?,?,?, NOW(), NOW())");
+	$stmt->bind_param("siissssi", $master_site, $parent, $group_id, $post_from, $post_to, $post_caption, 
 	$post_type, $post_status);
 
 	if ($stmt->execute()) {
-		echo "New record created successfully ";
+		echo "New record created successfully " . $notification_message . " " . $notification_type . " " . $notification_link;
 	} else {
 		echo "Error: <br>" . mysqli_error($conn);
 	}
@@ -96,12 +93,6 @@ if (isset($_POST["post_discussion"]) && (!empty($_POST["logged_in_user"]))) {
 
 
 }	
-
-
-//Function A2: Edit Discussion Post
-
-
-//Function A3: Delete Discussion Post
 
 
 

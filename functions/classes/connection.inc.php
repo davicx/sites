@@ -33,7 +33,7 @@ $host		= "oniddb.cws.oregonstate.edu";
 $user_name	= "vasquezd-db";
 $password 	= "gCtLRbXMWWS2SwNg";
 $dbname 	= "vasquezd-db";
-*/ 
+*/
 
 //Live 
 global $conn; 

@@ -4,25 +4,25 @@ require_once('Notifications.php');
 
 /*
 METHODS A: USER RELATED
-	1) Method A1: Get Group Users 
-	2) Method A2: Get Current Users Friends who Can be Invited to Group 
-	3) Method A3: Create Group from Existing User 
-	4) Method A4: Add Existing User to Group 
-	5) Method A5: Add User to Group through Email 
-	5) Method A6: Rename Group
-	6) Method A7: Leave Group 
-	7) Method A8: Get Group Parent and Group Type (Group, Category, List)
-	8) Method A9: Get an Associate Array of Users to Display 
-	9) Method A10: Get Group Created 
-	11) Method A11: Follow Group 
-	12) Method A12: UnFollow Group 
-	13) Method A13: Delete Group 
-	14) Method A14: Get Group Last Visit  
+	1) Method G1: Get Group Users 
+	2A) Method 2A: Get Current Users Friends who Can be Invited to Group 
+	2) Method G2: Create Group from Existing User 
+	3) Method G3: Add Existing User to Group 
+	4) Method G4: Add User to Group through Email 
+	5) Method G5: Rename Group
+	6) Method G6: Leave Group 
+	7) Method G7: Get Group Parent and Group Type (Group, Category, List)
+	8) Method G8: Get an Associate Array of Users to Display 
+	9) Method G9: Get Group Created 
+	10) Method G10: Get Group Activity  
+	11) Method G11: Follow Group 
+	12) Method G12: UnFollow Group 
+	13) Method G13: Delete Group 
+	14) Method G14: Get Group Last Visit  
+
 	
 METHODS B: GROUP ACTIVITY 
-	1) Method B1: Get Group Posts Activity (New and Total)
-	2) Method B2: Get Group Discussion Activity (New and Total)
-	3) Method B3: Get Group Files Activity (New and Total)
+
 
 */
 
@@ -63,14 +63,19 @@ class Group {
 	public $groupFollowersCount				= "";	
 	
 	//Group Activity: Stats and Information
-	public $totalUnseenActivity			= "";
-	public $groupTotalPosts	 			= "";	
-	public $groupNewPosts		 		= "";	
+	public $groupWallPosts	 			= "";	
+	public $groupWallPostsUnseen 		= "";	
 	public $groupTotalDiscussions		= "";	
-	public $groupNewDiscussion		 	= "";	
+	public $groupTotalUnseenDiscussion 	= "";	
 	public $groupFiles		 			= "";	
-	public $groupNewFiles				= "";		
+	public $groupFilesUnseen 			= "";		
+	public $groupLinks		 			= "";	
+	public $groupLinksUnseen 			= "";	
+	
+	public $groupListPosts	 			= "";	
+	public $groupListPostsUnseen		= "";	
  
+	public $totalUnseenActivity			= "";
 	public $groupNewMembers		 		= ""; //New Members since last login 
 	public $groupLastVisit		 		= ""; //New Members since last login 
 
@@ -85,7 +90,7 @@ class Group {
 	//Step 1: Find Last Time Logged in User Visited this page
 
 	
-	//METHOD 10: Get Group Discussion Activity  
+	//METHOD 10: Get Group Activity  
 	public function getGroupActivity($loggedInUser, $group_id) {
 		global $conn;
 
@@ -333,9 +338,6 @@ class Group {
 						
 		}
 	}
-
-	
-	
 	
 	
 	//METHOD: Get Current Users Friends who Can be Invited to Group	
@@ -415,6 +417,74 @@ class Group {
 		$this->activeGroupUsers= $active_group_users;
 		$this->activeGroupUsersID= $active_group_users_id;			
 		$this->activeGroupUsersImage= $active_group_users_image;			
+			
+		//PART 3: Get all pending members	
+		/*
+		$sql = "SELECT group_users.user_name, group_users.active_member, user_login.user_name, user_login.user_id, user_login.account_deleted
+				FROM group_users INNER JOIN user_login
+				ON group_users.user_name = user_login.user_name
+				WHERE group_id = '$group_id' 
+				AND active_member = '0' 
+				AND account_deleted = '0'";
+
+		$result_group_pending= $conn->query($sql) or die(mysqli_error());	
+
+		//Declare array to hold all users in each square
+		$pending_group_users = array();
+		$pending_group_users_id = array();
+		$pending_user_count = 0;
+
+		while($row_group_pending = mysqli_fetch_array($result_group_pending)) {
+			$user_name = strtolower($row_group_pending['user_name']);
+			
+			$user_id= $row_group_pending['user_id'];
+			$pending_group_users[$pending_user_count] = $user_name;		
+			$pending_group_users_id[$pending_user_count] = $user_id;		
+			$pending_user_count = $pending_user_count + 1;
+		}				
+			
+		$pending_group_users = array_unique($pending_group_users); 
+		$pending_group_users = array_values($pending_group_users);		
+		$pending_group_users_id = array_unique($pending_group_users_id); 
+		$pending_group_users_id = array_values($pending_group_users_id);	
+		
+		$this->pendingGroupUsers= $pending_group_users;
+		$this->pendingGroupUsersID= $pending_group_users_id;		
+		*/
+		/*		
+		*backup this works but doesn't filter out missing requests 
+		//PART 3: Get all pending members			
+		$sql = "SELECT group_users.user_name, group_users.active_member, user_login.user_name, user_login.user_id, user_login.account_deleted
+				FROM group_users INNER JOIN user_login
+				ON group_users.user_name = user_login.user_name
+				WHERE group_id = '$group_id' 
+				AND active_member = '0' 
+				AND account_deleted = '0'";
+
+		$result_group_pending= $conn->query($sql) or die(mysqli_error());	
+
+		//Declare array to hold all users in each square
+		$pending_group_users = array();
+		$pending_group_users_id = array();
+		$pending_user_count = 0;
+
+		while($row_group_pending = mysqli_fetch_array($result_group_pending)) {
+			$user_name = strtolower($row_group_pending['user_name']);
+			
+			$user_id= $row_group_pending['user_id'];
+			$pending_group_users[$pending_user_count] = $user_name;		
+			$pending_group_users_id[$pending_user_count] = $user_id;		
+			$pending_user_count = $pending_user_count + 1;
+		}				
+			
+		$pending_group_users = array_unique($pending_group_users); 
+		$pending_group_users = array_values($pending_group_users);		
+		$pending_group_users_id = array_unique($pending_group_users_id); 
+		$pending_group_users_id = array_values($pending_group_users_id);	
+		
+		$this->pendingGroupUsers= $pending_group_users;
+		$this->pendingGroupUsersID= $pending_group_users_id;		
+		*/
 
 		//PART 4: Get all group members
 		//$sql = "SELECT user_name FROM group_users WHERE group_id = '$group_id'";
@@ -667,7 +737,9 @@ class Group {
 		$this->pendingGroupUsers= $pending_group_users;
 		$this->pendingGroupUsersID= $pending_group_users_id;		
 		
+	
 	}
+	
 	
 	
 	//METHOD 2: Create Group from Existing User 
@@ -947,6 +1019,8 @@ class Group {
 				$this->groupCreatedMonth = $monthName;
 				$this->groupCreatedDay = $dateArray['day'];
 			}
+
+
 		}	
 	}
 	

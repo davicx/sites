@@ -20,8 +20,8 @@ class Post {
 	public $file_url = "";	
 	public $file_name = "";	
 	public $file_name_server = "";	
-	public $article_title = ""; 	//Article Specific 
- 	public $article_text = ""; 		//Article Specific 
+	public $article_title = ""; 
+ 	public $article_text = ""; 		
 	public $contains_file = "";
 	public $group_id = "";
 	public $unique_id = "";
@@ -171,10 +171,11 @@ class Post {
 		while($row = mysqli_fetch_array($result)) {		
 			//$this->updated = $row['updated']; 
 			$dateArray = date_parse($row['updated']);
-			$posted_date = $row['updated']; 	
+			$posted_date = $row['created']; 	
 		}	
 		
 		//PART 1: Date and Time Related (Needs to be Organized)
+		
 		$monthNum  = $dateArray['month'];
 		$dateObj   = DateTime::createFromFormat('!m', $monthNum);
 		$monthName = $dateObj->format('F'); 
@@ -190,7 +191,7 @@ class Post {
 		//Part 1B: Get Current Date and Posted Date and Convert to Date Time Object
 		date_default_timezone_set('America/Los_Angeles');
 		
-		//$posted_date = $row['updated']; 
+		//$posted_date = $row['created']; 
 		$post_made_object = new DateTime($posted_date);
 		$current_date = date('m/d/Y h:i:s a', time());
 		$current_date_object = new DateTime($current_date);
@@ -270,7 +271,6 @@ class Post {
 				}	
 			} 
 		}
-		//$this->posted_time_message = $posted_time_message; 	
 		$this->posted_time_message = $posted_time_message; 	
 	} 
 	
@@ -281,7 +281,100 @@ class Post {
 		$this->posted_time_message = "one minute (onid)"; 	
 	} 
 	
+
 	
+	//METHOD 2: Delete Post
+	public function deletePost($post_id) {
+		global $conn;
+		$sql = "UPDATE posts SET post_status= '0' WHERE post_id='$post_id'";
+
+		if (mysqli_query($conn, $sql)) {
+			echo "Record updated successfully";
+		} else {
+			echo "Error updating record: " . mysqli_error($conn);
+		}
+	} 
+	
+	
+	//METHOD 3: Update Post	
+	public function updatePost($newFirstName, $newLastName, $newEmail, $newBiography, $primary_id) {
+		global $conn;
+		$sql = "UPDATE persons SET first_name = ?, last_name = ?, email = ?, biography= ? WHERE primary_id = ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('ssssi', $newFirstName, $newLastName, $newEmail, $newBiography, $primary_id);
+		$stmt->execute();	
+	}
+
+	
+	//Methods to Finish//
+	//Purchase Post Item 
+	public function purchasePost($post_id) {
+		global $conn;
+		
+		echo "success";
+
+	} 	
+
+	//On this one we need to 
+	public function likePost() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function cancelLikePost() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function dislikePost() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function cancelDislikePost() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function updateComment() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function deleteComment() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+	public function makeComment() {
+		echo "Post is from ";
+		echo $this->post_from;
+	} 
+	
+}
+
+
+//APPENDIX
+	
+
+	/* GET COMMENTS
+	//STEP 3 Create an array of new commments
+	$result_new_comments = mysqli_query($conn,"SELECT * FROM comments WHERE post_id = '$post_id' AND updated >= '$comment_seen'");
+
+	$newCommentCount = 0;
+	$commentArrayNew = array();
+	
+	while($row_new_comments = mysqli_fetch_array($result_new_comments)) {			
+		$newCommentArray[$newCommentCount] = $row_new_comments['comment_id'];
+		$commentArrayNew[$newCommentCount] = $row_new_comments['comment'];	
+		$newCommentCount = $newCommentCount + 1;					
+	}
+
+	$this->new_comments = $newCommentCount;		
+	$this->array_comments_unseen = $commentArrayNew;		
+
+	
+	*/
 	//METHOD 3: Get Comments
 			/*
 			//PART 11: Get Comments 
@@ -317,13 +410,7 @@ class Post {
 			/*
 
 			*/
-			
-			
 
-	
-	
-	
-	
 	
 	///SORT
 	/*
@@ -370,101 +457,5 @@ class Post {
 		}
 
 	*/
-	
-	//METHOD 2: Delete Post
-	public function deletePost($post_id) {
-		global $conn;
-		$sql = "UPDATE posts SET post_status= '0' WHERE post_id='$post_id'";
-
-		if (mysqli_query($conn, $sql)) {
-			echo "Record updated successfully";
-		} else {
-			echo "Error updating record: " . mysqli_error($conn);
-		}
-	} 
-	
-	
-	//METHOD 3: Update Post	
-	public function updatePost($newFirstName, $newLastName, $newEmail, $newBiography, $primary_id) {
-		global $conn;
-		$sql = "UPDATE persons SET first_name = ?, last_name = ?, email = ?, biography= ? WHERE primary_id = ?";
-		$stmt = $conn->prepare($sql);
-		$stmt->bind_param('ssssi', $newFirstName, $newLastName, $newEmail, $newBiography, $primary_id);
-		$stmt->execute();	
-	}
-
-	
-
-	//Methods to Finish//
-	//Purchase Post Item 
-	public function purchasePost($post_id) {
-		global $conn;
-		
-		echo "success";
-
-	} 	
-
-	//On this one we need to 
-	public function likePost() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-	
-	public function cancelLikePost() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-	
-	public function dislikePost() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-	
-	public function cancelDislikePost() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-
-	
-	public function updateComment() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-	
-	public function deleteComment() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-	
-	public function makeComment() {
-		echo "Post is from ";
-		echo $this->post_from;
-	} 
-		
-
-
-	/* GET COMMENTS
-	//STEP 3 Create an array of new commments
-	$result_new_comments = mysqli_query($conn,"SELECT * FROM comments WHERE post_id = '$post_id' AND updated >= '$comment_seen'");
-
-	$newCommentCount = 0;
-	$commentArrayNew = array();
-	
-	while($row_new_comments = mysqli_fetch_array($result_new_comments)) {			
-		$newCommentArray[$newCommentCount] = $row_new_comments['comment_id'];
-		$commentArrayNew[$newCommentCount] = $row_new_comments['comment'];	
-		$newCommentCount = $newCommentCount + 1;					
-	}
-
-	$this->new_comments = $newCommentCount;		
-	$this->array_comments_unseen = $commentArrayNew;		
-
-	
-	*/
-	
-
-	
-}
-
 
 ?>
