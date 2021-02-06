@@ -33,6 +33,9 @@
 		<?php include('include_components/posts/comments/all_comments.php'); ?>
 		<?php include('include_components/posts/comments/new_comment.php'); ?>
 		
+		<!-- Post Time -->
+		<p class = "no-margin"> <?php echo $posted_time_message ?></p>
+		
 	</div>
 
 </div>	

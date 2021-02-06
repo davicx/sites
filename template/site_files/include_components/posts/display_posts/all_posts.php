@@ -26,8 +26,8 @@
 		//Instantiate all wall posts based on post id 
 		$Current_Post = new Post($post_id);
 		$Current_Post->getUserPost($post_id, $logged_in_user);
-		//$Current_Post->getPostedTimeMessage($post_id, $logged_in_user);
-		$Current_Post->getPostedTimeMessageONID($post_id, $logged_in_user);
+		$Current_Post->getPostedTimeMessage($post_id, $logged_in_user);
+		//$Current_Post->getPostedTimeMessageONID($post_id, $logged_in_user);
 		
 		$post_type    	= $Current_Post->post_type;
 		$post_from    	= $Current_Post->post_from;

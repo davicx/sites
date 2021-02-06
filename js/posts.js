@@ -169,8 +169,10 @@ $(document).ready(function(){
 //Function C1: Make a New Comment 
  $(document).ready(function(){
     $(".js-new-comment").keypress(function (e) {
+		console.log("new comment");
         if(e.which == 13) {
-
+			console.log("new comment");
+			/*
 			var post_full_id = $(this).attr('id');
 			var splitParts;
 			splitParts = post_full_id.split("_");
@@ -180,7 +182,6 @@ $(document).ready(function(){
 				
 			console.log(post_id + " " + new_comment);	
 			
-
 			//Check that an article was entered 	
 			if (new_comment) {
 
@@ -200,6 +201,7 @@ $(document).ready(function(){
 			}
 	
 			e.preventDefault();
+			*/
 			//submit form via ajax, this is not JS but server side scripting so not showing here
             //$("#chatbox").append($(this).val() + "<br/>");
             //$(this).val("");
