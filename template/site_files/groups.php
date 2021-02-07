@@ -34,6 +34,7 @@
 		</div>		
 			
 		
+		<?php /*
 		<!-- SECTION: Groups -->	
 		<div id = "site-wrapper">
 			<?php include_once('include_components/groups/create_group.php') ?>
@@ -57,7 +58,7 @@
 				<?php include('include_components/notifications/notifications.php'); ?>
 			</div>
 		</div>
-
+		*/ ?>
 		
 		<!-- Include all JS Files -->
 		<?php include_once('include_components/links_footer.php'); ?>			
