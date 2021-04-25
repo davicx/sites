@@ -7,7 +7,7 @@
 	$notification_link = $redirect;
 ?>
 <form action="#" method="post" enctype="multipart/form-data">
-	<h4> PARENT: <?php echo $parent_folder; ?> </h4>
+
 	<!-- Upload File -->				
 	<div class = "">
 		<p id = "js-trigger-browse-for-file" class = "file-upload-browse-button"> Add File + </p>		

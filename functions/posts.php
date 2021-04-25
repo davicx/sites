@@ -27,161 +27,7 @@ FUNCTIONS C: All Functions Related to Commenting on a Post
 	3) Function C3: Delete a Comment 
 */ 
 
-//FUNCTIONS B: All Functions Related to Post Actions 
-//Function B1: Like a Post 
- if (isset($_POST["like_post"]) && (!empty($_POST["like_post"]))) {
-	$logged_in_user = $_POST["logged_in_user"]; 
-	$post_id     	= $_POST["post_id"]; 
-	$user_id 		= getUserID($logged_in_user);
-	
-	//STEP 1: Make Sure User Has Not Already Liked Post 
-	$result_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id' AND liked_by_name = '$logged_in_user' ");
-	$user_post_like_count = $result_likes->num_rows;
-	
-	if ($user_post_like_count == 0){
-		
-		//STEP 2: Insert into likes table 	
-		$stmt = $conn->prepare("INSERT INTO post_likes(post_id, liked_by, liked_by_name) VALUES (?, ?, ?)");
-		$stmt->bind_param("iis",  $post_id, $user_id, $logged_in_user);
-		$user_post_like_count = $user_post_like_count + 1;
-		if ($stmt->execute()) {
-			
-			//STEP 3: Get count of new post likes 
-			$result_total_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id'");
-			$total_post_likes = $result_total_likes->num_rows;	
-			echo $total_post_likes;
-	
-		} else {
-			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-		}			
-	} 
-}	
 
-//Function B2: UnLike a Post	
-if (isset($_POST["unlike_post"]) && (!empty($_POST["unlike_post"]))) {
-	$logged_in_user = $_POST["logged_in_user"]; 
-	$post_id     	= $_POST["post_id"]; 
-	$user_id 		= getUserID($logged_in_user);
-	
-	//STEP 1: Delete the users Like 
-	$sql = "DELETE FROM post_likes WHERE liked_by_name ='$logged_in_user' and post_id = '$post_id'";
-	
-	if (mysqli_query($conn, $sql)) {
-		
-		//STEP 2: Get count of new post likes 
-		$result_total_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id'");
-		$total_post_likes = $result_total_likes->num_rows;	
-		echo $total_post_likes;		
-		
-		//echo "Record deleted successfully";
-	} else {
-		echo "Error deleting record: " . mysqli_error($conn);
-	}
-}	
- 
-//Function B3: Delete a Post  
-if (isset($_POST["delete_post_id"]) && (!empty($_POST["delete_post_id"]))) {
-	$post_id = $_POST["delete_post_id"];
-	
-	//STEP 1: Delete post from Posts  
-	$sql = "UPDATE posts SET post_status= '0' WHERE post_id='$post_id'";
-
-	if (mysqli_query($conn, $sql)) {
-		echo "Record updated successfully";
-	} else {
-		echo "Error updating record: " . mysqli_error($conn);
-	}
-	
-	//STEP 2: Delete post from Notifications 
-	//When post is made create a unique ID
-	//Get Unique ID to get its Post ID
-	//Use this to store the post ID in the Notifications Table
-	//Delete notifications with this ID
-}
-
-//Function B4: Edit Post Caption (Save New Caption)
-/* Part 3: Save Edited Post */
-if (isset($_POST["post_id"]) && (!empty($_POST["new_post_caption"]))) {
-	$post_id 				 = $_POST["post_id"];
-	$new_post_caption 		 = $_POST["new_post_caption"];
-	$logged_in_user 		 = $_POST["logged_in_user"];
-
-	$sql = "UPDATE posts SET post_caption = ? WHERE post_id = '$post_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('s', $new_post_caption);
-	
-	if ($stmt->execute()) {
-		//echo $post_caption_edited;
-	}
-}
-
-//FUNCTIONS C: All Functions Related to Commenting on a Post 
-//Function C1: Make a New Comment 
-if (isset($_POST["logged_in_user"]) && (!empty($_POST["new_comment"]))) {
-	$logged_in_user	  	 = $_POST["logged_in_user"]; 
-	$post_id	  		 = $_POST["post_id"]; 
-	$comment_is_child  	 = 0; 
-	$comment		  	 = $_POST["new_comment"]; 
-	$comment_from	  	 = $_POST["logged_in_user"]; 
-
- 	//Step 1: Insert into comments table 	
-	$stmt = $conn->prepare("INSERT INTO comments(post_id, comment_is_child, comment, comment_from, updated, created) 
-		VALUES (?,?,?,?, NOW(), NOW())");
-	$stmt->bind_param("iiss", $post_id, $comment_is_child, $comment, $comment_from);
-
-	if ($stmt->execute()) {
-		echo "New record created successfully";
-		
-		/*
-		//STEP 4: Add New Post Notifications 
-		$notification_from    = $post_from;
-
-		$Current_Notification = new Notifications($logged_in_user);
-		$notification_to_array = getActiveGroupMembers($group_id);
-		$notification_to_count = count($notification_to_array);
-
-		//Loop Through all Group Member and Send them a Notification 
-		for($x = 0; $x < $notification_to_count; $x++) {
-			$notification_to = $notification_to_array[$x];				
-			$Current_Notification->createGroupNotification($master_site, $notification_from, $notification_to, $notification_message, $notification_link, $notification_type, $group_id);
-		}	
-		*/
-		
-	} else {
-		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	}
-	$stmt->close();
-} 
- 
-//Function C2: Edit a Comment
-if (isset($_POST["comment_id"]) && (!empty($_POST["comment_caption_edited"]))) {
-	$comment_id 			 = $_POST["comment_id"];
-	$comment_caption_edited = $_POST["comment_caption_edited"];
-
-	$sql = "UPDATE comments SET comment = ? WHERE comment_id = '$comment_id'";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('s', $comment_caption_edited);
-	
-	if ($stmt->execute()) {
-		echo $comment_caption_edited;
-	}
-}
-
-//Function C3: Delete a Comment 
- if (isset($_POST["delete_comment_id"]) && (!empty($_POST["delete_comment_id"]))) {
-	$delete_comment_id = $_POST["delete_comment_id"];
-
-	$sql = "UPDATE comments SET comment_deleted = '1' WHERE comment_id ='$delete_comment_id'";
-
-	if (mysqli_query($conn, $sql)) {
-		echo "Record updated successfully";
-	} else {
-		echo "Error updating record: " . mysqli_error($conn);
-	}
-} 
- 
-
- 
 //FUNCTIONS A: All Functions Related to Making a Post
  
 //FUNCTIONS A: All Functions Related to Making a Post
@@ -518,5 +364,158 @@ if (isset($_POST['post-file-upload'])) {
 			echo $e->getMessage();
 	}		
 } 	
+
+
+//FUNCTIONS B: All Functions Related to Post Actions 
+//Function B1: Like a Post 
+ if (isset($_POST["like_post"]) && (!empty($_POST["like_post"]))) {
+	$logged_in_user = $_POST["logged_in_user"]; 
+	$post_id     	= $_POST["post_id"]; 
+	$user_id 		= getUserID($logged_in_user);
+	
+	//STEP 1: Make Sure User Has Not Already Liked Post 
+	$result_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id' AND liked_by_name = '$logged_in_user' ");
+	$user_post_like_count = $result_likes->num_rows;
+	
+	if ($user_post_like_count == 0){
+		
+		//STEP 2: Insert into likes table 	
+		$stmt = $conn->prepare("INSERT INTO post_likes(post_id, liked_by, liked_by_name) VALUES (?, ?, ?)");
+		$stmt->bind_param("iis",  $post_id, $user_id, $logged_in_user);
+		$user_post_like_count = $user_post_like_count + 1;
+		if ($stmt->execute()) {
+			
+			//STEP 3: Get count of new post likes 
+			$result_total_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id'");
+			$total_post_likes = $result_total_likes->num_rows;	
+			echo $total_post_likes;
+	
+		} else {
+			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}			
+	} 
+}	
+
+//Function B2: UnLike a Post	
+if (isset($_POST["unlike_post"]) && (!empty($_POST["unlike_post"]))) {
+	$logged_in_user = $_POST["logged_in_user"]; 
+	$post_id     	= $_POST["post_id"]; 
+	$user_id 		= getUserID($logged_in_user);
+	
+	//STEP 1: Delete the users Like 
+	$sql = "DELETE FROM post_likes WHERE liked_by_name ='$logged_in_user' and post_id = '$post_id'";
+	
+	if (mysqli_query($conn, $sql)) {
+		
+		//STEP 2: Get count of new post likes 
+		$result_total_likes = mysqli_query($conn,"SELECT * FROM post_likes WHERE post_id = '$post_id'");
+		$total_post_likes = $result_total_likes->num_rows;	
+		echo $total_post_likes;		
+		
+		//echo "Record deleted successfully";
+	} else {
+		echo "Error deleting record: " . mysqli_error($conn);
+	}
+}	
+ 
+//Function B3: Delete a Post  
+if (isset($_POST["delete_post_id"]) && (!empty($_POST["delete_post_id"]))) {
+	$post_id = $_POST["delete_post_id"];
+	
+	//STEP 1: Delete post from Posts  
+	$sql = "UPDATE posts SET post_status= '0' WHERE post_id='$post_id'";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "Record updated successfully";
+	} else {
+		echo "Error updating record: " . mysqli_error($conn);
+	}
+	
+	//STEP 2: Delete post from Notifications 
+	//When post is made create a unique ID
+	//Get Unique ID to get its Post ID
+	//Use this to store the post ID in the Notifications Table
+	//Delete notifications with this ID
+}
+
+//Function B4: Edit Post Caption (Save New Caption)
+/* Part 3: Save Edited Post */
+if (isset($_POST["post_id"]) && (!empty($_POST["new_post_caption"]))) {
+	$post_id 				 = $_POST["post_id"];
+	$new_post_caption 		 = $_POST["new_post_caption"];
+	$logged_in_user 		 = $_POST["logged_in_user"];
+
+	$sql = "UPDATE posts SET post_caption = ? WHERE post_id = '$post_id'";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('s', $new_post_caption);
+	
+	if ($stmt->execute()) {
+		//echo $post_caption_edited;
+	}
+}
+
+//FUNCTIONS C: All Functions Related to Commenting on a Post 
+//Function C1: Make a New Comment 
+if (isset($_POST["logged_in_user"]) && (!empty($_POST["new_comment"]))) {
+	$logged_in_user	  	 = $_POST["logged_in_user"]; 
+	$post_id	  		 = $_POST["post_id"]; 
+	$comment_is_child  	 = 0; 
+	$comment		  	 = $_POST["new_comment"]; 
+	$comment_from	  	 = $_POST["logged_in_user"]; 
+
+ 	//Step 1: Insert into comments table 	
+	$stmt = $conn->prepare("INSERT INTO comments(post_id, comment_is_child, comment, comment_from, updated, created) 
+		VALUES (?,?,?,?, NOW(), NOW())");
+	$stmt->bind_param("iiss", $post_id, $comment_is_child, $comment, $comment_from);
+
+	if ($stmt->execute()) {
+		echo "New record created successfully";
+		
+		//STEP 4: Add New Post Notifications 
+		$notification_from    = $post_from;
+
+		$Current_Notification = new Notifications($logged_in_user);
+		$notification_to_array = getActiveGroupMembers($group_id);
+		$notification_to_count = count($notification_to_array);
+
+		//Loop Through all Group Member and Send them a Notification 
+		for($x = 0; $x < $notification_to_count; $x++) {
+			$notification_to = $notification_to_array[$x];				
+			$Current_Notification->createGroupNotification($master_site, $notification_from, $notification_to, $notification_message, $notification_link, $notification_type, $group_id);
+		}	
+		
+	} else {
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	}
+	$stmt->close();
+} 
+ 
+//Function C2: Edit a Comment
+if (isset($_POST["comment_id"]) && (!empty($_POST["comment_caption_edited"]))) {
+	$comment_id 			 = $_POST["comment_id"];
+	$comment_caption_edited = $_POST["comment_caption_edited"];
+
+	$sql = "UPDATE comments SET comment = ? WHERE comment_id = '$comment_id'";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('s', $comment_caption_edited);
+	
+	if ($stmt->execute()) {
+		echo $comment_caption_edited;
+	}
+}
+
+//Function C3: Delete a Comment 
+ if (isset($_POST["delete_comment_id"]) && (!empty($_POST["delete_comment_id"]))) {
+	$delete_comment_id = $_POST["delete_comment_id"];
+
+	$sql = "UPDATE comments SET comment_deleted = '1' WHERE comment_id ='$delete_comment_id'";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "Record updated successfully";
+	} else {
+		echo "Error updating record: " . mysqli_error($conn);
+	}
+} 
+ 
 
 ?>

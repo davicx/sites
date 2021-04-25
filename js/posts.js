@@ -166,13 +166,59 @@ $(document).ready(function(){
 
 
 //FUNCTIONS C: All Functions Related to Commenting on a Post 
+
+//Function C1: Make a New Comment 
+ $(document).ready(function(){
+    $(".js-submit-comment").click(function() {
+		console.log("new comment");
+ 
+		/*
+		var post_full_id = $(this).attr('id');
+		var splitParts;
+		splitParts = post_full_id.split("_");
+		var post_id = splitParts[1];	
+		var logged_in_user   = $('input[name=logged-in-user]').val();	
+		var new_comment		 = $("#js-new-comment_" + post_id).val();	
+			
+		console.log(post_id + " " + new_comment);	
+		
+		//Check that an article was entered 	
+		if (new_comment) {
+
+			//Submit new Comment 
+			$.post(CODE_ROOT + 'posts.php', { post_id: post_id, logged_in_user: logged_in_user, new_comment: new_comment }, 
+
+			function(data) {
+				//alert(data);
+				var tempScrollTop = $(window).scrollTop();
+				location.reload(); 
+				$(window).scrollTop(tempScrollTop);	
+			})
+		
+		//Error: No Comment Entered 
+		} else {
+			//$('#js-new-comment-empty').show();			
+		}
+
+		e.preventDefault();
+		*/
+		//submit form via ajax, this is not JS but server side scripting so not showing here
+		//$("#chatbox").append($(this).val() + "<br/>");
+		//$(this).val("");
+
+
+    });
+});
+	
+
+/*
 //Function C1: Make a New Comment 
  $(document).ready(function(){
     $(".js-new-comment").keypress(function (e) {
 		console.log("new comment");
         if(e.which == 13) {
 			console.log("new comment");
-			/*
+			 
 			var post_full_id = $(this).attr('id');
 			var splitParts;
 			splitParts = post_full_id.split("_");
@@ -201,7 +247,7 @@ $(document).ready(function(){
 			}
 	
 			e.preventDefault();
-			*/
+		 
 			//submit form via ajax, this is not JS but server side scripting so not showing here
             //$("#chatbox").append($(this).val() + "<br/>");
             //$(this).val("");
@@ -209,7 +255,7 @@ $(document).ready(function(){
         }
     });
 });
-	
+	*/
 //Function C2: Edit a Comment(Show Edit Area) 
 $(document).ready(function(){
 	$(".js-comment-edit").click(function(){	

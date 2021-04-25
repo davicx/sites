@@ -1,0 +1,67 @@
+html {	
+	height: 100%;
+	background-color: #F7F7F8;			
+}
+
+body {	
+	background-color: #F7F7F8;	
+	height: 100%;	
+}
+
+#twitch {
+	border-bottom-color: rgb(14, 14, 16);
+	border-bottom-style: none;
+	border-bottom-width: 0px;
+	border-image-outset: 0;
+	border-image-repeat: stretch;
+	border-image-slice: 100%;
+	border-image-source: none;
+	border-image-width: 1;
+	border-left-color: rgb(14, 14, 16);
+	border-left-style: none;
+	border-left-width: 0px;
+	border-right-color: rgb(14, 14, 16);
+	border-right-style: none;
+	border-right-width: 0px;
+	border-top-color: rgb(14, 14, 16);
+	border-top-style: none;
+	border-top-width: 0px;
+	box-sizing: border-box;
+	color: rgb(14, 14, 16);
+	display: block;
+	flex-shrink: 0;
+	font-family: "Inter", "Roobert", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-feature-settings: normal;
+	font-kerning: auto;
+	font-language-override: normal;
+	font-size: 13px;
+	font-size-adjust: none;
+	font-stretch: 100%;
+	font-style: normal;
+	font-variant: normal;
+	font-variant-alternates: normal;
+	font-variant-caps: normal;
+	font-variant-east-asian: normal;
+	font-variant-ligatures: normal;
+	font-variant-numeric: normal;
+	font-variant-position: normal;
+	font-weight: 400;
+	height: 50px;
+	line-height: 19.5px;
+	
+
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

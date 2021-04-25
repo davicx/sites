@@ -18,22 +18,29 @@
 		
 		<!-- Include all JS and CSS Files -->
 		<?php include_once('include_components/links_head.php') ?>
+		<link rel="stylesheet" href="../css/twitch.css">		
 
     </head>
 	
 	<body> 
 	
+
 		<!-- SECTION: Header -->
-		<header class = "">
-			<?php include_once('include_components/headers/header.php') ?>
-		</header>
+		<header id = "twitch">
+			<?php //include_once('include_components/headers/header.php') ?>
+		</header>	
+
+		
+		<?php /*
+		
+
 		
 		<!-- Spacer --> 
 		<div id = "site-wrapper-spacer">
 			<p> &nbsp </p>
 		</div>		
 			
-		
+			
 		<!-- SECTION: Groups -->	
 		<div id = "site-wrapper">
 			<?php include_once('include_components/groups/create_group.php') ?>
@@ -57,7 +64,7 @@
 				<?php include('include_components/notifications/notifications.php'); ?>
 			</div>
 		</div>
-
+		*/ ?>
 		
 		<!-- Include all JS Files -->
 		<?php include_once('include_components/links_footer.php'); ?>			
