@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 //const morgan = require('morgan')
-//const mysql = require('mysql')
+const mysql = require('mysql')
+let book = require('./controllers/book');
 //const bodyParser = require('body-parser')
 //app.use(bodyParser.urlencoded({extended: false}))
 //app.use(morgan('short'))
@@ -25,7 +26,11 @@ app.get("/users", (req, res) => {
   res.json([user1, user2, user3])
 })
 
-//APP 2: Get user By ID 
+//APP 2: Route File
+app.route("/book").get(book.getBooks);
+
+
+//APP 3: Get user By ID 
 app.get('/user/:id', (req, res) => {
 
   //Connect to Database 
