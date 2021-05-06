@@ -17,10 +17,60 @@ app.get("/", (req, res) => {
     res.end()
 })
 
-//Users
+//APP 1: Get Users
 app.get("/users", (req, res) => {
   const user1 = {firstName: "David", lastName: "V"}
   const user2 = {firstName: "Frodo", lastName: "B"}
   const user3 = {firstName: "Bilbo", lastName: "B"}
   res.json([user1, user2, user3])
 })
+
+//APP 2: Get user By ID 
+app.get('/user/:id', (req, res) => {
+
+  //Connect to Database 
+  const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      database: 'shareshare'
+  })
+
+  //Create Query 
+  let userId = req.params.id;
+  const queryString = "SELECT user_name, email, first_name, last_name FROM user_profile WHERE user_id = ?";
+  connection.query(queryString, [userId], (err, rows, fields) => {
+
+  //Handle Error 
+  if (err) {
+      console.log("Failed to query for users: " + err);
+      res.sendStatus(500);
+      res.end();
+  }
+  
+  console.log("I think we fetched users successfully");
+
+  //Format data
+  const users = rows.map((row) => {
+      return {
+          userName: row.user_name,
+          email: row.email,
+          firstName: row.first_name,
+          lastName: row.last_name
+      }
+  });
+
+  res.json(users);
+
+  })     
+});
+
+
+//Functions: Get Connection
+function getConnection() {
+  return mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'shareshare'
+  })
+}
