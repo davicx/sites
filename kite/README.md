@@ -31,8 +31,8 @@ npm install nodemon --save-dev *
     ├── node_modules							 
     ├── routes
     │   ├── program.js         
-    ├── seed
-    │   ├── ProgramSeeder.js  
+    ├── controllers
+    │   ├──  
     ├── test
     │   ├── app_test.js  
     ├── app.js (Entry Point into the Application) 

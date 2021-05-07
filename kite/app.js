@@ -1,11 +1,10 @@
 const express = require('express')
 const app = express()
-//const morgan = require('morgan')
+const morgan = require('morgan')
 const mysql = require('mysql')
 let book = require('./controllers/book');
-//const bodyParser = require('body-parser')
-//app.use(bodyParser.urlencoded({extended: false}))
-//app.use(morgan('short'))
+app.use(express.json());
+app.use(morgan('short'))
 
 
 //Home Route
@@ -18,7 +17,7 @@ app.get("/", (req, res) => {
     res.end()
 })
 
-//APP 1: Get Users
+//TYPE 1: Get Users
 app.get("/users", (req, res) => {
   const user1 = {firstName: "David", lastName: "V"}
   const user2 = {firstName: "Frodo", lastName: "B"}
@@ -26,11 +25,11 @@ app.get("/users", (req, res) => {
   res.json([user1, user2, user3])
 })
 
-//APP 2: Route File
+//TYPE 2: Route File
 app.route("/book").get(book.getBooks);
 
 
-//APP 3: Get user By ID 
+//TYPE 3: Get user By ID 
 app.get('/user/:id', (req, res) => {
 
   //Connect to Database 
@@ -68,6 +67,18 @@ app.get('/user/:id', (req, res) => {
 
   })     
 });
+
+//TYPE 4: Simple POST request 
+app.post('/simple_post', function(req, res, next) {
+  res.send("hello! Sent from POST request")
+  
+  const firstName = req.body.firstName
+  const lastName = req.body.lastName 
+  
+  console.log("Hello, my name is, " + firstName + " " + lastName);
+
+  res.end()
+})
 
 
 //Functions: Get Connection
