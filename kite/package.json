@@ -1,21 +1,21 @@
 {
   "name": "kite",
   "version": "1.0.0",
-  "description": "My site, yay!",
+  "description": "My first App, yay!",
   "main": "app.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davicx/sites.git"
+    "url": "git+https://github.com/davicx/kite.git"
   },
   "author": "davey",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/davicx/sites/issues"
+    "url": "https://github.com/davicx/kite/issues"
   },
-  "homepage": "https://github.com/davicx/sites#readme",
+  "homepage": "https://github.com/davicx/kite#readme",
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1"

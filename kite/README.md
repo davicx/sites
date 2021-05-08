@@ -7,14 +7,13 @@ You will need to install these before you can run the project.
 
 #### Install Express and Dependencies 
 You need to run the following commands from a git or similar terminal
-*npm init*
+npm init
 
-*npm install express* 
-*npm install mocha --save-dev 
-npm install morgan --save-dev 
-npm install chai --save-dev 
-npm install chai-http --save-dev 
-npm install nodemon --save-dev *
+npm install express  
+npm install mysql 
+npm install morgan --save-dev nodemon --save-dev 
+npm install chai --save-dev mocha --save-dev chai-http --save-dev 
+
 
 #### Database Setup
 
@@ -35,7 +34,7 @@ npm install nodemon --save-dev *
     │   ├──  
     ├── test
     │   ├── app_test.js  
-    ├── app.js (Entry Point into the Application) 
+    ├── app.js  
     ├── package.json
     ├── README.MD
     └── ...
