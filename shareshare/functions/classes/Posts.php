@@ -281,7 +281,6 @@ class Post {
 		$this->posted_time_message = "one minute (onid)"; 	
 	} 
 	
-
 	
 	//METHOD 2: Delete Post
 	public function deletePost($post_id) {

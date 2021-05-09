@@ -2,6 +2,11 @@ const express = require('express')
 const mysql = require('mysql')
 const router = express.Router();
 let postController = require('./../controllers/postController');
+const Post = require('./../models/Post.js')
+
+//Dev: Temp
+var cors = require('cors')
+router.use(cors())
 
 //GET ROUTES
 //Route 1: Get a Single Post by ID
@@ -19,6 +24,9 @@ router.get("/post/:post_id", (req, res) => {
             res.sendStatus(500)
             return
         }
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP      
         res.json(rows);
 
     })
@@ -38,6 +46,9 @@ router.get("/posts/user/:post_to", (req, res) => {
             res.sendStatus(500)
             return
         }
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP
         res.json(rows);
 
     })
@@ -57,6 +68,9 @@ router.get("/posts/group/:group_id", (req, res) => {
             res.sendStatus(500)
             return
         }
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP
         res.json(rows);
 
     })
@@ -65,9 +79,11 @@ router.get("/posts/group/:group_id", (req, res) => {
 //Route 4: Get all Posts 
 router.get("/posts/all", (req, res) => {
 
+    let currentPost = new Post(1)
+    console.log(currentPost.postCaption + " " + currentPost.postID)
+
     //Create Query 
     const connection = getConnection();
-    //const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE LIMIT 10";
     const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts LIMIT 5";
 
     connection.query(queryString, (err, rows, fields) => {
@@ -76,6 +92,11 @@ router.get("/posts/all", (req, res) => {
             res.sendStatus(500)
             return
         }
+        
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP
+
         res.json(rows);
 
     })
@@ -86,6 +107,7 @@ router.get("/posts/all", (req, res) => {
 //POST ROUTES
 //Route 5: Make a Post 
 router.post('/new_post', function(req, res, next) {
+
     const connection = getConnection();
     const postType = req.body.postType
     const postStatus = req.body.postStatus 
@@ -95,7 +117,7 @@ router.post('/new_post', function(req, res, next) {
     const postCaption = req.body.postCaption 
 
     console.log(postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
-    
+
     const queryString = "INSERT INTO posts (post_type, post_status, group_id, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?, ?)"
     
     connection.query(queryString, [postType, postStatus, groupID, postFrom, postTo, postCaption], (err, results, fields) => {
@@ -104,11 +126,39 @@ router.post('/new_post', function(req, res, next) {
             res.sendStatus(500)
             return
         } else {
+        
             console.log("You created a new Post with ID " + results.insertId);
             res.send("It worked ");
-            //res.end()   
         } 
     }) 
+})
+
+//Local POST
+router.post('/temp', function(req, res, next) {
+    const connection = getConnection();
+    const postType = req.body.postType
+    const postStatus = req.body.postStatus 
+    const groupID = req.body.groupID 
+    const postFrom = req.body.postFrom 
+    const postTo = req.body.postTo 
+    const postCaption = req.body.postCaption 
+
+    console.log(postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
+
+    const queryString = "INSERT INTO posts (post_type, post_status, group_id, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?, ?)"
+    
+    connection.query(queryString, [postType, postStatus, groupID, postFrom, postTo, postCaption], (err, results, fields) => {
+        if (err) {
+            console.log("Failed to insert new Post: " + err)
+            res.sendStatus(500)
+            return
+        } else {
+        
+            console.log("You created a new Post with ID " + results.insertId);
+            res.send("It worked ");
+        } 
+    }) 
+ 
 })
 
 
