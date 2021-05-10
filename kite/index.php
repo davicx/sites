@@ -41,17 +41,8 @@
 				
 				<div id = "posts" class = "">	
 				
-					<div class = "post">	
-						<p> post </p>						
-					</div>			
-					
-					<div class = "post">	
-						<p> post </p>						
-					</div>			
-					
-					<div class = "post">	
-						<p> post </p>						
-					</div>			
+		
+		
 					
 				</div>			
 				

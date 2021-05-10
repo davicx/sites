@@ -16,16 +16,31 @@ getPosts();
 function getPosts() {
   axios({
      method: 'get',
-     url: 'http://localhost:3003/posts/all'
+     //url: 'http://localhost:3003/posts/all'
+     url: 'http://localhost:3003/posts/group/77'
    })
      .then(function (response) {
-		console.log(response.data[0]);
-		console.log(response.data[1]);
+		 const posts = response.data;
+		 var post = "";
+		 for (let i = 0; i < 1; i++) {
+			console.log(posts[i].post_caption);
+			//post = '<p>' + posts[i].post_caption + '</p>;
+			//document.getElementById("posts").innerHTML = post;
+
+			//let node = document.getElementById('posts');
+			//node.innerHTML('<p>' + posts[i].post_caption + '</p>');
+		}
 		
 	 })
      .catch(err => console.error(err));
 }
 
+
+/*
+<div class = "post">	
+	<p> post </p>						
+</div>		
+*/
 
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: New Text Post

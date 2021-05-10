@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
   //currentPost.postCaption;
   //var currentPost = new Post(1)
   //myInstance.test()
-  let currentPost = new Post(1)
-  console.log(currentPost.postCaption + " " + currentPost.postID)
+  //let currentPost = new Post(1)
+  //console.log(currentPost.postCaption + " " + currentPost.postID)
 
     res.end()
 })
