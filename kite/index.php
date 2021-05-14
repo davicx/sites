@@ -11,7 +11,8 @@
 		
 		<!-- CSS -->
 		<link rel="stylesheet" href="css/style.css">	
-		
+		<link rel="stylesheet" href="css/normalize.css">
+  
 		<!-- Javascript -->
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="js/main.js"></script>

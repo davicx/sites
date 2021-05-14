@@ -29,8 +29,9 @@ router.get("/post/:post_id", (req, res) => {
         //TEMP      
         res.json(rows);
 
-    })
+    }) 
 })
+
 
 //Route 2: Get all Posts to a User 
 router.get("/posts/user/:post_to", (req, res) => {
@@ -54,6 +55,7 @@ router.get("/posts/user/:post_to", (req, res) => {
     })
 })
 
+
 //Route 3: Get all Posts to a Group 
 router.get("/posts/group/:group_id", (req, res) => {
     const group_id = req.params.group_id;
@@ -75,6 +77,7 @@ router.get("/posts/group/:group_id", (req, res) => {
 
     })
 })
+
 
 //Route 4: Get all Posts 
 router.get("/posts/all", (req, res) => {
@@ -103,11 +106,11 @@ router.get("/posts/all", (req, res) => {
 })
 
 
-
 //POST ROUTES
 //Route 5: Make a Post 
 router.post('/new_post', function(req, res, next) {
 
+    //STEP 1: Insert into posts table 
     const connection = getConnection();
     const postType = req.body.postType
     const postStatus = req.body.postStatus 
@@ -126,14 +129,23 @@ router.post('/new_post', function(req, res, next) {
             res.sendStatus(500)
             return
         } else {
-        
             console.log("You created a new Post with ID " + results.insertId);
             res.send("It worked ");
         } 
     }) 
+
+    //STEP 2: Add New Notifications  
+
+
+
+		
+ 
+	
+	
+
 })
 
-//Local POST
+//TEMP: Local Post
 router.post('/temp', function(req, res, next) {
     const connection = getConnection();
     const postType = req.body.postType

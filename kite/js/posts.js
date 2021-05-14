@@ -10,6 +10,8 @@ FUNCTIONS A: All Functions Related to Posts
 */ 
 
 getPosts();
+
+
 	
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: Get All Posts
@@ -36,25 +38,20 @@ function getPosts() {
 }
 
 
-/*
-<div class = "post">	
-	<p> post </p>						
-</div>		
-*/
 
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: New Text Post
 function makePost() {
   axios({
      method: 'post',
-     url: 'http://localhost:3003/temp',
+     url: 'http://localhost:3003/new_post',
 	 data: {
 	    postType: "text",
 		postStatus: 1,
 		groupID: 77,
 		postFrom: "david",
 		postTo: "sam",
-		postCaption: "Hi sam wanna garden today again! The weather is perfect!"	 
+		postCaption: "This is new! Hi sam wanna garden today again! The weather is perfect!"	 
 	 }
    })
      .then(res => console.log(res))

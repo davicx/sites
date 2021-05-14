@@ -1,5 +1,26 @@
-//USER ROUTES
 /*
+//USER ROUTES
+
+
+//POST ROUTES
+//All Posts (GET)
+http://localhost:3003/posts/all
+
+//All Posts to a Group (GET)
+http://localhost:3003/posts/group/77
+
+//All Posts to a User (GET)
+http://localhost:3003/posts/user/vasquezd
+
+//New Post (POST)
+http://localhost:3003/new_post
+
+
+
+
+*/
+/*
+
 //User Related 
 Route 1: Get User Info
 Route 2: Update User Info
@@ -14,10 +35,7 @@ Route 4: Decline a Friend Request
 Route 5: Remove a Friend
 
 
-//POST ROUTES
-http://localhost:3003/posts/group/77
-http://localhost:3003/posts/all
-http://localhost:3003/posts/user/vasquezd
+
 Route 1: Get Post by ID
 Route 2: Get all Posts
 

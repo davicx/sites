@@ -8,13 +8,9 @@ app.use(morgan('short'));
 app.use(router);
 
 
-
-
 //Home Route
 app.listen(3003, () => {
   console.log("Server is up and listening on 3003...")
-    
-
 })
 
 

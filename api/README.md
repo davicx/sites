@@ -2,20 +2,25 @@
 My fun app to do things 
  
 ### Setup 
-This project was built with Node.js, MySQL and Express. 
+This site was built with Node.js, MySQL and Express. 
 You will need to install these before you can run the project.
 
 #### Install Express and Dependencies 
 You need to run the following commands from a git or similar terminal
+
+##### Intialize and Install Dependencies
 npm init
 
 npm install express  
 npm install mysql 
+
+##### Install Dev Dependencies
 npm install morgan --save-dev nodemon --save-dev 
 npm install chai --save-dev mocha --save-dev chai-http --save-dev 
 
-
 #### Database Setup
+
+### Deployment to AWS
 
 
 
@@ -24,16 +29,14 @@ npm install chai --save-dev mocha --save-dev chai-http --save-dev
     .
     ├── ...
     ├── models	                   
-    │   ├── Program.js               
-    │   ├── Section.js              
-    │   ├── Activity.js                    
+    │   ├── Program.js                                
     ├── node_modules							 
     ├── routes
     │   ├── program.js         
     ├── controllers
     │   ├──  
     ├── test
-    │   ├── app_test.js  
+    │   ├── test.js  
     ├── app.js  
     ├── package.json
     ├── README.MD
