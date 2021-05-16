@@ -2,7 +2,9 @@ const express = require('express')
 const mysql = require('mysql')
 const router = express.Router();
 let postController = require('./../controllers/postController');
+let notifications = require('./../functions/notifications');
 const Post = require('./../models/Post.js')
+
 
 //Dev: Temp
 var cors = require('cors')
@@ -10,103 +12,22 @@ router.use(cors())
 
 //GET ROUTES
 //Route 1: Get a Single Post by ID
-router.get("/post/:post_id", (req, res) => {
-    const post_id = req.params.post_id;
-
-    //Create Query 
-    const connection = getConnection();
-    //const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE LIMIT 10";
-    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE post_id = ?";
-
-    connection.query(queryString, [post_id], (err, rows, fields) => {
-        if (err) {
-            console.log("Failed to Select Posts" + err)
-            res.sendStatus(500)
-            return
-        }
-        //TEMP
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        //TEMP      
-        res.json(rows);
-
-    }) 
-})
-
+router.route("/post/:post_id").get(postController.getSinglePost);
 
 //Route 2: Get all Posts to a User 
-router.get("/posts/user/:post_to", (req, res) => {
-    const post_to = req.params.post_to;
-
-    //Create Query 
-    const connection = getConnection();
-    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE post_to = ?";
-
-    connection.query(queryString, [post_to], (err, rows, fields) => {
-        if (err) {
-            console.log("Failed to Select Posts" + err)
-            res.sendStatus(500)
-            return
-        }
-        //TEMP
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        //TEMP
-        res.json(rows);
-
-    })
-})
-
+router.route("/posts/user/:post_to").get(postController.getUserPosts);
 
 //Route 3: Get all Posts to a Group 
-router.get("/posts/group/:group_id", (req, res) => {
-    const group_id = req.params.group_id;
-
-    //Create Query 
-    const connection = getConnection();
-    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE group_id = ?";
-
-    connection.query(queryString, [group_id], (err, rows) => {
-        if (err) {
-            console.log("Failed to Select Posts" + err)
-            res.sendStatus(500)
-            return
-        }
-        //TEMP
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        //TEMP
-        res.json(rows);
-
-    })
-})
-
+router.route("/posts/group/:group_id").get(postController.getGroupPosts);
 
 //Route 4: Get all Posts 
-router.get("/posts/all", (req, res) => {
+router.route("/posts/all").get(postController.getAllPosts);
 
-    let currentPost = new Post(1)
-    console.log(currentPost.postCaption + " " + currentPost.postID)
-
-    //Create Query 
-    const connection = getConnection();
-    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts LIMIT 5";
-
-    connection.query(queryString, (err, rows, fields) => {
-        if (err) {
-            console.log("Failed to Select Posts" + err)
-            res.sendStatus(500)
-            return
-        }
-        
-        //TEMP
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        //TEMP
-
-        res.json(rows);
-
-    })
-})
-
-
+ 
 //POST ROUTES
+//post/user
+//post/group
+
 //Route 5: Make a Post 
 router.post('/new_post', function(req, res, next) {
 
@@ -118,6 +39,12 @@ router.post('/new_post', function(req, res, next) {
     const postFrom = req.body.postFrom 
     const postTo = req.body.postTo 
     const postCaption = req.body.postCaption 
+    const notificationFrom = req.body.postFrom 
+    const notificationTo = req.body.postTo 
+    const notificationMessage = req.body.notificationMessage 
+    const notificationType = req.body.notificationType 
+    const notificationLink = req.body.notificationLink 
+ 
 
     console.log(postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
 
@@ -135,47 +62,24 @@ router.post('/new_post', function(req, res, next) {
     }) 
 
     //STEP 2: Add New Notifications  
-
-
-
-		
- 
-	
-	
-
-})
-
-//TEMP: Local Post
-router.post('/temp', function(req, res, next) {
-    const connection = getConnection();
-    const postType = req.body.postType
-    const postStatus = req.body.postStatus 
-    const groupID = req.body.groupID 
-    const postFrom = req.body.postFrom 
-    const postTo = req.body.postTo 
-    const postCaption = req.body.postCaption 
-
-    console.log(postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
-
-    const queryString = "INSERT INTO posts (post_type, post_status, group_id, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?, ?)"
+    notifications.createNotification(notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType);
     
-    connection.query(queryString, [postType, postStatus, groupID, postFrom, postTo, postCaption], (err, results, fields) => {
-        if (err) {
-            console.log("Failed to insert new Post: " + err)
-            res.sendStatus(500)
-            return
-        } else {
-        
-            console.log("You created a new Post with ID " + results.insertId);
-            res.send("It worked ");
-        } 
-    }) 
- 
+
+
 })
+
+/*
+		if(isset($_POST['master-site'])){ $master_site = $_POST['master-site']; }else { $master_site = "shareshare"; }	 		
+		if(isset($_POST['logged-in-user'])){ $logged_in_user = $_POST['logged-in-user']; } else { $logged_in_user = "error"; }	
+		if(isset($_POST['redirect'])){ $redirect = $_POST['redirect']; } else { $redirect = "#"; }			
+		if(isset($_POST['notification-message'])){ $notification_message = $_POST['notification-message']; } else { $notification_message = ""; }
+		if(isset($_POST['notification-type'])){ $notification_type = $_POST['notification-type']; } else { $notification_type = "new_file"; }
+		if(isset($_POST['notification-link'])){ $notification_link = $_POST['notification-link']; } else { $notification_link = $page_redirect; }	
+*/
 
 
 //USE CONTROLLER
-router.route("/post").get(postController.getSinglePost);
+//router.route("/post").get(postController.getSinglePost);
 
 //FUNCTIONS
 const pool = mysql.createPool({

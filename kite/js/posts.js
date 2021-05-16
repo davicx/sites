@@ -8,10 +8,8 @@ FUNCTIONS A: All Functions Related to Posts
 	4) Function A4: 
 
 */ 
-
+//makePost() 
 getPosts();
-
-
 	
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: Get All Posts
@@ -19,24 +17,20 @@ function getPosts() {
   axios({
      method: 'get',
      //url: 'http://localhost:3003/posts/all'
-     url: 'http://localhost:3003/posts/group/77'
+     url: 'http://localhost:3003/posts/all'
+     //url: 'http://localhost:3003/posts/group/77'
    })
      .then(function (response) {
 		 const posts = response.data;
-		 var post = "";
-		 for (let i = 0; i < 1; i++) {
+		 console.log(posts.length);
+		 for (let i = 0; i < posts.length; i++) {
 			console.log(posts[i].post_caption);
-			//post = '<p>' + posts[i].post_caption + '</p>;
-			//document.getElementById("posts").innerHTML = post;
 
-			//let node = document.getElementById('posts');
-			//node.innerHTML('<p>' + posts[i].post_caption + '</p>');
 		}
 		
 	 })
      .catch(err => console.error(err));
 }
-
 
 
 //FUNCTIONS A: All Functions Related to Posts
@@ -51,7 +45,7 @@ function makePost() {
 		groupID: 77,
 		postFrom: "david",
 		postTo: "sam",
-		postCaption: "This is new! Hi sam wanna garden today again! The weather is perfect!"	 
+		postCaption: "Happy Saturday Afternoon!"	 
 	 }
    })
      .then(res => console.log(res))
@@ -59,7 +53,7 @@ function makePost() {
 }
 
 
- 
+
 
  
 /*

@@ -112,14 +112,13 @@ class Notifications {
 			
 			//TIME RELATED 
 			//ONID
-			$this->month 				= "April";
-			$this->day 					= 1;
-			$this->time_hours 			= 1;
-			$this->full_posted_time 	= "update notif class";
-			$this->notification_time_message = "update notif"; 
+			//$this->month 				= "April";
+			//$this->day 					= 1;
+			//$this->time_hours 			= 1;
+			//$this->full_posted_time 	= "update notif class";
+			//$this->notification_time_message = "update notif"; 
 			//Time Related
 			//LOCAL
-			/*
 			$dateArray 					= date_parse($row['notification_time']);
 			$monthNum 					= $dateArray['month'];
 			$monthName 					= $dateObj->format('F'); 
@@ -218,11 +217,8 @@ class Notifications {
 			}
 			//echo $posted_time_message;
 			$this->notification_time_message = $posted_time_message; 
-		*/
-	
+
 		}
-		
-		
 	}
 
 	

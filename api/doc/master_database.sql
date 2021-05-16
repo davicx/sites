@@ -25,3 +25,20 @@ updated
 created	
 	
 	
+//NOTIFICATION
+notification_id
+master_site
+status_unseen
+notification_from
+notification_to
+notification_type
+notification_message
+notification_time
+full_link
+link_url
+group_id
+list_id
+from_logged_in_user
+notification_count
+notification_deleted
+clicked

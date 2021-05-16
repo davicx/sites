@@ -138,6 +138,25 @@ Route 5: Decline a Group Request
 
 */
 
+//NOTIFICATIONS
+/*
+//FUNCTIONS TABLE OF CONTENTS//
+/*
+
+FUNCTIONS A: NOTIFICATION RELATED
+	1) Function A1: Update All Notifications to Seen
+	2) Function A2: Update Single Notification to Seen
+	3) Function A3: Delete Single Notification 
+	4) Function A4: Delete All Notifications 
+
+FUNCTIONS C: UI RELATED
+	
+FUNCTIONS A: NOTIFICATION RELATED
+	1) Function A1: Update All Notifications to Seen
+	2) Function A2: Update Single Notification to Seen
+	3) Function A3: Delete Single Notification 
+*/
+
 //LOGIN AND REGISTRATION ROUTES
 /*
 Route 1: Login 
