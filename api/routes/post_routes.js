@@ -64,18 +64,108 @@ router.post('/new_post', function(req, res, next) {
     //STEP 2: Add New Notifications  
     notifications.createNotification(notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType);
     
-
-
 })
 
+//TEMP
+router.get("/groupusers/:group_id", (req, res) => {
+    const groupID = req.params.group_id
+    
+    //Create Query 
+    const connection = getConnection();
+    //const queryString = "SELECT user_name FROM group_users WHERE active_member = '1' AND group_id = ?";
+    const queryString = "SELECT user_name FROM group_users WHERE active_member = '1' AND group_id = ?";
+
+    connection.query(queryString, [groupID], (err, rows, fields) => {
+        if (err) {
+            console.log("Failed to Select Posts" + err)
+            res.sendStatus(500)
+            return
+        }
+
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP
+        var groupMembers = new Set();
+  
+
+        for (i = 0; i < rows.length; i++) {
+            groupMembers.add(rows[i].user_name)
+            console.log(rows[i].user_name)
+        }
+        console.log("_____");
+        console.log(groupMembers);
+
+    })     
+       
+
+
+
+       console.log(groupID);
+
+ 
+})
+
+
+
 /*
-		if(isset($_POST['master-site'])){ $master_site = $_POST['master-site']; }else { $master_site = "shareshare"; }	 		
-		if(isset($_POST['logged-in-user'])){ $logged_in_user = $_POST['logged-in-user']; } else { $logged_in_user = "error"; }	
-		if(isset($_POST['redirect'])){ $redirect = $_POST['redirect']; } else { $redirect = "#"; }			
-		if(isset($_POST['notification-message'])){ $notification_message = $_POST['notification-message']; } else { $notification_message = ""; }
-		if(isset($_POST['notification-type'])){ $notification_type = $_POST['notification-type']; } else { $notification_type = "new_file"; }
-		if(isset($_POST['notification-link'])){ $notification_link = $_POST['notification-link']; } else { $notification_link = $page_redirect; }	
+//Route 5: Make a Post 
+router.get('/groupusers/:group_id', function(req, res) {
+    
+    const groupID = req.body.group_id
+    console.log(groupID);
+   
+    //Create Query 
+    const connection = getConnection();
+    //const queryString = "SELECT user_name FROM group_users WHERE active_member = '1' AND group_id = ?";
+    const queryString = "SELECT user_name FROM group_users WHERE group_id = ?";
+    // 
+
+    connection.query(queryString, [groupID], (err, rows, fields) => {
+        if (err) {
+            console.log("Failed to Select Posts" + err)
+            res.sendStatus(500)
+            return
+        }
+        //TEMP
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        //TEMP
+        res.json(rows);
+    })
+  
+})
 */
+
+
+/*
+function getActiveGroupMembers($group_id) {
+	global $conn;
+	
+	$result_groups = mysqli_query($conn,"SELECT user_name FROM group_users 
+		WHERE group_id = '$group_id'
+		AND active_member = '1' ");
+		
+	$group_members_array = array();
+	$group_members_array_count = 0;
+	
+	//Create Group  
+	while($row_groups = mysqli_fetch_array($result_groups)) {	
+		//Get Group Information 
+		$user_name = $row_groups['user_name'];
+		$group_members_array[$group_members_array_count] = $user_name;		
+		$group_members_array_count = $group_members_array_count + 1;
+	}	
+	
+	//Build Unique array and reset index 
+	$group_members_array = array_unique($group_members_array);	
+	$group_members_array =  array_values($group_members_array);
+	
+	return $group_members_array;
+	 
+}
+*/
+
+//TEMP
+
 
 
 //USE CONTROLLER

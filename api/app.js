@@ -26,5 +26,14 @@ app.get("/", (req, res) => {
     res.end()
 })
 
+/*
+app.get("/groupusers/:group_id", (req, res) => {
+  const groupID = req.body.group_id
+  console.log(groupID);
+ 
 
+    res.end()
+})
+
+*/
 
