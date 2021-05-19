@@ -3,8 +3,7 @@ const mysql = require('mysql')
 
 //Function A1: Get Active Group Users 
 function getActiveGroupMembers(groupID) {
-	console.log("Group Users " + groupID);
-
+	//console.log("Group Users " + groupID);
     const connection = getConnection();
     const queryString = "SELECT DISTINCT user_name FROM group_users WHERE group_id = ? AND active_member = 1";
 
@@ -23,9 +22,11 @@ function getActiveGroupMembers(groupID) {
             //console.log(row.user_name);
         });
 
+        /*
         for (i = 0; i < groupMembers.length; i++) {
             console.log(groupMembers[i]);
         }
+        */
  
     }) 
 }

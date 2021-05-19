@@ -66,7 +66,7 @@ router.post('/new_post', function(req, res, next) {
     */
 
     //STEP 2: Add New Notifications  
-    notifications.createNotification(notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType);
+    notifications.createGroupNotification(groupID, notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType);
     res.send("LAST: It worked ");
 })
 
