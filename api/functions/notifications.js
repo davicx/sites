@@ -1,18 +1,8 @@
+let user = require('./user');
 /*
 FUNCTIONS A: NOTIFICATION RELATED
-	1) Function A1: Update All Notifications to Seen
-	2) Function A2: Update Single Notification to Seen
-	3) Function A3: Delete Single Notification 
-    //group/id
-    1) Method 1: Instantiate Notification 
-	2) Method 2: Get All Notification Information 
-	3) Method 3: Create Regular Notification
-	4) Method 4: Create Group Notification 
-	5) Method 5 Create List Notification 
-	6) Method 6: Get Total Notifications 
-	7) Method 7: Delete Group Notification 
-	8) Method 8: Delete Individual Notification 
-	9) Method 9: Notification Seen 
+	1) Function A1: Create a New Notification
+
 */
 
 
@@ -20,15 +10,15 @@ FUNCTIONS A: NOTIFICATION RELATED
 //Function A1: Create a New Notification
 //function createNotification(masterSite, notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType) {
 function createNotification(notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType) {
-    console.log("Notification: " + notificationFrom + " " + notificationTo + " " + notificationTo + " " + notificationMessage + " " + notificationType + " " + notificationLink);
+    console.log("NOTIFICATION: " + notificationFrom + " " + notificationTo + " " + notificationTo + " " + notificationMessage + " " + notificationType + " " + notificationLink);
+	user.getActiveGroupMembers(321);
+
+
 }
 
 
  
 module.exports = { createNotification };
-//function foo() { console.log('foo') }
-//function bar() { console.log('bar') }
-//function baz() { foo(); bar() }
 
 
 

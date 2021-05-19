@@ -16,7 +16,7 @@ app.listen(3003, () => {
 
 app.get("/", (req, res) => {
   console.log("Responding to root route");
-    //let currentPost = new Post(1);
+  //let currentPost = new Post(1);
   //currentPost.postCaption;
   //var currentPost = new Post(1)
   //myInstance.test()

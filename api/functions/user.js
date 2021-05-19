@@ -1,11 +1,52 @@
+const mysql = require('mysql')
+//getActiveGroupMembers(77)
 
-
-//Function A1: Get Group Users 
+//Function A1: Get Active Group Users 
 function getActiveGroupMembers(groupID) {
-	console.log("Group Users");
+	console.log("Group Users " + groupID);
+
+    const connection = getConnection();
+    const queryString = "SELECT DISTINCT user_name FROM group_users WHERE group_id = ? AND active_member = 1";
+
+    connection.query(queryString, [groupID], (err, rows) => {
+        if (err) {
+            console.log("Failed to Select Posts" + err)
+            res.sendStatus(500)
+            return
+        }
+
+        //Create an Array with all the Unique Group Members
+        const groupMembers= [];
+
+        rows.map((row) => {
+            groupMembers.push(row.user_name);
+            //console.log(row.user_name);
+        });
+
+        for (i = 0; i < groupMembers.length; i++) {
+            console.log(groupMembers[i]);
+        }
+ 
+    }) 
 }
 
-getActiveGroupMembers(77)
+//Create Connection Pool 
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'shareshare'
+})
+
+//Functions: Get Connection
+function getConnection() {
+    return pool;
+}
+
+module.exports = { getActiveGroupMembers };
+
+
 
 
 /*

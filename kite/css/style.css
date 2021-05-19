@@ -1,7 +1,4 @@
 /*TOC*/
-/*
-
-*/
 
 
 /****************************************************
@@ -38,7 +35,7 @@ SECTION 2: Site Structure
 }
 
 
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;800&display=swap');
 /****************************************************
 SECTION 3A: Header and Navigation Bar
 *****************************************************/
@@ -53,98 +50,9 @@ header {
 	z-index: 10;
 }
 
-
-
-/****************************************************
-SECTION 4: Posts
-*****************************************************/
-#make-post {
-	float: left;
-	width: 20%;
-	border: 1px solid blue;	
-	
+.nunito {
+	font-family: 'Nunito Sans', sans-serif;
 }
-
-#posts {
-	float: left;
-	width: 60%;
-	border: 1px solid blue;		
-	
-}
-
-
-
-/****************************************************
-SECTION 5A: Posts
-*****************************************************/
-/* POST STRUCTURE */
-.post {
-	overflow: auto;
-	margin: 0px auto 0px auto;	
-	margin-top: 10px;
-	margin-bottom: 50px;
-	width: 560px;
-	min-height: 100px;
-	border: 1px solid rgba(0, 0, 0, 0.10);	
-	border: 1px solid rgba(0, 0, 0, 0.15);	
-	border: 1px solid black;	
-	-webkit-border-radius: 4px 4px 4px 4px;
-	-moz-border-radius: 4px 4px 4px 4px;
-	border-radius: 4px 4px 4px 4px;
-	background-color: #FFFFFF;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-	.post {
-		width: 460px;
-
-	}	
-} 
-
-/* Mobile */
-@media (max-width: 500px) {
-	.post {
-		width: 96%;
-	}	
-} 
-
-.post-header {
-	float: left;
-	width: 100%;
-	overflow: auto;	
-	min-height: 6px;
-	background-color: #f4f4f4;
-}
-
-.post-body {
-	float: left;
-	width: 100%;
-	overflow: auto;	
-	min-height: 10px;
-}
-
-.post-footer {
-	float: left;
-	width: 100%;
-	overflow: auto;	
-	min-height: 26px;
-	background-color: #f4f4f4;	
-}
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
 
 
 

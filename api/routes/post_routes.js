@@ -5,7 +5,6 @@ let postController = require('./../controllers/postController');
 let notifications = require('./../functions/notifications');
 const Post = require('./../models/Post.js')
 
-
 //Dev: Temp
 var cors = require('cors')
 router.use(cors())
@@ -29,6 +28,10 @@ router.route("/posts/all").get(postController.getAllPosts);
 //post/group
 
 //Route 5: Make a Post 
+//http://localhost:3003/new_post
+//post/group/group_id
+//post/user/user_id
+
 router.post('/new_post', function(req, res, next) {
 
     //STEP 1: Insert into posts table 
@@ -45,9 +48,9 @@ router.post('/new_post', function(req, res, next) {
     const notificationType = req.body.notificationType 
     const notificationLink = req.body.notificationLink 
  
+    console.log("POST DATA: " + postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
 
-    console.log(postType + " " + postStatus + " " + groupID + " " + postFrom + " " + postTo + " " + postCaption);
-
+    /*
     const queryString = "INSERT INTO posts (post_type, post_status, group_id, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?, ?)"
     
     connection.query(queryString, [postType, postStatus, groupID, postFrom, postTo, postCaption], (err, results, fields) => {
@@ -60,10 +63,11 @@ router.post('/new_post', function(req, res, next) {
             res.send("It worked ");
         } 
     }) 
+    */
 
     //STEP 2: Add New Notifications  
     notifications.createNotification(notificationFrom, notificationTo, notificationMessage, notificationLink, notificationType);
-    
+    res.send("LAST: It worked ");
 })
 
 //TEMP
