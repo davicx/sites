@@ -15,7 +15,8 @@ npm install express
 npm install mysql 
 
 ##### Install Dev Dependencies
-npm install morgan --save-dev nodemon --save-dev 
+npm install morgan --save-dev 
+npm install nodemon --save-dev 
 npm install chai --save-dev mocha --save-dev chai-http --save-dev 
 
 #### Database Setup

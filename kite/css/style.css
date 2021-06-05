@@ -1,4 +1,37 @@
 /*TOC*/
+/*
+Global
+SECTION 1: Main Body, Global Styles 
+SECTION 2: Site Structure
+
+Header and Navigation 
+SECTION 3A: Header and Navigation Bar 
+
+Page Specific 
+SECTION 4A: Login Page
+SECTION 4B: Registration Page
+SECTION 4C: Groups Page
+SECTION 4D: Pavilion Page
+
+Component Specific
+SECTION 5A: Post
+SECTION 5B: Group
+ 
+Modal Specific 
+SECTION 6A: Modal
+
+Appendix 
+APPENDIX A: CSS defaults  
+APPENDIX B: Buttons
+APPENDIX C: Fonts	
+APPENDIX D: Warning and Error Text	
+
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700&display=swap');
+
 
 
 /****************************************************
@@ -25,7 +58,7 @@ SECTION 2: Site Structure
 
 #site-wrapper {
 	background-color: #FFFFFF;		
-	width: 80%;
+	width: 100%;
 	max-width: 1440px;
 	overflow: auto;	
 	margin: 0px auto 0px auto;
@@ -34,8 +67,6 @@ SECTION 2: Site Structure
 	border: 1px solid black;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;800&display=swap');
 /****************************************************
 SECTION 3A: Header and Navigation Bar
 *****************************************************/
@@ -50,9 +81,98 @@ header {
 	z-index: 10;
 }
 
-.nunito {
-	font-family: 'Nunito Sans', sans-serif;
+
+
+/****************************************************
+SECTION 5B: Group
+*****************************************************/
+.group {
+	float: left;
+	width: 300px;
+	overflow: auto;
+	height: 240px;
+	margin: 20px;
+	cursor: pointer; 
+	background-color: white;
+	border-bottom: 2px solid #614092;	
+	border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	border: 0px solid rgba(0, 0, 0, 0.1);	
+	-webkit-border-radius: 2px 2px 2px 2px;
+	-moz-border-radius: 2px 2px 2px 2px;
+	border-radius: 2px 2px 2px 2px;	
 }
+
+.group-name-text {
+	color: #272C35;
+	text-decoration: none;
+}
+
+
+
+/****************************************************
+SECTION 4D: Pavilion Page
+*****************************************************/
+ 
+
+/****************************************************
+APPENDIX A: CSS defaults  
+*****************************************************/
+.gray-five {
+	background-color: #BABFCD;
+}
+
+.gray-four {
+	background-color: #C1C7D3;
+}
+
+.gray-three {
+	background-color: #CFD3DD;
+}
+
+.gray-two {
+	background-color: #DFE2E8;
+}
+
+.gray-one {
+	background-color: #EBEDF1;
+}
+
+
+/****************************************************
+APPENDIX B: Buttons
+*****************************************************/
+.selected {
+	width: 88px;
+	height: 40px;
+	background-color: #F1F2F6;
+	margin-left: 20px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+
+/****************************************************
+APPENDIX C: Fonts	
+*****************************************************/
+.font-squada {
+	font-size: 28px;
+	font-family: 'Squada One', cursive;
+}
+
+.font-nunito {
+	font-size: 28px;
+	color: #272C35;
+	font-family: 'Squada One', cursive;
+}
+
+ 
+/****************************************************
+APPENDIX D: Warning and Error Text	
+*****************************************************/
+
+
 
 
 
