@@ -87,27 +87,41 @@ function getAllPosts(req, res) {
 }
 
 //POST: 
-app.post('/post', (req, res) => {
-    console.log("Trying to create a new user...")
+function newPost(req, response) {
+    console.log(req.body);
+    console.log("Trying to create a new post")
   
-    const firstName = req.body.create_first_name
-    const lastName = req.body.create_last_name
-  
-    const queryString = "INSERT INTO user_profile (user_name, first_name, last_name) VALUES (?, ?, ?)"
-    getConnection().query(queryString, [firstName, firstName, lastName], (err, results, fields) => {
+    const postType = req.body.postType
+    const postStatus = req.body.postStatus
+    const groupID = req.body.groupID
+    const postFrom = req.body.postFrom
+    const postTo = req.body.postTo
+    const postCaption = req.body.postCaption
+    const notificationMessage = req.body.notificationMessage
+    const notificationType = req.body.notificationType
+    const notificationLink = req.body.notificationLink
+
+    console.log(postType + " " + postFrom + " " + postTo + " " + postCaption + " " + notificationMessage + " " + notificationType + " " + notificationLink);
+
+    const queryString = "INSERT INTO posts (post_type, post_status, group_id, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?, ?)"
+    getConnection().query(queryString, [postType, postStatus, groupID, postFrom, postTo, postCaption], (err, results, fields) => {
       if (err) {
-        console.log("Failed to insert new user: " + err)
-        res.sendStatus(500)
+        console.log("Could not insert the post " + err)
+        response.sendStatus(500)
         return
       }
-      var newUserID = results.insertId;
-      console.log("Inserted a new user with id: ", results.insertId);
-  
-      res.end()
-    })
-  })
+      var newPostID = results.insertId;
+      console.log("Inserted a new post with id: ", newPostID);
+      const post_outcome = "Inserted a new post with id: " + newPostID;
+      response.setHeader('Content-Type', 'application/json');
 
-module.exports = { getSinglePost, getUserPosts, getGroupPosts, getAllPosts };
+      const outcome = {"post_outcome": post_outcome};
+      response.write(JSON.stringify(outcome));
+      response.end();
+    })
+}
+
+module.exports = { getSinglePost, getUserPosts, getGroupPosts, getAllPosts, newPost };
 
 //Create Connection Pool 
 const pool = mysql.createPool({

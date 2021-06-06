@@ -1,8 +1,8 @@
-/*
-//USER ROUTES
-
-
 //POST ROUTES
+/*
+//Single Post (GET)
+http://localhost:3003/post/103
+
 //All Posts (GET)
 http://localhost:3003/posts/all
 
@@ -13,10 +13,29 @@ http://localhost:3003/posts/group/77
 http://localhost:3003/posts/user/vasquezd
 
 //New Post (POST)
-http://localhost:3003/new_post
+http://localhost:3003/post
+*/
+
+/*
+//USER ROUTES
 
 
+//GET Routes
+//Route 1: Get a Single Post by ID
+postRouter.route("/post/:post_id").get(postController.getSinglePost);
 
+//Route 2: Get all Posts to a User 
+postRouter.route("/posts/user/:post_to").get(postController.getUserPosts);
+
+//Route 3: Get all Posts to a Group 
+postRouter.route("/posts/group/:group_id").get(postController.getGroupPosts);
+
+//Route 4: Get all Posts 
+postRouter.route("/posts/all").get(postController.getAllPosts);
+
+//POST Routes
+//Route 5: Create a New Post
+postRouter.route("/post").post(postController.newPost);
 
 */
 /*
@@ -42,7 +61,6 @@ Route 2: Get all Posts
 POST A1: Post Text 
 
 //Login Related 
-
 */
 
 //LOGIN AND REGISTRATION ROUTES
@@ -63,8 +81,8 @@ Route 2:
 
 //GROUP
 //Group Related 
-Route 5: Accept a Group Request
-Route 5: Decline a Group Request
+//Route 5: Accept a Group Request
+//Route 5: Decline a Group Request
 //POSTS
 
 

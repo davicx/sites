@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const postRouter = express.Router();
 let postController = require('./../controllers/postController');
 //let notifications = require('../functions/notifications');
-const Post = require('./../models/Post.js')
+//const Post = require('./../models/Post.js')
 
 //Dev: Temp
 var cors = require('cors')
@@ -24,7 +24,7 @@ postRouter.route("/posts/all").get(postController.getAllPosts);
 
 //POST Routes
 //Route 5: Create a New Post
-postRouter.route("/posts/all").post(postController.newPost);
+postRouter.route("/post").post(postController.newPost);
 
 //FUNCTIONS
 const pool = mysql.createPool({

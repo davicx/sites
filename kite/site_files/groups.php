@@ -37,8 +37,9 @@
 			<div id = "site-wrapper" class = "">	
 					
 				<!-- Individual Group -->
-				<?php include_once('include_components/groups/group_list.php') ?>
-
+				<div id = "group-holder">
+					<?php include_once('include_components/groups/group_list.php') ?>
+				</div>
 				
 			</div>
 			
