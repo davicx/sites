@@ -38,7 +38,8 @@
 					
 				<!-- Individual Group -->
 				<p> Group </p>
-				
+				<p id="demo">Fetch a file to change this text.</p>
+ 
 			</div>
 
 		</body>
