@@ -1,34 +1,34 @@
 <!-- Individual Group -->
 <div class = "group gray-five">
-	<a href="groups_posts.php" class = "group-name-text">
+	<a href="groups_post.php" class = "group-name-text">
 		<p> group </p>		
 	</a>		
 </div>					
 
 <!-- Individual Group -->
 <div class = "group gray-four">
-	<a href="groups_posts.php" class = "group-name-text">
+	<a href="groups_post.php" class = "group-name-text">
 		<p> group </p>		
 	</a>		
 </div>		
 
 <!-- Individual Group -->
 <div class = "group gray-three">
-	<a href="groups_posts.php" class = "group-name-text">
+	<a href="groups_post.php" class = "group-name-text">
 		<p> group </p>		
 	</a>	
 </div>		
 
 <!-- Individual Group -->
 <div class = "group gray-two">
-	<a href="groups_posts.php" class = "group-name-text">
+	<a href="groups_post.php" class = "group-name-text">
 		<p> group </p>		
 	</a>		
 </div>		
 		
 <!-- Individual Group -->
 <div class = "group gray-one">
-	<a href="groups_posts.php" class = "group-name-text">
+	<a href="groups_post.php" class = "group-name-text">
 		<p> group </p>		
 	</a>	
 </div>		

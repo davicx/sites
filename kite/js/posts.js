@@ -9,8 +9,16 @@ FUNCTIONS A: All Functions Related to Posts
 
 */ 
 //makePost() 
-//getPosts();
-getPostsLearning();
+getPosts();
+
+/*
+fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
+//fetch ('https://jsonplaceholder.typicode.com/posts', { method: 'get' })
+.then(res => res.json())
+.then(data => console.log(data));
+*/
+
+//getPostsLearning();
 	
 //getText("https://dashboard.heroku.com/apps/kite-master-api");
 
@@ -23,43 +31,14 @@ async function getText(file) {
 	
 	
 	
-/*
-// Example POST method implementation:
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
-postData('https://example.com/answer', { answer: 42 })
-  .then(data => {
-    console.log(data); // JSON data parsed by `data.json()` call
-  });
-*/
-	
-	
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: Get All Posts
 function getPosts() {
   axios({
      method: 'get',
      //url: 'http://localhost:3003/posts/all'
-     //url: 'http://localhost:3003/posts/all'
-     //url: 'http://localhost:3003/posts/all'
-     //url: 'https://dashboard.heroku.com/apps/kite-master-api'
-     url: 'https://dashboard.heroku.com/apps/kite-master-api'
+     //url: 'https://jsonplaceholder.typicode.com/posts'
+     url: 'https://kite-master-api.herokuapp.com/posts'
    })
      .then(function (response) {
 		 const posts = response.data;
@@ -77,6 +56,7 @@ function getPosts() {
 function getPostsLearning() {
   axios({
      method: 'GET',
+     //url: 'https://kite-master-api.herokuapp.com/posts'
      url: 'https://kite-master-api.herokuapp.com/posts'
    })
      .then(function (response) {
