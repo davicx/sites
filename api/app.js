@@ -2,10 +2,10 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const mysql = require('mysql')
-//const router = require('./routes/posts.js');
+const posts = require('./application/posts/routes/posts.js');
 app.use(express.json());
 app.use(morgan('short'));
-app.use(router);
+app.use(posts);
 
 
 //Home Route

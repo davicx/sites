@@ -1,7 +1,18 @@
 const express = require('express')
 const mysql = require('mysql')
 const postRouter = express.Router();
-let postController = require('./../controllers/postController');
+
+postRouter.get("/posts", (req, res) => {
+    const postOne = {postCaption: "Hiya Summer!", postType: "text"}
+    const postTwo = {postCaption: "Hiya Fall!", postType: "text"}
+    const postThree = {postCaption: "Hiya Winter!", postType: "video"}
+    res.json([postOne, postTwo, postThree])
+})
+
+module.exports = postRouter;
+
+/*
+//let postController = require('./../controllers/postController');
 //let notifications = require('../functions/notifications');
 //const Post = require('./../models/Post.js')
 
@@ -42,7 +53,7 @@ function getConnection() {
 
 module.exports = postRouter;
 
-
+*/
 
 
 

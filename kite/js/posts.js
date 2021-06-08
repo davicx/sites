@@ -41,12 +41,13 @@ function getPosts() {
      url: 'https://kite-master-api.herokuapp.com/posts'
    })
      .then(function (response) {
-		 const posts = response.data;
+		 let posts = response.data;
 		 console.log(posts.length);
 		 for (let i = 0; i < posts.length; i++) {
 			console.log(posts[i].post_caption);
-
 		}
+		console.log(response.data);
+		console.log(posts);
 		
 	 })
      .catch(err => console.error(err));
