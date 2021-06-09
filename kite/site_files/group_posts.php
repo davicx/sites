@@ -37,8 +37,21 @@
 			<div id = "site-wrapper" class = "">	
 					
 				<!-- Individual Group -->
-				<p> Group </p>
-				<p id="demo">Fetch a file to change this text.</p>
+				<div id = "group">
+					<p> Group </p>
+				</div>
+				
+				<div id = "post">
+					<p> Posts </p>
+				</div>
+				
+				<div id = "chat">
+					<p> Chat </p>
+				</div>				
+
+				
+				
+				
  
 			</div>
 
