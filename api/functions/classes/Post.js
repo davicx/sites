@@ -11,6 +11,8 @@ class Post {
         return this.post;
     }
 
+
+
     get post_from () {
         return this.post_from;
     }
@@ -27,7 +29,11 @@ class Post {
         this.post_caption = post_caption;
     }
 
-    
+      //Method A1: Get User Info 
+    getPostInfo() {
+        console.log("Hiya Davey!");
+    }
+  
 
 }
 
