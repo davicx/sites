@@ -6,6 +6,7 @@ class User {
         this.lastName = "";
     }
     
+    /*
     //METHODS A: USER RELATED
     //Method A1: Get User Info 
     getUserInfo(userName) {
@@ -17,6 +18,7 @@ class User {
         //console.log("My friends! " + userName);
         return "My friends! " + userName;
     }
+    */
 
 /*
     get userName() {

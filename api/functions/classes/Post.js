@@ -1,3 +1,49 @@
+
+class Post {
+    constructor(postID) {
+        this.postID = postID;
+        this.postFrom = "";
+        this.postTo = "";
+        this.postCaption = "";
+    }
+    
+    //METHODS A: POST RELATED
+    //Method A1: Get Post Info 
+    getPostInfo() {
+        console.log("Post " + this.postID + " " + postFrom + " " + postTo);
+    }
+
+    //Method A2: Get User Info 
+    getPostCaption()  {
+        console.log("The caption! " + this.postCaption);
+        return this.postCaption;
+    }
+}
+
+module.exports = Post;
+/*
+class Post {
+    constructor(postID) {
+        this.postID = postID;
+
+    }
+    
+
+
+    get postFrom() {
+        return this.postFrom;
+    }
+
+    set postFrom(postFrom) {
+        this.postFrom = postFrom;
+    }    
+   
+}
+*/
+module.exports = Post;
+
+/*
+
 class Post {
     constructor(postInput) {
         this.post = postInput.post || 1;
@@ -37,8 +83,7 @@ class Post {
 
 }
 
-module.exports = Post;
-
+*/
 //const Post = require('../../model/config-group');
 
 //let currentPost = new Post(postInput);

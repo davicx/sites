@@ -1,22 +1,36 @@
 const express = require('express')
 const mysql = require('mysql')
 const postRouter = express.Router();
-//const Post = require('./../../functions/classes/Post');
+const Post = require('./../../functions/classes/Post');
 const User = require('./../../functions/classes/User');
+
 
 postRouter.get("/posts", (req, res) => {
     const postOne = {postCaption: "Hiya Summer!", postType: "text"}
     const postTwo = {postCaption: "Hiya Fall!", postType: "text"}
     const postThree = {postCaption: "Hiya Winter!", postType: "video"}
 
+    //Create new post
+    let postID = 1;
+    
+    let currentPost = new Post(postID);
+    currentPost.postCaption = "hiya!"
+    currentPost.postStatus = "hiya!"
+    currentPost.postStatus = "no status"
+    console.log(currentPost.postID + " " + currentPost.postCaption + " " + currentPost.postStatus);
 
+    //Create new User
     let userName = "davey";
     let currentUser = new User(userName);
     console.log(currentUser.userName);
+    
+    /*
+
     currentUser.getUserInfo(userName);
     currentUser.getFriendList(userName);
-    let myFriends = currentUser.getFriendList(userName);
+   
     console.log(myFriends);
+    */
 
 
     res.json([postOne, postTwo, postThree])
