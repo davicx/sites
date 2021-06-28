@@ -11,18 +11,19 @@ postRouter.get("/posts", (req, res) => {
     const postThree = {postCaption: "Hiya Winter!", postType: "video"}
 
     //Create new post
-    let postID = 1;
+    let postID = 131;
     
     let currentPost = new Post(postID);
-    currentPost.postCaption = "hiya!"
-    currentPost.postStatus = "hiya!"
-    currentPost.postStatus = "no status"
-    console.log(currentPost.postID + " " + currentPost.postCaption + " " + currentPost.postStatus);
+    currentPost.getPostInfo();
+    //currentPost.postCaption = "hiya!"
+    //currentPost.postStatus = "hiya!"
+    //currentPost.postStatus = "no status"
+    //console.log(currentPost.postID + " " + currentPost.postCaption + " " + currentPost.postStatus);
 
     //Create new User
-    let userName = "davey";
-    let currentUser = new User(userName);
-    console.log(currentUser.userName);
+    //let userName = "davey";
+    //let currentUser = new User(userName);
+    //console.log(currentUser.userName);
     
     /*
 
@@ -35,6 +36,21 @@ postRouter.get("/posts", (req, res) => {
 
     res.json([postOne, postTwo, postThree])
 })
+
+//FUNCTIONS
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'shareshare'
+})
+
+//Functions: Get Connection
+function getConnection() {
+    return pool;
+}
+
 
 module.exports = postRouter;
 
@@ -64,19 +80,6 @@ postRouter.route("/posts/all").get(postController.getAllPosts);
 //Route 5: Create a New Post
 postRouter.route("/post").post(postController.newPost);
 
-//FUNCTIONS
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'shareshare'
-})
-
-//Functions: Get Connection
-function getConnection() {
-    return pool;
-}
 
 module.exports = postRouter;
 

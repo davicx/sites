@@ -33,7 +33,6 @@ APPENDIX D: Warning and Error Text
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700&display=swap');
 
 
-
 /****************************************************
 SECTION 1: Main Body, Global Styles
 *****************************************************/
@@ -88,6 +87,36 @@ SECTION 2: Site Structure
 	width: 20%;
 	border: 1px solid black;	
 }
+
+
+/* SIZE: Less then 1040px */
+@media (max-width: 1040px) {
+	#group {
+		display: none;	
+	}
+	#post {
+		width: 99%;
+	}
+	
+	#chat {
+		display: none;
+	}	
+} 
+
+@media (max-width: 800px) {
+	#group {
+		display: none;
+	}
+
+	#post {
+		width: 99%;
+	}
+
+	#chat {
+		display: none;
+	}
+} 
+
 
 /****************************************************
 SECTION 3A: Header and Navigation Bar

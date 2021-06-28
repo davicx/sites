@@ -2,8 +2,10 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const posts = require('./application/routes/posts.js');
+const login = require('./application/routes/login.js');
 app.use(morgan('short'));
 app.use(posts);
+app.use(login);
 
 //Home Route
 app.listen(3003, () => {
@@ -18,7 +20,7 @@ app.get("/", (req, res) => {
 
 
 
-
+//LOGIN
 
 
 

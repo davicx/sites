@@ -1,3 +1,4 @@
+const mysql = require('mysql')
 
 class Post {
     constructor(postID) {
@@ -10,7 +11,28 @@ class Post {
     //METHODS A: POST RELATED
     //Method A1: Get Post Info 
     getPostInfo() {
-        console.log("Post " + this.postID + " " + postFrom + " " + postTo);
+        //console.log("Post " + this.postID + " " + postFrom + " " + postTo);
+        console.log("Post " + this.postID);
+        const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE post_id = ?";
+
+        getConnection().query(queryString, [this.postID], (err, rows, fields) => {
+            if (err) {
+                console.log("Failed to Select New User: " + err)
+                res.sendStatus(500)
+                return
+            }
+            //console.log(post)
+            const post = rows.map((row) => {
+                return {
+                    postFrom: row.post_from,
+                    postTo: row.post_to,
+                    postCaption: row.post_caption
+                }
+            });
+
+            console.log(post)
+        })
+    
     }
 
     //Method A2: Get User Info 
@@ -20,15 +42,44 @@ class Post {
     }
 }
 
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'shareshare'
+})
+
+//Functions: Get Connection
+function getConnection() {
+    return pool;
+}
+
 module.exports = Post;
+
+
 /*
+
+            
+ 
+            //Output Data
+            const users = rows.map((row) => {
+                return {
+                    userName: row.user_name,
+                    email: row.email,
+                    firstName: row.first_name,
+                    lastName: row.last_name
+                }
+            });
+
+            res.json(rows);
+            res.end()
+ 
 class Post {
     constructor(postID) {
         this.postID = postID;
 
     }
-    
-
 
     get postFrom() {
         return this.postFrom;
@@ -39,10 +90,10 @@ class Post {
     }    
    
 }
-*/
+ 
 module.exports = Post;
-
-/*
+ 
+ 
 
 class Post {
     constructor(postInput) {
