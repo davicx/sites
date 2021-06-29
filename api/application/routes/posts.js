@@ -11,10 +11,12 @@ postRouter.get("/posts", (req, res) => {
     const postThree = {postCaption: "Hiya Winter!", postType: "video"}
 
     //Create new post
-    let postID = 131;
+    let postID = 84;
     
     let currentPost = new Post(postID);
     currentPost.getPostInfo();
+    
+    Post.postText("hi");
     //currentPost.postCaption = "hiya!"
     //currentPost.postStatus = "hiya!"
     //currentPost.postStatus = "no status"

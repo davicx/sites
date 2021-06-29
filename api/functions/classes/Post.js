@@ -13,16 +13,17 @@ class Post {
     getPostInfo() {
         //console.log("Post " + this.postID + " " + postFrom + " " + postTo);
         console.log("Post " + this.postID);
-        const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE post_id = ?";
+        //const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE post_id = ?";
+        const queryString = "SELECT post_from, post_to, post_caption FROM posts";
 
         getConnection().query(queryString, [this.postID], (err, rows, fields) => {
             if (err) {
-                console.log("Failed to Select New User: " + err)
+                console.log("Failed to Select Post: " + err)
                 res.sendStatus(500)
                 return
             }
             //console.log(post)
-            const post = rows.map((row) => {
+            const posts = rows.map((row) => {
                 return {
                     postFrom: row.post_from,
                     postTo: row.post_to,
@@ -30,15 +31,21 @@ class Post {
                 }
             });
 
-            console.log(post)
+            console.log("_________________")
+            console.log(rows);
+            console.log("_________________")
+            console.log(posts.length);          
+            console.log(posts);          
+            console.log("_________________")
+
         })
     
     }
 
     //Method A2: Get User Info 
-    getPostCaption()  {
-        console.log("The caption! " + this.postCaption);
-        return this.postCaption;
+    static postText(caption)  {
+        console.log("You made a post! " + caption);
+        
     }
 }
 
