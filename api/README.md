@@ -74,4 +74,7 @@ From here you can run the following command to execute four tests:
 *npm run test*
 
 
+### AWS Setup 
+#### Code Pipeline
+The codepipeline connects to the 
 

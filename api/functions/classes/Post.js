@@ -30,9 +30,6 @@ class Post {
                     postCaption: row.post_caption
                 }
             });
-
-            console.log("_________________")
-            console.log(rows);
             console.log("_________________")
             console.log(posts.length);          
             console.log(posts);          
@@ -46,6 +43,7 @@ class Post {
     static postText(caption)  {
         console.log("You made a post! " + caption);
         
+        return 777;
     }
 }
 
