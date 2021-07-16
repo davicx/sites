@@ -1,6 +1,6 @@
 const express = require('express')
-const mysql = require('mysql')
 const postRouter = express.Router();
+//const db = require('./../../functions/conn');
 //const Post = require('./../../functions/classes/Post');
 //const User = require('./../../functions/classes/User');
 //const notifications = require('./../../functions/notifications');
@@ -9,11 +9,12 @@ const postRouter = express.Router();
 //ROUTE 1: Post Text
 postRouter.post('/post', function(req, res) {
 
+/*
     //STEP 1: Insert into posts table
     const postFrom = req.body.postFrom 
     const postTo = req.body.postTo 
     const postCaption = req.body.postCaption 
-    const connection = getConnection(); 
+    const connection = db.getConnection(); 
     console.log("POST DATA: " + postFrom + " " + postTo + " " + postCaption);
     const queryString = "INSERT INTO posts (post_from, post_to, post_caption) VALUES (?, ?, ?)"
     
@@ -27,11 +28,19 @@ postRouter.post('/post', function(req, res) {
             res.send("LAST: It worked " + results.insertId);
         } 
     }) 
+	*/
 })
 
 //ROUTE 2: Get all Posts 
 postRouter.get("/posts", (req, res) => {
-    const connection = getConnection();
+	    const user1 = {firstName: "David", lastName: "V"}
+    const user2 = {firstName: "Frodo", lastName: "B"}
+    const user3 = {firstName: "Bilbo", lastName: "B"}
+    const user4 = {firstName: "Sam", lastName: "G"}
+    res.json([user1, user2, user3])
+	/*
+    //const connection = getConnection();
+    const connection = db.getConnection(); 
     const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts ORDER BY post_id DESC LIMIT 10";
 
     connection.query(queryString, (err, rows) => {
@@ -46,7 +55,7 @@ postRouter.get("/posts", (req, res) => {
                 postID: row.post_id,
                 postFrom: row.post_from,
                 postTo: row.post_to,
-                postCaption: row.caption
+                postCaption: row.post_caption
             }
         });
 
@@ -54,27 +63,10 @@ postRouter.get("/posts", (req, res) => {
         res.json({posts: posts});
 
     })  
+	*/
 })
 
 module.exports = postRouter;
-
-
-//FUNCTIONS
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'shareshare'
-})
-
-//Functions: Get Connection
-function getConnection() {
-    return pool;
-}
-
-
-
 
 
 
