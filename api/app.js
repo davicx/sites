@@ -1,20 +1,17 @@
 const express = require('express')
 const PORT = process.env.PORT || 3003;
 const app = express()
-const morgan = require('morgan')
+const mysql = require('mysql');
 const posts = require('./application/routes/posts.js');
-
-app.use(morgan('short'));
 app.use(express.json());
 app.use(posts);
 
-//Home Route
 app.listen(PORT, () => {
-  console.log("Server is up and listening on " + PORT + "...")
+  console.log("Server is up and listening on " + PORT)
 })
 
 app.get("/", (req, res) => {
-  console.log("Responding to root route");
-  res.send("hiya davey!")
-  res.end()
+    console.log("hiya!");
+    res.send("hiya!");
+    res.end()
 })

@@ -8,6 +8,7 @@ FUNCTIONS A: All Functions Related to Posts
 	4) Function A4: 
 
 */ 
+
 //makePost() 
 getPosts();
 
@@ -22,6 +23,7 @@ fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
 	
 //getText("https://dashboard.heroku.com/apps/kite-master-api");
 
+
 async function getText(file) {
 	let responseObject = await fetch(file);
 	console.log(responseObject);
@@ -34,11 +36,12 @@ async function getText(file) {
 //FUNCTIONS A: All Functions Related to Posts
 //Function A1: Get All Posts
 function getPosts() {
+	
   axios({
      method: 'get',
      //url: 'http://localhost:3003/posts/all'
      //url: 'https://jsonplaceholder.typicode.com/posts'
-     url: 'https://kite-master-api.herokuapp.com/posts'
+     url: 'http://hellofour-env.eba-mymqvrea.us-west-2.elasticbeanstalk.com/posts'
    })
      .then(function (response) {
 		 let posts = response.data;
@@ -51,6 +54,7 @@ function getPosts() {
 		
 	 })
      .catch(err => console.error(err));
+	
 }
 
 //Function A2: Get Posts Learning
