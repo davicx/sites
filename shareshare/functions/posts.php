@@ -15,6 +15,7 @@ FUNCTIONS A: All Functions Related to Making a Post
 	4) Function A4: Post an Article
 	5) Function A5: Post a File 
 	
+//Move to Class
 FUNCTIONS B: All Functions Related to Post Actions 
 	1) Function B1: Like a Post 
 	2) Function B2: UnLike a Post	
