@@ -8,7 +8,7 @@ class Notification {
     
     //Method A1: Create a Single Notification
     static createNotification(newNotification) {
-        console.log("Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
+        console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
     
     }
 

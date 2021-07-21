@@ -13,30 +13,46 @@ FUNCTIONS A: All Functions Related to Making a Post
 
 //Function A1: Post Text 
 function postText(req, res) {
+    const connection = db.getConnection(); 
+	console.log("DV: postText Called")
 
     //STEP 1: Insert into posts table
+    const masterSite = req.body.masterSite 
+    const postType = req.body.postType 
+    const groupID = req.body.groupID 
+    const listID = req.body.listID 
     const postFrom = req.body.postFrom 
     const postTo = req.body.postTo 
     const postCaption = req.body.postCaption 
-    const connection = db.getConnection(); 
-    //console.log("POST DATA: " + postFrom + " " + postTo + " " + postCaption);
-	//let myNotification = new Notification(postFrom);
-	const newNotification = {
-		notificationFrom: postFrom,
-		notificationTo: postTo
-	}
-	Notification.createNotification(newNotification);
-	res.send("POST DATA: " + postFrom + " " + postTo + " " + postCaption)
+	const postStatus = 1;
+	const notificationMessage = req.body.notificationMessage;
+	const notificationLink = req.body.notificationLink;
+	const notificationType = req.body.notificationType;
+
+
 	//WORKS
-	/*
-    const queryString = "INSERT INTO posts (post_from, post_to, post_caption) VALUES (?, ?, ?)"
+    const queryString = "INSERT INTO posts (master_site, post_from, post_to, post_caption) VALUES (?, ?, ?, ?)"
     
-    connection.query(queryString, [postFrom, postTo, postCaption], (err, results, fields) => {
+    connection.query(queryString, [masterSite, postFrom, postTo, postCaption], (err, results, fields) => {
         if (!err) {
 			
 			//STEP 2: Create Notifications
+			const newNotification = {
+				masterSite: masterSite,
+				notificationFrom: postFrom,
+				notificationTo: postTo,
+				notificationMessage: notificationMessage,
+				notificationLink: notificationLink,
+				notificationType: notificationType,
+				groupID: groupID,
+			}
+			console.log(newNotification)
+
+			//Notification.createNotification(newNotification);
+			//res.send("POST DATA: " + postFrom + " " + postTo + " " + postCaption)
+
+			//Send Response
 			console.log("You created a new Post with ID " + results.insertId);
-            
 			res.send("LAST: It worked " + results.insertId);
         } else {
 			console.log("Failed to insert new Post: " + err)
@@ -44,7 +60,6 @@ function postText(req, res) {
             return
         } 
     }) 
-	*/
 }
 
 /*

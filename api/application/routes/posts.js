@@ -9,10 +9,13 @@ const postFunctions = require('./../../functions/posts')
 
 
 //ROUTE 1: Post Text
-//ROUTE 1: Post Text
-postRouter.post('/post', function(req, res) {
+postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
+})
 
+
+/*
+//WORKS
     //STEP 1: Insert into posts table
     //const postFrom = req.body.postFrom 
     //const postTo = req.body.postTo 
@@ -23,7 +26,7 @@ postRouter.post('/post', function(req, res) {
     //
 
     //Works
-    /*
+    
     const queryString = "INSERT INTO posts (post_from, post_to, post_caption) VALUES (?, ?, ?)"
     
     connection.query(queryString, [postFrom, postTo, postCaption], (err, results, fields) => {
@@ -36,10 +39,9 @@ postRouter.post('/post', function(req, res) {
             res.send("LAST: It worked " + results.insertId);
         } 
     }) 
-    */
-	
-})
 
+	
+*/
 /*
 postRouter.post('/post', function(req, res) {
 
