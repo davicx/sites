@@ -29,11 +29,22 @@ function postText(req, res) {
 	const notificationLink = req.body.notificationLink;
 	const notificationType = req.body.notificationType;
 
-
+	const newNotification = {
+		masterSite: masterSite,
+		notificationFrom: postFrom,
+		notificationTo: postTo,
+		notificationMessage: notificationMessage,
+		notificationLink: notificationLink,
+		notificationType: notificationType,
+		groupID: groupID,
+	}
+	Notification.createNotification(newNotification);
+	res.send(newNotification);
 	//WORKS
-    const queryString = "INSERT INTO posts (master_site, post_from, post_to, post_caption) VALUES (?, ?, ?, ?)"
+	/*
+    const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
     
-    connection.query(queryString, [masterSite, postFrom, postTo, postCaption], (err, results, fields) => {
+    connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
         if (!err) {
 			
 			//STEP 2: Create Notifications
@@ -60,6 +71,7 @@ function postText(req, res) {
             return
         } 
     }) 
+	*/
 }
 
 /*
