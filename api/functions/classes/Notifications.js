@@ -1,4 +1,4 @@
-//const mysql = require('mysql')
+const groupFunctions = require('./../groups')
 
 class Notification {
     constructor(notificationTo) {
@@ -7,15 +7,20 @@ class Notification {
     }
     
     //Method A1: Create a Single Notification
-    static createNotification(newNotification) {
-        console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
-    
-    }
-
-    //Method A2: Create a Group Notification 
-    static createGroupNotification(newNotification) {
-        console.log("create Group Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
-    
+    static createPostNotification(newNotification) {
+        //console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
+		const groupID = newNotification.groupID;
+		console.log(groupID);
+		//Create the Notification to an indivual user
+		if(groupID == 0) {
+			console.log("Single User notification!");	
+		
+		//This post was made to a group so sent notifications to everyone in the group 		
+		} else {
+			console.log("GROUP notification!");		
+			const groupUsers = groupFunctions.getGroupUsers(groupID)
+			console.log(groupUsers);
+		} 
     }
 
 }
@@ -58,4 +63,25 @@ module.exports = Notification;
 			$stmt->close();					
 		}		
 	}	
+	*/
+
+	
+	/*
+		if(groupID == 0) {
+		Notification.createNotification(newNotification);
+		res.send(newNotification);
+
+	//This post was made to a group so sent notifications to everyone in the group 		
+	} else {
+		Notification.createGroupNotification(newNotification);
+		res.send(newNotification);
+	}
+	*/
+
+	/*
+    //Method A2: Create a Group Notification 
+    static createGroupNotification(newNotification) {
+        console.log("create Group Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
+    
+    }
 	*/

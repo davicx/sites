@@ -38,7 +38,7 @@ function postText(req, res) {
 		notificationType: notificationType,
 		groupID: groupID,
 	}
-	Notification.createNotification(newNotification);
+	Notification.createPostNotification(newNotification);
 	res.send(newNotification);
 	//WORKS
 	/*
