@@ -1,5 +1,7 @@
 const db = require('./conn');
 const Notification = require('./classes/Notifications');
+const groupFunctions = require('./groups')
+
 /*
 FUNCTIONS A: All Functions Related to Making a Post
 	1) Function A1: Post Text  
@@ -9,15 +11,44 @@ FUNCTIONS A: All Functions Related to Making a Post
 	5) Function A5: Post a File 
 */
 
+/*
+function getGroupUsers(groupID) {
+	const connection = db.getConnection(); 
+	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
+	console.log("calling");
 
+	return new Promise(resolve => {
+		const response = {}
+		const groupUsers = new Set();
+
+		connection.query(queryString,[groupID], (err, rows) => {
+			if (!err) {
+				rows.map((row) => {
+					groupUsers.add(row.user_name)  
+				});
+				response.status = 200
+				response.data = groupUsers;
+			} else {
+				console.log("Failed to Select Users from this Group " + err)
+				//res.sendStatus(500)
+				response.status = 500
+				response.data = groupUsers;
+			}	
+			resolve(response);	
+			//console.log(groupUsers);
+		})
+	});	
+
+}
+*/
 
 //Function A1: Post Text 
-function postText(req, res) {
+async function postText(req, res) {
     const connection = db.getConnection(); 
 	console.log("DV: postText Called")
 
     //STEP 1: Insert into posts table
-    const masterSite = req.body.masterSite 
+	const masterSite = req.body.masterSite 
     const postType = req.body.postType 
     const groupID = req.body.groupID 
     const listID = req.body.listID 
@@ -29,6 +60,12 @@ function postText(req, res) {
 	const notificationLink = req.body.notificationLink;
 	const notificationType = req.body.notificationType;
 
+	const groupUserResponse = await groupFunctions.getGroupUsers(groupID);
+	console.log("Group Users")
+	console.log("_____________")
+	console.log(groupUserResponse.data);
+	console.log("_____________")
+
 	const newNotification = {
 		masterSite: masterSite,
 		notificationFrom: postFrom,
@@ -38,8 +75,17 @@ function postText(req, res) {
 		notificationType: notificationType,
 		groupID: groupID,
 	}
-	Notification.createPostNotification(newNotification);
+	//Notification.createPostNotification(newNotification);
+	/*
+	(async () => {
+		const groupUsers = await groupFunctions.getGroupUsers(groupID);
+		console.log(groupUsers);
+	})()
+	*/
+	
 	res.send(newNotification);
+	
+
 	//WORKS
 	/*
     const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
