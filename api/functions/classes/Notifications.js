@@ -22,27 +22,24 @@ class Notification {
 			const groupUsers = groupUserResponse.data;
 			for (let i = 0; i < groupUsers.length; i++) {
 				console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
+				console.log(newNotification.notificationFrom + " " + groupUsers[i]);
 			}
-
-
-
-			/*
-			console.log("Group Users")
-			console.log("_____________")
-			console.log(groupUserResponse.data);
-			console.log("_____________")
-			console.log(newNotification.notificationTo)
-			console.log(newNotification.notificationFrom)
-			console.log(newNotification.notificationMessage)
-			console.log(newNotification.groupID)
-			console.log("_____________")
-			*/
 		} 
     }
 
 }
 
-
+/*
+console.log("Group Users")
+console.log("_____________")
+console.log(groupUserResponse.data);
+console.log("_____________")
+console.log(newNotification.notificationTo)
+console.log(newNotification.notificationFrom)
+console.log(newNotification.notificationMessage)
+console.log(newNotification.groupID)
+console.log("_____________")
+*/
 module.exports = Notification;
 
 
