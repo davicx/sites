@@ -1,6 +1,6 @@
 const db = require('./conn');
 const Notification = require('./classes/Notifications');
-const groupFunctions = require('./groups')
+//const groupFunctions = require('./groups')
 
 /*
 FUNCTIONS A: All Functions Related to Making a Post
@@ -30,11 +30,6 @@ async function postText(req, res) {
 	const notificationLink = req.body.notificationLink;
 	const notificationType = req.body.notificationType;
 
-	const groupUserResponse = await groupFunctions.getGroupUsers(groupID);
-	console.log("Group Users")
-	console.log("_____________")
-	console.log(groupUserResponse.data);
-	console.log("_____________")
 
 	const newNotification = {
 		masterSite: masterSite,
@@ -45,7 +40,7 @@ async function postText(req, res) {
 		notificationType: notificationType,
 		groupID: groupID,
 	}
-	//Notification.createPostNotification(newNotification);
+	Notification.createPostNotification(newNotification);
 
 	res.send(newNotification);
 	

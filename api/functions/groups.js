@@ -22,7 +22,8 @@ function getGroupUsers(groupID) {
 					groupUsers.add(row.user_name)  
 				});
 				response.status = 200
-				response.data = groupUsers;
+				//let array = Array.from(mySet);
+				response.data = Array.from(groupUsers);
 			} else {
 				console.log("Failed to Select Users from this Group " + err)
 				//res.sendStatus(500)

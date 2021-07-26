@@ -7,19 +7,36 @@ class Notification {
     }
     
     //Method A1: Create a Single Notification
-    static createPostNotification(newNotification) {
+    static async createPostNotification(newNotification) {
         //console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
 		const groupID = newNotification.groupID;
-		console.log(groupID);
+
 		//Create the Notification to an indivual user
 		if(groupID == 0) {
 			console.log("Single User notification!");	
 		
 		//This post was made to a group so sent notifications to everyone in the group 		
 		} else {
-			console.log("GROUP notification!");		
-			const groupUsers = groupFunctions.getGroupUsers(groupID)
-			console.log(groupUsers);
+			console.log("GROUP notification!");			
+			const groupUserResponse = await groupFunctions.getGroupUsers(groupID);
+			const groupUsers = groupUserResponse.data;
+			for (let i = 0; i < groupUsers.length; i++) {
+				console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
+			}
+
+
+
+			/*
+			console.log("Group Users")
+			console.log("_____________")
+			console.log(groupUserResponse.data);
+			console.log("_____________")
+			console.log(newNotification.notificationTo)
+			console.log(newNotification.notificationFrom)
+			console.log(newNotification.notificationMessage)
+			console.log(newNotification.groupID)
+			console.log("_____________")
+			*/
 		} 
     }
 
