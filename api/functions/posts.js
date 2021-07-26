@@ -11,36 +11,6 @@ FUNCTIONS A: All Functions Related to Making a Post
 	5) Function A5: Post a File 
 */
 
-/*
-function getGroupUsers(groupID) {
-	const connection = db.getConnection(); 
-	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
-	console.log("calling");
-
-	return new Promise(resolve => {
-		const response = {}
-		const groupUsers = new Set();
-
-		connection.query(queryString,[groupID], (err, rows) => {
-			if (!err) {
-				rows.map((row) => {
-					groupUsers.add(row.user_name)  
-				});
-				response.status = 200
-				response.data = groupUsers;
-			} else {
-				console.log("Failed to Select Users from this Group " + err)
-				//res.sendStatus(500)
-				response.status = 500
-				response.data = groupUsers;
-			}	
-			resolve(response);	
-			//console.log(groupUsers);
-		})
-	});	
-
-}
-*/
 
 //Function A1: Post Text 
 async function postText(req, res) {
@@ -76,13 +46,7 @@ async function postText(req, res) {
 		groupID: groupID,
 	}
 	//Notification.createPostNotification(newNotification);
-	/*
-	(async () => {
-		const groupUsers = await groupFunctions.getGroupUsers(groupID);
-		console.log(groupUsers);
-	})()
-	*/
-	
+
 	res.send(newNotification);
 	
 
@@ -141,3 +105,37 @@ async function postText(req, res) {
 
 
 module.exports = { postText };
+
+
+
+
+/*
+function getGroupUsers(groupID) {
+	const connection = db.getConnection(); 
+	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
+	console.log("calling");
+
+	return new Promise(resolve => {
+		const response = {}
+		const groupUsers = new Set();
+
+		connection.query(queryString,[groupID], (err, rows) => {
+			if (!err) {
+				rows.map((row) => {
+					groupUsers.add(row.user_name)  
+				});
+				response.status = 200
+				response.data = groupUsers;
+			} else {
+				console.log("Failed to Select Users from this Group " + err)
+				//res.sendStatus(500)
+				response.status = 500
+				response.data = groupUsers;
+			}	
+			resolve(response);	
+			//console.log(groupUsers);
+		})
+	});	
+
+}
+*/

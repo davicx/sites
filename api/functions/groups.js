@@ -33,7 +33,6 @@ function getGroupUsers(groupID) {
 			//console.log(groupUsers);
 		})
 	});	
-
 }
 
 module.exports = { getGroupUsers };
