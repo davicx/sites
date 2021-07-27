@@ -17,17 +17,55 @@ class Notification {
 		
 		//This post was made to a group so sent notifications to everyone in the group 		
 		} else {
-			console.log("GROUP notification!");			
+			console.log("GROUP notification!");	
+					
 			const groupUserResponse = await groupFunctions.getGroupUsers(groupID);
 			const groupUsers = groupUserResponse.data;
 			for (let i = 0; i < groupUsers.length; i++) {
+				/*
+				const queryString = "INSERT INTO notifications (master_site, notification_from, notification_to, notification_message, notification_type) VALUES (?, ?, ?, ?, ?)"
+
+				connection.query(queryString, [newNotification.masterSite, newNotification.notificationFrom, newNotification.notificationTo, 
+					newNotification.notificationMessage, newNotification.notificationType], (err, results) => {
+					
+					if (!err) {
+						console.log("notification for " + newNotification.notificationTo + " Worked!")
+					} else {
+						console.log("Failed to insert new Post: " + err)
+						//res.sendStatus(500)
+						//return
+					} 
+				})*/
+
+
+				/*
+				var somevar = false;
+var PTest = function () {
+    return new Promise(function (resolve, reject) {
+        if (somevar === true)
+            resolve();
+        else
+            reject();
+    });
+}
+var myfunc = PTest();
+myfunc.then(function () {
+     console.log("Promise Resolved");
+}).catch(function () {
+     console.log("Promise Rejected");
+});*/
+		
 				console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
 				console.log(newNotification.notificationFrom + " " + groupUsers[i]);
 			}
+			
 		} 
     }
 
 }
+
+
+
 
 /*
 console.log("Group Users")

@@ -26,11 +26,13 @@ async function postText(req, res) {
     const postTo = req.body.postTo 
     const postCaption = req.body.postCaption 
 	const postStatus = 1;
+
+
+	//STEP 2: Add New Text Notifications 
 	const notificationMessage = req.body.notificationMessage;
 	const notificationLink = req.body.notificationLink;
 	const notificationType = req.body.notificationType;
-
-
+	
 	const newNotification = {
 		masterSite: masterSite,
 		notificationFrom: postFrom,
