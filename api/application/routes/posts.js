@@ -13,6 +13,12 @@ postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
 })
 
+postRouter.post('/post/learning', function(req, res) {
+    postFunctions.postLearning(req, res);
+})
+
+
+
 //ROUTE 2: Get all Posts 
 postRouter.get("/posts", (req, res) => {
 	

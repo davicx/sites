@@ -1,3 +1,4 @@
+
 const db = require('./conn');
 const Notification = require('./classes/Notifications');
 //const groupFunctions = require('./groups')
@@ -10,6 +11,61 @@ FUNCTIONS A: All Functions Related to Making a Post
 	4) Function A4: Post an Article
 	5) Function A5: Post a File 
 */
+
+//Function A2: Post Learning 
+async function postLearning(req, res) {
+    const connection = db.getConnection(); 
+	const postCaption = req.body.postCaption 
+	console.log("DV: postLearning Called");
+	let users = createNotification();
+	console.log(users);
+	
+	res.json("hi")
+}
+
+function createNotification() {
+	const connection = db.getConnection(); 
+	const groupID = 77;
+	const notification = { notificationCaption: "hiya"}
+	//getGroupUsers(groupID);
+	//console.log("createNotification")
+
+	//Select User
+	/*
+	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
+	connection.query(queryString, (err, rows, fields) => {
+	
+		//Handle Error 
+		if (err) {
+			console.log("Failed to query for users: " + err);
+			res.sendStatus(500);
+			res.end();
+		}
+	 
+		//Format data
+		const users = rows.map((row) => {
+			return {
+				userName: row.user_name,
+				firstName: row.first_name,
+				lastName: row.last_name
+			}
+		});
+		
+		//console.log(users);
+		return users;
+	
+	})  	
+	*/
+	let users = "davey"
+	return users;
+}
+
+
+function getGroupUsers(groupID) {
+	console.log("getGroupUsers " + groupID)	
+
+}
+
 
 
 //Function A1: Post Text 
@@ -101,7 +157,7 @@ async function postText(req, res) {
 */
 
 
-module.exports = { postText };
+module.exports = { postText, postLearning };
 
 
 
