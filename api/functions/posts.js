@@ -12,26 +12,289 @@ FUNCTIONS A: All Functions Related to Making a Post
 	5) Function A5: Post a File 
 */
 
+//LEARNING
 //Function A2: Post Learning 
 async function postLearning(req, res) {
     const connection = db.getConnection(); 
 	const postCaption = req.body.postCaption 
-	console.log("DV: postLearning Called");
-	let users = createNotification();
-	console.log(users);
+	
+	startApp();
+	//console.log("DV: postLearning Called");
+	//let users = await createNotification();
+	//console.log(users.data);
 	
 	res.json("hi")
 }
 
+////
+
+async function startApp() {
+  try {
+    let user = await getUser();
+	console.log("USER")
+	console.log("_________________________")
+    console.log(user);
+	console.log("_________________________")
+} catch (err) {
+    console.log('Opps, an error occurred', err);
+  }
+}
+
+
+function getUser() {
+  return new Promise(async function(resolve, reject) {
+    const connection = db.getConnection(); 
+
+	try {
+		const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
+
+		connection.query(queryString, (err, rows, fields) => {
+			/*
+			if (err) {
+			  console.log("Failed to query for users: " + err)
+			  //res.sendStatus(500)
+			  return
+			  // throw err
+
+			}
+			*/
+			const users = rows.map((row) => {
+				return {
+					userName: row.user_name,
+					firstName: row.first_name,
+					lastName: row.last_name
+				}
+			});
+			console.log("I think we fetched users successfully");
+			//console.log(users[0])
+			resolve(users[0]);
+			//res.json(rows);
+		})  
+
+
+	} catch(err) {
+		console.log("error " + err)
+
+	} finally {
+		console.log("finally")
+
+	}
+	/*
+    try {
+		//Make Query 
+		const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
+
+		connection.query(queryString, (err, rows, fields) => {
+		
+			//Format data
+			const users = rows.map((row) => {
+				return {
+					userName: row.user_name,
+					firstName: row.first_name,
+					lastName: row.last_name
+				}
+			});
+			
+			const currentUser = users.userName;
+			console.log(currentUser);
+		}
+		/*
+      conn = await oracledb.getConnection();
+
+      console.log('Connected to database');
+
+      let result = await conn.execute(
+        `select *
+        from employees
+        where employee_id = :emp_id`,
+        [empId],
+        {
+          outFormat: oracledb.OBJECT
+        }
+      );
+	  
+
+
+ 
+
+
+    } catch (err) {
+      console.log('Error occurred', err);
+
+      reject(err);
+    } finally {
+     console.log("finally")
+    }
+	*/
+  });
+}
+
+
+///
+/*
+
 function createNotification() {
 	const connection = db.getConnection(); 
 	const groupID = 77;
-	const notification = { notificationCaption: "hiya"}
-	//getGroupUsers(groupID);
-	//console.log("createNotification")
+	getGroupUsers(groupID);
 
-	//Select User
+
+	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
+
+	return new Promise(resolve => {
+		const response = {}
+
+		connection.query(queryString, (err, rows) => {
+
+			//SUCCESS
+			if (!err) {
+				const users = rows.map((row) => {
+					return {
+						userName: row.user_name,
+						firstName: row.first_name,
+						lastName: row.last_name
+					}
+				});
+				console.log(users)
+				
+				const currentUser = users[0].userName;
+
+		
+				response.status = 200
+				response.data = currentUser;
+			
+			//FAILURE
+			} else {
+				console.log("Failed to Select Users from this Group " + err)
+				response.status = 500
+				response.data = groupUsers;
+			}	
+			resolve(response);	
+			//console.log(groupUsers);
+		})
+	});	
+
+ */
+///
+
+
+/*
+const oracledb = require('oracledb');        
+const dbConfig = require('./db-config.js');      
+const employees = require('./employees.js');
+
+async function startApp() {
+  try {
+    await oracledb.createPool(dbConfig);
+
+    let emp = await employees.getEmployee(101);
+
+    console.log(emp);
+  } catch (err) {
+    console.log('Opps, an error occurred', err);
+  }
+}
+
+startApp();
+
+const oracledb = require('oracledb');
+
+function getEmployee(empId) {
+  return new Promise(async function(resolve, reject) {
+    let conn; // Declared here for scoping purposes.
+
+    try {
+      conn = await oracledb.getConnection();
+
+      console.log('Connected to database');
+
+      let result = await conn.execute(
+        `select *
+        from employees
+        where employee_id = :emp_id`,
+        [empId],
+        {
+          outFormat: oracledb.OBJECT
+        }
+      );
+
+      console.log('Query executed');
+
+      resolve(result.rows[0]);
+    } catch (err) {
+      console.log('Error occurred', err);
+
+      reject(err);
+    } finally {
+      // If conn assignment worked, need to close.
+      if (conn) {
+        try {
+          await conn.close();
+
+          console.log('Connection closed');
+        } catch (err) {
+          console.log('Error closing connection', err);
+        }
+      }
+    }
+  });
+}
+
+module.exports.getEmployee = getEmployee;
+
+*/
+////
+function createNotification() {
+	const connection = db.getConnection(); 
+	const groupID = 77;
+	getGroupUsers(groupID);
+
+
+	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
+
+	return new Promise(resolve => {
+		const response = {}
+
+		connection.query(queryString, (err, rows) => {
+
+			//SUCCESS
+			if (!err) {
+				const users = rows.map((row) => {
+					return {
+						userName: row.user_name,
+						firstName: row.first_name,
+						lastName: row.last_name
+					}
+				});
+				console.log(users)
+				
+				const currentUser = users[0].userName;
+
+		
+				response.status = 200
+				response.data = currentUser;
+			
+			//FAILURE
+			} else {
+				console.log("Failed to Select Users from this Group " + err)
+				response.status = 500
+				response.data = groupUsers;
+			}	
+			resolve(response);	
+			//console.log(groupUsers);
+		})
+	});	
+
+
 	/*
+	//const groupID = 77;
+	console.log("createNotification");
+	//getGroupUsers(groupID);
+	const connection = db.getConnection(); 
+	//const notification = { notificationCaption: "hiya"}
+	
+	
+	//Select User
 	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
 	connection.query(queryString, (err, rows, fields) => {
 	
@@ -51,13 +314,14 @@ function createNotification() {
 			}
 		});
 		
-		//console.log(users);
-		return users;
+		const currentUser = users.userName;
+		console.log(currentUser);
+		//let users = "davey"
+		//return users;
 	
 	})  	
 	*/
-	let users = "davey"
-	return users;
+
 }
 
 
@@ -67,6 +331,7 @@ function getGroupUsers(groupID) {
 }
 
 
+//APP
 
 //Function A1: Post Text 
 async function postText(req, res) {
