@@ -38,6 +38,39 @@ function getGroupUsers(groupID) {
 
 module.exports = { getGroupUsers };
 
+
+/*
+
+function getMatt() {
+	return new Promise(async function(resolve, reject) {
+	  const connection = db.getConnection(); 
+  
+	  try {
+		  const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+  
+		  connection.query(queryString, (err, rows, fields) => {
+			  const users = rows.map((row) => {
+				  return {
+					  userName: row.user_name,
+					  firstName: row.first_name,
+					  lastName: row.last_name
+				  }
+			  });
+
+			  resolve(users[0].userName);
+		  })  
+  
+	  } catch(err) {
+		  console.log("error " + err)
+  
+	  } finally {
+		  console.log("finally")
+	  }
+  
+	});
+  }
+  */
+
 /*
 // Function A1: Get Group Users (Make Async)
 function getGroupUsers(groupID) {

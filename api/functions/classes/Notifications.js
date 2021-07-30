@@ -55,8 +55,8 @@ myfunc.then(function () {
      console.log("Promise Rejected");
 });*/
 		
-				console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
-				console.log(newNotification.notificationFrom + " " + groupUsers[i]);
+				//console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
+				//console.log(newNotification.notificationFrom + " " + groupUsers[i]);
 			}
 			
 		} 
