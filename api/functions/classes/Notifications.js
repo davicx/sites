@@ -5,9 +5,15 @@ class Notification {
         this._notificationTo = notificationTo;
 
     }
-    
+
+	//Method A1: Create a Single Notification
+	static async createPostNotification(newNotification) {
+		console.log(newNotification);
+	}
+
+
     //Method A1: Create a Single Notification
-    static async createPostNotification(newNotification) {
+    static async createPostNotificationOLD(newNotification) {
         //console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
 		const groupID = newNotification.groupID;
 

@@ -8,14 +8,21 @@ const postFunctions = require('./../../functions/posts')
 //const notifications = require('./../../functions/notifications');
 
 
+//ROUTE 1: Post Learing
+postRouter.post('/post/learning', function(req, res) {
+    postFunctions.postLearning(req, res);
+})
+
 //ROUTE 1: Post Text
 postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
 })
 
-postRouter.post('/post/learning', function(req, res) {
-    postFunctions.postLearning(req, res);
-})
+
+
+
+
+
 
 
 

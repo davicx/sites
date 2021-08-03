@@ -1,6 +1,6 @@
-
 const db = require('./conn');
 const Notification = require('./classes/Notifications');
+const Post = require('./classes/Post')
 //const groupFunctions = require('./groups')
 
 /*
@@ -12,17 +12,185 @@ FUNCTIONS A: All Functions Related to Making a Post
 	5) Function A5: Post a File 
 */
 
+
+//LEARNING
+//Function A2: Post Learning 
+async function postLearning(req, res) {
+	const postCaption = req.body.postCaption 
+	const postFrom = req.body.postFrom 
+	
+	//The catch is for a rejected promise
+	try {
+		const userName = await getUserName();
+		console.log("YAYYAAY RESPONSE: " + userName);	
+
+	} catch (error) {
+		console.log('That did not go well.')
+	}
+
+	res.json(postCaption);
+}
+
+
+
+function getUserName() {
+	
+	
+    return new Promise((resolve, reject) => {
+		var returnUser = "start";
+		
+		//Database
+		const connection = db.getConnection(); 
+		const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+
+		connection.query(queryString, (err, rows, fields) => {
+			const users = rows.map((row) => {
+				return {
+					userName: row.user_name,
+					firstName: row.first_name,
+					lastName: row.last_name
+				}
+			});
+			returnUser = users[0].userName;
+			console.log("DATABASE " + returnUser)
+					
+			if(returnUser !== "frodo") {
+				resolve(returnUser)    
+				//resolve('Hiya Matt (RESOLVED)! ' + userName)
+			} else {
+				reject('Wrong!')
+			}
+		})  
+
+		
+    })
+}
+
+
+function makeRequest(location) {
+    return new Promise((resolve, reject) => {
+        console.log(location);
+        if(location === "osu") {          
+            resolve('Hiya!')
+        } else {
+            reject('Wrong!')
+        }
+    })
+}
+
+
+
+module.exports = { postText, postLearning };
+
+
+
+
+
+
+
+
+
+	//createMyNotification();
+	//console.log("DV: postLearning Called");
+	//let users = await createNotification();
+	//console.log(users.data);
+
+
+
+
+
+
+
+
+
 //Function A1: Post Text
 async function postText(req, res) {
 	const connection = db.getConnection(); 
 	console.log("DV: postText Called")
-	//Logic Flow
+	let postResponse = await Post.postText(req, res);
+	//console.log(postResponse)
+		
+	try {
+		let response = await hello();
+		console.log(response);
+	  } catch (err) {
+		console.log('That did not go well.')
+	  }
+
+	res.send("hi");
+
+}
+
+
+
+function hello() { 
+	return new Promise(async function(resolve, reject) {
+		const connection = db.getConnection(); 
+
+	
+		try {
+			const queryString = "SELECT auser_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+	
+			connection.query(queryString, (_err, rows, fields) => {
+				/*
+				const users = rows.map((row) => {
+					return {
+						userName: row.user_name,
+						firstName: row.first_name,
+						lastName: row.last_name
+					}
+				});
+				*/
+  				//resolve(users[0].userName);
+				resolve(rows);
+			})  
+	
+		} catch(err) {
+			console.log("error " + err)
+			reject("no worky!!")
+	
+		} finally {
+			console.log("finally")
+			
+		}
+	});
+};
 	/*
-	Insert the post 
-	If it works then create a notification 
-	1) Get all the group users it goes to
-	2) Post the notification to them
-	*/
+	const connection = db.getConnection(); 
+	return new Promise(async function(resolve, reject) {
+		const connection = db.getConnection(); 
+		try {
+			const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+
+			connection.query(queryString, (err, rows, fields) => {
+				const users = rows.map((row) => {
+					return {
+						userName: row.user_name,
+						firstName: row.first_name,
+						lastName: row.last_name
+					}
+				});
+				let userName = users[0].userName;
+				
+			})  
+			resolve(userName);
+		
+		} catch (err) {
+			reject("no worky!")
+
+		}
+
+	  });
+	  */
+
+
+
+/*
+async function postText(req, res) {
+	const connection = db.getConnection(); 
+	console.log("DV: postText Called")
+	//Logic Flow
+
 
     //STEP 1: Insert into posts table
 	const masterSite = req.body.masterSite 
@@ -34,6 +202,7 @@ async function postText(req, res) {
     const postCaption = req.body.postCaption 
 	const postStatus = 1;
 
+	//Posts.newPost(post)
 
 	//STEP 2: Add New Text Notifications 
 	const notificationMessage = req.body.notificationMessage;
@@ -50,30 +219,17 @@ async function postText(req, res) {
 		groupID: groupID,
 	}
 	//Notification.createPostNotification(newNotification);
-
+	//createPostNotification(newNotification);
+	createMyNotification();
 	res.send(newNotification);
 	
-
 }
 
-module.exports = { postText, postLearning };
 
-//LEARNING
-//Function A2: Post Learning 
-async function postLearning(req, res) {
-    const connection = db.getConnection(); 
-	const postCaption = req.body.postCaption 
-	
-	createMyNotification();
-	//console.log("DV: postLearning Called");
-	//let users = await createNotification();
-	//console.log(users.data);
-	
-	res.json("hi")
-}
+
 
 ////
-
+//createPostNotification(newNotification);
 async function createMyNotification() {
   try {
     let userObject = await getUsers();
@@ -93,10 +249,11 @@ async function getUsers() {
   //DATABASE
   return new Promise(async function(resolve, reject) {
     const connection = db.getConnection(); 
-
+	//SUCCESS
 	try {
 		const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '1'";
-
+		
+		//catch error err!
 		connection.query(queryString, (err, rows, fields) => {
 			const users = rows.map((row) => {
 				return {
@@ -108,19 +265,35 @@ async function getUsers() {
 
 			//Get 
 			let davey = users[0].userName;
-			
+			let allUsers = [davey, matty];
+			let outcome = "success";
+			let final = {
+				users: allUsers,
+				outcome: outcome
+			}
+			resolve(final);	
+			/*
 			let hiyaUsers = {
 				dv: davey,
 				mv: matty
 			}
-			resolve(hiyaUsers);
+			*//*
+			//resolve(outcome);
 		})  
 
+	//FAILURE
 	} catch(err) {
 		console.log("error " + err)
-
+		let allUsers = [];
+		let outcome = "failure";
+		let final = {
+			users: allUsers,
+			outcome: outcome
+		}
+		resolve(final);	
 	} finally {
 		console.log("finally")
+		
 	}
 
   });
@@ -152,13 +325,14 @@ function getMatt() {
   
 	  } finally {
 		  console.log("finally")
+		  
 	  }
   
 	});
   }
   
   
-
+*/
 
 
 

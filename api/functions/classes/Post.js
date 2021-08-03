@@ -1,4 +1,4 @@
-//const mysql = require('mysql')
+const db = require('./../conn');
 
 class Post {
     constructor(postID) {
@@ -39,15 +39,79 @@ class Post {
     
     }
 
-    //Method A2: Get User Info 
-    static postText(req, res)  {
+
+    //Method A2: Make a Post
+    static async postText(req)  {
+        const connection = db.getConnection(); 
         const postFrom = req.body.postFrom 
         const postTo = req.body.postTo 
         const postCaption = req.body.postCaption 
-        //console.log("You made a post! " + caption);
-        console.log("POST DATA!: " + postFrom + " " + postTo + " " + postCaption);
         
-        return 777;
+        //INSERT POST
+        return new Promise(async function(resolve, reject) {
+            try {
+                const queryString = "SELECT auser_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+        
+                connection.query(queryString, (err, rows, fields) => {
+                    const users = rows.map((row) => {
+                        return {
+                            userName: row.user_name,
+                            firstName: row.first_name,
+                            lastName: row.last_name
+                        }
+                    });
+      
+                    resolve(users[0].userName);
+                })  
+        
+            } catch(err) {
+                console.log("error " + err)
+                reject("error")
+        
+            } finally {
+                console.log("finally")
+                
+            }
+        
+          });
+
+        /*
+        const connection = db.getConnection(); 
+        const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
+        console.log("calling");
+    
+        return new Promise(resolve => {
+            const postResponse = {}
+            const groupUsers = new Set();
+    
+            connection.query(queryString,[groupID], (err, rows) => {
+                if (!err) {
+                    rows.map((row) => {
+                        groupUsers.add(row.user_name)  
+                    });
+                    postResponse.status = 200
+                    postResponse.data = groupUsers;
+                } else {
+                    console.log("Failed to Select Users from this Group " + err)
+                    //res.sendStatus(500)
+                    postResponse.status = 500
+                    postResponse.data = groupUsers;
+                }	
+                resolve(response);	
+        
+            })
+        });	
+        */
+        /*
+        //console.log("POST DATA!: " + postFrom + " " + postTo + " " + postCaption);
+
+        const postResponse = {
+            status: 200,
+            postStatus: "success"
+        }
+
+        return postResponse;
+        */
     }
 }
 
