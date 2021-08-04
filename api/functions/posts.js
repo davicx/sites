@@ -18,8 +18,47 @@ FUNCTIONS A: All Functions Related to Making a Post
 async function postLearning(req, res) {
 	const postCaption = req.body.postCaption 
 	const postFrom = req.body.postFrom 
-	
-	//The catch is for a rejected promise
+	const connection = db.getConnection(); 
+	var userResponse = {
+		userOutcome: 0,
+		errors: [],
+		userData: {}
+	}
+
+	//Create Query 
+	let userId = req.params.id;
+	const queryString = "SELECT user_name, email, first_name, last_name FROM user_profile WHERE user_id = '1'";
+	connection.query(queryString, [userId], (err, rows, fields) => {
+
+		if (!err) {
+			console.log("worked!");
+
+			//Format data
+			const users = rows.map((row) => {
+			return {
+				userName: row.user_name,
+				email: row.email,
+				firstName: row.first_name,
+				lastName: row.last_name
+				}
+			});
+
+			userResponse.userOutcome = 1;
+			userResponse.userData = users;
+
+		} else {
+			console.log("Failed to query for users: " + err);
+			userResponse.errors.push("Failed to query for users: " + err)
+			//res.sendStatus(500);
+			//res.end();
+		}
+	   res.json(userResponse)
+   
+	}) 
+		
+		
+	/*
+	//WORKING: The catch is for a rejected promise
 	try {
 		const userName = await getUserName();
 		console.log("YAYYAAY RESPONSE: " + userName);	
@@ -27,21 +66,22 @@ async function postLearning(req, res) {
 	} catch (error) {
 		console.log('That did not go well.')
 	}
-
 	res.json(postCaption);
+	*/
 }
 
 
 
 function getUserName() {
 	
-	
+	//Database
+	const connection = db.getConnection(); 
+	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+
     return new Promise((resolve, reject) => {
 		var returnUser = "start";
-		
-		//Database
-		const connection = db.getConnection(); 
-		const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+
+
 
 		connection.query(queryString, (err, rows, fields) => {
 			const users = rows.map((row) => {
@@ -53,6 +93,9 @@ function getUserName() {
 			});
 			returnUser = users[0].userName;
 			console.log("DATABASE " + returnUser)
+
+
+
 					
 			if(returnUser !== "frodo") {
 				resolve(returnUser)    
