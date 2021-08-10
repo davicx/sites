@@ -7,8 +7,18 @@ class Notification {
     }
 
 	//Method A1: Create a Single Notification
-	static async createPostNotification(newNotification) {
-		console.log(newNotification);
+	static async createPostNotification(req) {
+		var groupUsersObject = {}
+
+		try {
+			groupUsersObject = await groupFunctions.getGroupUsers(77)
+			console.log(groupUsersObject.groupUsers);
+		} catch (err) {
+			console.log('That did not go well.')
+			console.log(err.errors);
+		}
+		console.log(groupUsersObject)
+
 	}
 
 

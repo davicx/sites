@@ -8,16 +8,47 @@ const postFunctions = require('./../../functions/posts')
 //const notifications = require('./../../functions/notifications');
 
 
+//ROUTE 1: Post Text
+postRouter.post('/post/text', function(req, res) {
+    postFunctions.postText(req, res);
+
+
+    /*
+    //WORKS
+    const connection = db.getConnection(); 
+	const queryString = "SELECT user_namea FROM group_users WHERE group_id = ? AND active_member = '1'";
+    var groupUsersSet = new Set();
+    const groupID = 77;
+    	
+    var groupUsersResponse = {
+        outcome: 1,
+        groupUsers: [],
+        errors: [],
+    }
+
+    connection.query(queryString,[groupID], (err, rows) => {
+        if (!err) {
+            console.log("No error")
+            rows.map((row) => {
+                groupUsersSet.add(row.user_name) 
+            });
+            groupUsersResponse.groupUsers = Array.from(groupUsersSet);;
+
+        } else {
+            //console.log("Failed to Select Users from this Group " + err)
+            groupUsersResponse.outcome = 0;
+            groupUsersResponse.errors.push("Failed to Select Users from this Group " + err);
+        }	
+        res.json(groupUsersResponse);
+    })  
+    */
+})
+
+
 //ROUTE 1: Post Learing
 postRouter.post('/post/learning', function(req, res) {
     postFunctions.postLearning(req, res);
 })
-
-//ROUTE 1: Post Text
-postRouter.post('/post/text', function(req, res) {
-    postFunctions.postText(req, res);
-})
-
 
 
 

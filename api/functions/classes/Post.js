@@ -46,11 +46,25 @@ class Post {
         const postFrom = req.body.postFrom 
         const postTo = req.body.postTo 
         const postCaption = req.body.postCaption 
+        console.log("create a new post")
+    }
+
+
+
+
+
+
+    //Method A2: Make a Post
+    static async postTextOld(req)  {
+        const connection = db.getConnection(); 
+        const postFrom = req.body.postFrom 
+        const postTo = req.body.postTo 
+        const postCaption = req.body.postCaption 
         
         //INSERT POST
         return new Promise(async function(resolve, reject) {
             try {
-                const queryString = "SELECT auser_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+                const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
         
                 connection.query(queryString, (err, rows, fields) => {
                     const users = rows.map((row) => {

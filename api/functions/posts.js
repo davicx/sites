@@ -12,6 +12,125 @@ FUNCTIONS A: All Functions Related to Making a Post
 	5) Function A5: Post a File 
 */
 
+//FUNCTIONS A: All Functions Related to Making a Post
+//Function A1: Post Text
+//async function postText(req, res) {
+async function postText(req, res) {
+	//STEP 1: Create Post
+	//Post.postText(req);
+	
+	//STEP 2: Create Notification 
+	Notification.createPostNotification(req)
+	res.json("hi")
+	
+	/*
+	try {
+		let response = await newGetUser("frodo no");
+		//console.log(response);
+	  } catch (err) {
+		//console.log('That did not go well.')
+	  }
+	*/
+
+
+
+	
+	/*
+	const connection = db.getConnection(); 
+	const masterSite = req.body.masterSite 
+    const postType = req.body.postType 
+    const postFrom = req.body.postFrom 
+    const postTo = req.body.postTo 
+    const postCaption = req.body.postCaption 
+	const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
+    
+    connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
+        if (!err) {
+			//Send Response
+			console.log("You created a new Post with ID " + results.insertId);
+			res.send("LAST: It worked " + results.insertId);
+        } else {
+			res.send("Failed to insert new Post: " + err)
+            //res.sendStatus(500)
+            //return
+        } 
+	})
+	*/
+	/*
+	const firstName = req.body.create_first_name
+	const lastName = req.body.create_last_name
+  
+	const queryString = "INSERT INTO user_profile (user_name, first_name, last_name) VALUES (?, ?, ?)"
+	getConnection().query(queryString, [firstName, firstName, lastName], (err, results, fields) => {
+	  if (err) {
+		console.log("Failed to insert new user: " + err)
+		res.sendStatus(500)
+		return
+	  }
+	  var newUserID = results.insertId;
+	  console.log("Inserted a new user with id: ", results.insertId);
+  
+	  res.end()
+	})
+*/
+	//let postResponse = await Post.postText(req, res);
+
+	/*
+	try {
+		let response = await hello();
+		console.log(response);
+	  } catch (err) {
+		console.log('That did not go well.')
+	  }
+	  */
+	//res.send(postResponse);
+
+}
+
+//DOOO 
+function newGetUser(myUser) {
+	return new Promise((resolve, reject) => {
+			if(myUser == "frodo") {
+				resolve("It worked you are frodo")    
+			} else {
+				reject('you are not frodo!')
+			}
+		})  
+}
+
+
+function getUserName() {
+	
+	//Database
+	const connection = db.getConnection(); 
+	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
+	let returnUser = "error";
+    return new Promise((resolve, reject) => {
+		connection.query(queryString, (err, rows, fields) => {
+			const users = rows.map((row) => {
+				return {
+					userName: row.user_name,
+					firstName: row.first_name,
+					lastName: row.last_name
+				}
+			});
+			returnUser = users[0].userName;
+			console.log("DATABASE " + returnUser)
+					
+			if(returnUser !== "frodo") {
+				resolve(returnUser)    
+				//resolve('Hiya Matt (RESOLVED)! ' + userName)
+			} else {
+				reject('Wrong!')
+			}
+		})  
+
+		
+    })
+}
+
+
+
 
 //LEARNING
 //Function A2: Post Learning 
@@ -71,45 +190,6 @@ async function postLearning(req, res) {
 }
 
 
-
-function getUserName() {
-	
-	//Database
-	const connection = db.getConnection(); 
-	const queryString = "SELECT user_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
-
-    return new Promise((resolve, reject) => {
-		var returnUser = "start";
-
-
-
-		connection.query(queryString, (err, rows, fields) => {
-			const users = rows.map((row) => {
-				return {
-					userName: row.user_name,
-					firstName: row.first_name,
-					lastName: row.last_name
-				}
-			});
-			returnUser = users[0].userName;
-			console.log("DATABASE " + returnUser)
-
-
-
-					
-			if(returnUser !== "frodo") {
-				resolve(returnUser)    
-				//resolve('Hiya Matt (RESOLVED)! ' + userName)
-			} else {
-				reject('Wrong!')
-			}
-		})  
-
-		
-    })
-}
-
-
 function makeRequest(location) {
     return new Promise((resolve, reject) => {
         console.log(location);
@@ -146,30 +226,12 @@ module.exports = { postText, postLearning };
 
 
 
-//Function A1: Post Text
-async function postText(req, res) {
-	const connection = db.getConnection(); 
-	console.log("DV: postText Called")
-	let postResponse = await Post.postText(req, res);
-	//console.log(postResponse)
-		
-	try {
-		let response = await hello();
-		console.log(response);
-	  } catch (err) {
-		console.log('That did not go well.')
-	  }
-
-	res.send("hi");
-
-}
 
 
 
 function hello() { 
 	return new Promise(async function(resolve, reject) {
 		const connection = db.getConnection(); 
-
 	
 		try {
 			const queryString = "SELECT auser_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
