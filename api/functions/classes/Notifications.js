@@ -8,16 +8,30 @@ class Notification {
 
 	//Method A1: Create a Single Notification
 	static async createPostNotification(req) {
+		
+		const notificationMessage = req.body.notificationMessage;
+		const notificationLink = req.body.notificationLink;
+		const notificationType = req.body.notificationType;
+		const groupID = req.body.groupID;
+
+		//Get Group Users 
 		var groupUsersObject = {}
 
 		try {
-			groupUsersObject = await groupFunctions.getGroupUsers(77)
+			groupUsersObject = await groupFunctions.getGroupUsers(groupID);
 			console.log(groupUsersObject.groupUsers);
 		} catch (err) {
 			console.log('That did not go well.')
 			console.log(err.errors);
 		}
-		console.log(groupUsersObject)
+
+		const groupUsers = groupUsersObject.groupUsers;
+		for(let i = 0; i < groupUsers.length; i++) {
+			console.log("Create a Notification to " + groupUsers[i]);
+		}
+
+		return groupUsers[0];
+		
 
 	}
 

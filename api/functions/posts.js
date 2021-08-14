@@ -14,15 +14,24 @@ FUNCTIONS A: All Functions Related to Making a Post
 
 //FUNCTIONS A: All Functions Related to Making a Post
 //Function A1: Post Text
-//async function postText(req, res) {
 async function postText(req, res) {
+	var postOutcome = {};
+	
 	//STEP 1: Create Post
-	//Post.postText(req);
+	postOutcome = await Post.createPostText(req);
+
+	res.json(postOutcome);
+	
+
 	
 	//STEP 2: Create Notification 
-	Notification.createPostNotification(req)
-	res.json("hi")
+	//let outcome = await Notification.createPostNotification(req)
+	//console.log("OUTCOME " + outcome);
+	//res.statusCode = 404;
+
 	
+}
+
 	/*
 	try {
 		let response = await newGetUser("frodo no");
@@ -85,7 +94,7 @@ async function postText(req, res) {
 	  */
 	//res.send(postResponse);
 
-}
+
 
 //DOOO 
 function newGetUser(myUser) {

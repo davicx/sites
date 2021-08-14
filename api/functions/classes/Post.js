@@ -41,13 +41,117 @@ class Post {
 
 
     //Method A2: Make a Post
-    static async postText(req)  {
+    static async createPostTextNOWORK(req)  {
         const connection = db.getConnection(); 
+        const masterSite = req.body.masterSite 
+        const postType = req.body.postType 
         const postFrom = req.body.postFrom 
         const postTo = req.body.postTo 
         const postCaption = req.body.postCaption 
-        console.log("create a new post")
+            
+        var postOutcome = {
+            outcome: "success",
+            postID: 1,
+            errors: []
+        }
+        //INSERT POST
+        return new Promise(async function(resolve, reject) {
+   
+                const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
+    
+                connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
+                    if (!err) {
+                        console.log("You created a new Post with ID " + results.insertId);
+                        
+                    } else {    
+                        console.log("No worky");   
+                        console.log(err); 
+                        postOutcome.outcome = "no worky"
+                        //res.sendStatus(500)
+                        //return
+                    } 
+                   
+                }) 
+        
+            if(1 == 2) {
+                resolve(postOutcome);
+            } else {
+                console.log("error " + err)
+                reject(err)
+            }
+        
+     
+        
+          });
     }
+
+    static async createPostText(req)  {
+        //const postFrom = req.body.postFrom 
+        //const postTo = req.body.postTo 
+        //const postCaption = req.body.postCaption
+        const connection = db.getConnection(); 
+        const masterSite = req.body.masterSite 
+        const postType = req.body.postType 
+        const postFrom = req.body.postFrom 
+        const postTo = req.body.postTo 
+        const postCaption = req.body.postCaption 
+            
+        var postOutcome = {
+            outcome: "success",
+            postID: 0,
+            errors: []
+        }
+        //INSERT POST
+        return new Promise(async function(resolve, reject) {
+            try {
+                const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
+    
+                connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
+                    if (!err) {
+                        console.log("You created a new Post with ID " + results.insertId);    
+                        postOutcome.postID = results.insertId;       
+                    } else {    
+                        console.log("No worky");   
+                        //console.log(err); 
+                        postOutcome.outcome = "no worky"
+                        postOutcome.errors.push(err);
+                        //res.sendStatus(500)
+            
+                    } 
+                    resolve(postOutcome);
+                }) 
+                
+            } catch(err) {
+                postOutcome.outcome = "rejected"
+                console.log("error " + err)
+                reject(postOutcome)
+        
+            } 
+        
+        });
+    }
+
+
+        /*
+        const masterSite = req.body.masterSite 
+        const postType = req.body.postType 
+        const postFrom = req.body.postFrom 
+        const postTo = req.body.postTo 
+        const postCaption = req.body.postCaption 
+        const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
+    
+        connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
+            if (!err) {
+                console.log("You created a new Post with ID " + results.insertId);
+   
+            } else {    
+                console.log("No worky");    
+                //res.sendStatus(500)
+                //return
+            } 
+        }) 
+        */
+
 
 
 
