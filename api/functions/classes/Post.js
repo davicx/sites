@@ -11,9 +11,8 @@ class Post {
     //METHODS A: POST RELATED
     //Method A1: Get Post Info 
     getPostInfo() {
-        //console.log("Post " + this.postID + " " + postFrom + " " + postTo);
         console.log("Post " + this.postID);
-        //const queryString = "SELECT post_from, post_to, post_caption FROM posts WHERE post_id = ?";
+
         const queryString = "SELECT post_from, post_to, post_caption FROM posts";
 
         getConnection().query(queryString, [this.postID], (err, rows, fields) => {
@@ -39,56 +38,8 @@ class Post {
     
     }
 
-
     //Method A2: Make a Post
-    static async createPostTextNOWORK(req)  {
-        const connection = db.getConnection(); 
-        const masterSite = req.body.masterSite 
-        const postType = req.body.postType 
-        const postFrom = req.body.postFrom 
-        const postTo = req.body.postTo 
-        const postCaption = req.body.postCaption 
-            
-        var postOutcome = {
-            outcome: "success",
-            postID: 1,
-            errors: []
-        }
-        //INSERT POST
-        return new Promise(async function(resolve, reject) {
-   
-                const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
-    
-                connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
-                    if (!err) {
-                        console.log("You created a new Post with ID " + results.insertId);
-                        
-                    } else {    
-                        console.log("No worky");   
-                        console.log(err); 
-                        postOutcome.outcome = "no worky"
-                        //res.sendStatus(500)
-                        //return
-                    } 
-                   
-                }) 
-        
-            if(1 == 2) {
-                resolve(postOutcome);
-            } else {
-                console.log("error " + err)
-                reject(err)
-            }
-        
-     
-        
-          });
-    }
-
     static async createPostText(req)  {
-        //const postFrom = req.body.postFrom 
-        //const postTo = req.body.postTo 
-        //const postCaption = req.body.postCaption
         const connection = db.getConnection(); 
         const masterSite = req.body.masterSite 
         const postType = req.body.postType 
@@ -97,10 +48,11 @@ class Post {
         const postCaption = req.body.postCaption 
             
         var postOutcome = {
-            outcome: "success",
+            outcome: 0,
             postID: 0,
             errors: []
         }
+
         //INSERT POST
         return new Promise(async function(resolve, reject) {
             try {
@@ -109,30 +61,35 @@ class Post {
                 connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
                     if (!err) {
                         console.log("You created a new Post with ID " + results.insertId);    
+                        postOutcome.outcome = 1;       
                         postOutcome.postID = results.insertId;       
                     } else {    
-                        console.log("No worky");   
-                        //console.log(err); 
                         postOutcome.outcome = "no worky"
                         postOutcome.errors.push(err);
-                        //res.sendStatus(500)
-            
                     } 
                     resolve(postOutcome);
                 }) 
                 
             } catch(err) {
-                postOutcome.outcome = "rejected"
-                console.log("error " + err)
-                reject(postOutcome)
-        
+                postOutcome.outcome = "rejected";
+                console.log("REJECTED " + err);
+                reject(postOutcome);
             } 
-        
         });
+        
     }
 
+}
 
-        /*
+module.exports = Post;
+
+
+
+
+
+//APPENDIX
+/*
+
         const masterSite = req.body.masterSite 
         const postType = req.body.postType 
         const postFrom = req.body.postFrom 
@@ -153,8 +110,7 @@ class Post {
         */
 
 
-
-
+/*
 
 
 
@@ -193,6 +149,8 @@ class Post {
         
           });
 
+    }
+ */
         /*
         const connection = db.getConnection(); 
         const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
@@ -230,8 +188,6 @@ class Post {
 
         return postResponse;
         */
-    }
-}
 
 /*
 const pool = mysql.createPool({
@@ -247,9 +203,52 @@ function getConnection() {
     return pool;
 }
 */
-module.exports = Post;
 
+/*
+static async createPostTextNOWORK(req)  {
+    const connection = db.getConnection(); 
+    const masterSite = req.body.masterSite 
+    const postType = req.body.postType 
+    const postFrom = req.body.postFrom 
+    const postTo = req.body.postTo 
+    const postCaption = req.body.postCaption 
+        
+    var postOutcome = {
+        outcome: "success",
+        postID: 1,
+        errors: []
+    }
+    //INSERT POST
+    return new Promise(async function(resolve, reject) {
 
+            const queryString = "INSERT INTO posts (master_site, post_type, post_from, post_to, post_caption) VALUES (?, ?, ?, ?, ?)"
+
+            connection.query(queryString, [masterSite, postType, postFrom, postTo, postCaption], (err, results, fields) => {
+                if (!err) {
+                    console.log("You created a new Post with ID " + results.insertId);
+                    
+                } else {    
+                    console.log("No worky");   
+                    console.log(err); 
+                    postOutcome.outcome = "no worky"
+                    //res.sendStatus(500)
+                    //return
+                } 
+               
+            }) 
+    
+        if(1 == 2) {
+            resolve(postOutcome);
+        } else {
+            console.log("error " + err)
+            reject(err)
+        }
+    
+ 
+    
+      });
+}
+*/
 /*
 
             

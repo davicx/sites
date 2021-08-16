@@ -1,6 +1,8 @@
 const db = require('./conn');
 const Notification = require('./classes/Notifications');
 const Post = require('./classes/Post')
+const groupFunctions = require('./groups')
+
 //const groupFunctions = require('./groups')
 
 /*
@@ -20,17 +22,31 @@ async function postText(req, res) {
 	//STEP 1: Create Post
 	postOutcome = await Post.createPostText(req);
 
+	//STEP 2: Create Notification
+	if(postOutcome.outcome == 1) {
+		Notification.createGroupPostNotification(req);
+	}
+
 	res.json(postOutcome);
 	
-
-	
-	//STEP 2: Create Notification 
-	//let outcome = await Notification.createPostNotification(req)
-	//console.log("OUTCOME " + outcome);
-	//res.statusCode = 404;
-
-	
 }
+
+
+module.exports = { postText };
+
+
+
+
+
+
+
+
+
+
+
+
+//APPENDIX
+
 
 	/*
 	try {
@@ -97,6 +113,7 @@ async function postText(req, res) {
 
 
 //DOOO 
+/*
 function newGetUser(myUser) {
 	return new Promise((resolve, reject) => {
 			if(myUser == "frodo") {
@@ -137,9 +154,10 @@ function getUserName() {
 		
     })
 }
+*/
 
 
-
+/*
 
 //LEARNING
 //Function A2: Post Learning 
@@ -185,7 +203,7 @@ async function postLearning(req, res) {
 	}) 
 		
 		
-	/*
+	
 	//WORKING: The catch is for a rejected promise
 	try {
 		const userName = await getUserName();
@@ -195,9 +213,10 @@ async function postLearning(req, res) {
 		console.log('That did not go well.')
 	}
 	res.json(postCaption);
-	*/
+	
 }
-
+*/
+/*
 
 function makeRequest(location) {
     return new Promise((resolve, reject) => {
@@ -209,10 +228,10 @@ function makeRequest(location) {
         }
     })
 }
+*/
 
 
 
-module.exports = { postText, postLearning };
 
 
 
@@ -236,7 +255,7 @@ module.exports = { postText, postLearning };
 
 
 
-
+/*
 
 function hello() { 
 	return new Promise(async function(resolve, reject) {
@@ -246,7 +265,7 @@ function hello() {
 			const queryString = "SELECT auser_name, first_name, last_name FROM user_profile WHERE user_id = '2'";
 	
 			connection.query(queryString, (_err, rows, fields) => {
-				/*
+				
 				const users = rows.map((row) => {
 					return {
 						userName: row.user_name,
@@ -254,7 +273,7 @@ function hello() {
 						lastName: row.last_name
 					}
 				});
-				*/
+				
   				//resolve(users[0].userName);
 				resolve(rows);
 			})  
@@ -269,6 +288,8 @@ function hello() {
 		}
 	});
 };
+
+*/
 	/*
 	const connection = db.getConnection(); 
 	return new Promise(async function(resolve, reject) {

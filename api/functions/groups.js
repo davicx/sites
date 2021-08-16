@@ -6,18 +6,87 @@ FUNCTIONS A: All Functions Related to Making a Post
 	2) Function A2: Get all Groups a User is in 
 
 */
-//DOOO 
+
+//Function A1: Get Group Users
 function getGroupUsers(groupID) {
 	console.log("get group users for " + groupID);
 	const connection = db.getConnection(); 
 	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
+	
 	var groupUsersSet = new Set();
 	var groupUsersResponse = {
-		outcome: 1,
+		outcome: 0,
 		groupUsers: [],
 		errors: [],
 	}
 	
+	//GET GROUP USERS
+	return new Promise(async function(resolve, reject) {
+		try {
+			connection.query(queryString, [groupID], (err, rows) => {
+				if (!err) {
+					rows.map((row) => {
+						groupUsersSet.add(row.user_name) 
+					}); 
+					groupUsersResponse.outcome = 1;
+					groupUsersResponse.groupUsers = Array.from(groupUsersSet);    
+				} else {
+					console.log("error getting group users")    
+					groupUsersResponse.outcome = "no worky"
+					groupUsersResponse.errors.push(err);
+				} 
+				resolve(groupUsersResponse);
+			}) 
+			
+		} catch(err) {
+			groupUsersResponse.outcome = "rejected";
+			console.log("REJECTED ");
+			reject(groupUsersResponse);
+		} 
+	});
+
+}
+
+module.exports = { getGroupUsers };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//APPENDIX
+
+/*
 	//PROMISE RETURN
 	return new Promise((resolve, reject) => {
 		
@@ -45,9 +114,9 @@ function getGroupUsers(groupID) {
 			}
 
 		})  
-	})  
-}
 
+	})  
+*/
 	
 
 
@@ -102,34 +171,6 @@ function simpleGET() {
 	})  
 }
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -283,11 +324,11 @@ function simpleGET() {
 
 
 
-
+/*
 
 function getGroupUsersORIGINAL(groupID) {
 	console.log("get group users for " + groupID)
-	/*
+	
 	const connection = db.getConnection(); 
 	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
 	console.log("calling");
@@ -314,11 +355,9 @@ function getGroupUsersORIGINAL(groupID) {
 			//console.log(groupUsers);
 		})
 	});	
-	*/
+	
 }
-
-module.exports = { getGroupUsers };
-
+*/
 
 /*
 

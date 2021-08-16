@@ -1,4 +1,5 @@
 const groupFunctions = require('./../groups')
+const db = require('./../conn');
 
 class Notification {
     constructor(notificationTo) {
@@ -8,35 +9,112 @@ class Notification {
 
 	//Method A1: Create a Single Notification
 	static async createPostNotification(req) {
-		
+		const connection = db.getConnection(); 
+		const masterSite = req.body.masterSite;
+		const notificationFrom = req.body.postFrom;
+		//const notificationTo = notificationTo;
 		const notificationMessage = req.body.notificationMessage;
 		const notificationLink = req.body.notificationLink;
 		const notificationType = req.body.notificationType;
 		const groupID = req.body.groupID;
 
-		//Get Group Users 
-		var groupUsersObject = {}
+		const queryString = "INSERT INTO notifications (master_site, group_id, notification_from, notification_to, notification_message, notification_type) VALUES (?, ?, ?, ?, ?)"
 
-		try {
-			groupUsersObject = await groupFunctions.getGroupUsers(groupID);
-			console.log(groupUsersObject.groupUsers);
-		} catch (err) {
-			console.log('That did not go well.')
-			console.log(err.errors);
-		}
-
-		const groupUsers = groupUsersObject.groupUsers;
-		for(let i = 0; i < groupUsers.length; i++) {
-			console.log("Create a Notification to " + groupUsers[i]);
-		}
-
-		return groupUsers[0];
-		
-
+		connection.query(queryString, [masterSite, groupID, notificationFrom, notificationTo, notificationMessage, notificationType], (err, results) => {
+			
+			if (!err) {
+				console.log("notification for " + notificationTo + " Worked!")
+			} else {
+				console.log("Failed to insert new Post: " + err);
+			} 
+		})
 	}
 
+	static async createGroupPostNotification(req) {
+		const connection = db.getConnection(); 
+		const masterSite = req.body.masterSite;
+		const notificationFrom = req.body.postFrom;
+		const notificationMessage = req.body.notificationMessage;
+		const notificationLink = req.body.notificationLink;
+		const notificationType = req.body.notificationType;
+		const groupID = req.body.groupID;
+	
+		//Get Group Users 
+		const groupUsersObject = await groupFunctions.getGroupUsers(groupID);
+		const groupUsers = groupUsersObject.groupUsers;
 
-    //Method A1: Create a Single Notification
+		//Create Notification for Each of Them
+		for(let i = 0; i < groupUsers.length; i++) {
+			let notificationTo =  groupUsers[i];
+			const queryString = "INSERT INTO notifications (master_site, group_id, notification_from, notification_to, notification_message, notification_type) VALUES (?, ?, ?, ?, ?, ?)"
+
+			connection.query(queryString, [masterSite, groupID, notificationFrom, notificationTo, notificationMessage, notificationType], (err, results) => {
+				
+				if (!err) {
+					console.log("notification for " + notificationTo + " Worked!")
+				} else {
+					console.log("Failed to insert new Post: " + err);
+				} 
+			})
+		}
+	}
+
+}
+
+module.exports = Notification;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//APPENDIX
+
+
+
+		/*
+		connection.query(queryString, [newNotification.masterSite, newNotification.notificationFrom, newNotification.notificationTo, 
+			newNotification.notificationMessage, newNotification.notificationType], (err, results) => {
+			
+			if (!err) {
+				console.log("notification for " + newNotification.notificationTo + " Worked!")
+			} else {
+				console.log("Failed to insert new Post: " + err);
+			} 
+		})
+		*/
+		
+/*
+   //Method A1: Create a Single Notification
     static async createPostNotificationOLD(newNotification) {
         //console.log("create Notification, yay! it works! " + newNotification.notificationFrom + " " + newNotification.notificationTo);
 		const groupID = newNotification.groupID;
@@ -52,6 +130,13 @@ class Notification {
 			const groupUserResponse = await groupFunctions.getGroupUsers(groupID);
 			const groupUsers = groupUserResponse.data;
 			for (let i = 0; i < groupUsers.length; i++) {
+
+			}
+			
+		} 
+    }
+	*/
+
 				/*
 				const queryString = "INSERT INTO notifications (master_site, notification_from, notification_to, notification_message, notification_type) VALUES (?, ?, ?, ?, ?)"
 
@@ -65,7 +150,8 @@ class Notification {
 						//res.sendStatus(500)
 						//return
 					} 
-				})*/
+				})
+				*/
 
 
 				/*
@@ -87,15 +173,6 @@ myfunc.then(function () {
 		
 				//console.log("New Notification to " + groupUsers[i] + " " + newNotification.notificationMessage);
 				//console.log(newNotification.notificationFrom + " " + groupUsers[i]);
-			}
-			
-		} 
-    }
-
-}
-
-
-
 
 /*
 console.log("Group Users")
@@ -108,7 +185,7 @@ console.log(newNotification.notificationMessage)
 console.log(newNotification.groupID)
 console.log("_____________")
 */
-module.exports = Notification;
+
 
 
 
