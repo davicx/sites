@@ -12,6 +12,13 @@ FUNCTIONS A: All Functions Related to Making a Post
 	3) Function A3: Post a Video
 	4) Function A4: Post an Article
 	5) Function A5: Post a File 
+
+FUNCTIONS B: All Functions Related to Getting Posts
+	1) Function B1: Get Posts to a Group
+	2) Function B2: Get Posts to a User
+	3) Function B3: Get Single Post by ID 
+	4) Function B4: Get all Posts  
+
 */
 
 //FUNCTIONS A: All Functions Related to Making a Post
@@ -31,8 +38,80 @@ async function postText(req, res) {
 	
 }
 
+//FUNCTIONS B: All Functions Related to Getting Posts
+//Function B1: Get Posts to a Group
+function getGroupPosts(req, res) {
+    const connection = db.getConnection(); 
+	const groupID = req.params.group_id;
+	console.log("groupID " + groupID);
+    
+	//const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE group_id = ? ORDER BY post_id DESC";
+    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE post_to = ? ORDER BY post_id DESC";
+	var groupPosts = {
+		posts: [],
+		outcome: 0,
+		errors: []
+	}
 
-module.exports = { postText };
+    connection.query(queryString, [groupID], (err, rows) => {
+        if (!err) {
+			const posts = rows.map((row) => {
+				return {
+					postID: row.post_id,
+					postFrom: row.post_from,
+					postTo: row.post_to,
+					postCaption: row.post_caption
+				}
+			});
+	
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			groupPosts.posts = posts;
+			groupPosts.outcome = 1;
+			res.json({groupPosts: groupPosts});
+	   
+		} else {
+            console.log("Failed to Select Posts" + err)
+            //res.sendStatus(500)
+            //return
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			groupPosts.errors.push(err);
+			res.json({groupPosts: groupPosts});
+		}
+    })  
+}
+
+
+//Function B2: Get Posts to a User
+//Function B3: Get Single Post by ID 
+//Function B4: Get all Posts  
+function getAllPosts(req, res) {
+	const connection = db.getConnection(); 
+	const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts ORDER BY post_id DESC LIMIT 10";
+
+	connection.query(queryString, (err, rows) => {
+		if (err) {
+			console.log("Failed to Select Posts" + err)
+			res.sendStatus(500)
+			return
+		}
+
+		const posts = rows.map((row) => {
+			return {
+				postID: row.post_id,
+				postFrom: row.post_from,
+				postTo: row.post_to,
+				postCaption: row.post_caption
+			}
+		});
+
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.json({posts: posts});
+
+	})  
+}
+
+
+module.exports = { postText, getGroupPosts, getAllPosts };
 
 
 

@@ -4,55 +4,36 @@ const db = require('./../../functions/conn');
 const postFunctions = require('./../../functions/posts')
 
 //POST ROUTES
-//Route 1: Post Text
+//Route A1: Post Text
 postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
 })
 
 
-//Move this to a function
-//GET ROUTES
-//Route 1: Get Posts to a Group
-postRouter.get("/posts/group/:group_id", (req, res) => {
-    const groupID = req.params.group_id;
-    console.log("Fetching user with id: " + groupID);  
-    res.send("Group " + groupID);
-    res.end();
-    
-    //postFunctions.getGroupPosts(req, res);
 
+
+
+//GET ROUTES
+//Route B1: Get Posts to a Group
+//Route B2: Get Posts to a User
+//Route B3: Get Single Post by ID 
+//Route B4: Get all Posts 
+
+
+//Route B1: Get Posts to a Group
+postRouter.get("/posts/group/:group_id", (req, res) => {
+    postFunctions.getGroupPosts(req, res);
 })
 
 //Route 2: Get all Posts 
 postRouter.get("/posts", (req, res) => {
-	//postFunctions.getAllPosts(req, res);
-
-    //const connection = getConnection();
-    const connection = db.getConnection(); 
-    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts ORDER BY post_id DESC LIMIT 10";
-
-    connection.query(queryString, (err, rows) => {
-        if (err) {
-            console.log("Failed to Select Posts" + err)
-            res.sendStatus(500)
-            return
-        }
-
-        const posts = rows.map((row) => {
-            return {
-                postID: row.post_id,
-                postFrom: row.post_from,
-                postTo: row.post_to,
-                postCaption: row.post_caption
-            }
-        });
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.json({posts: posts});
-
-    })  
-
+	postFunctions.getAllPosts(req, res);
 })
+
+
+
+
+
 
 module.exports = postRouter;
 
