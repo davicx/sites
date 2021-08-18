@@ -2,15 +2,66 @@
 /*
 
 FUNCTIONS A: All Functions Related to Posts
-	1) Function A1: Get All Posts
-	2) Function A2:  
- 	3) Function A3: 
-	4) Function A4: 
+	1) Function A1: Make a Post
+	2) Function A2: Get All Posts
+	3) Function A3: Get All Posts to a Group
+ 	4) Function A4: Get All Posts to a User
 
 */ 
 
-//makePost() 
 getPosts();
+
+function getPosts() {
+  axios({
+     method: 'get',
+     url: 'http://localhost:3003/posts'
+   })
+     .then(function (response) {
+		 const posts = response.data.posts;
+		 
+		 console.log(posts);
+		 //console.log(posts.length);
+
+		for (let i = 0; i < posts.length; i++) {
+			console.log(posts[i].postCaption);
+		}
+		//console.log(response.data);
+		
+		
+	 })
+     .catch(err => console.error(err));
+	
+}
+
+
+
+//console.log("Before");
+//console.log(posts);
+//console.log("After");
+
+
+/*
+function getPosts() {
+  try {
+    const response = axios.get('http://localhost:3003/posts');
+    console.log(response.data);
+	return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+*/
+
+
+
+//APPENDIX
+//url: 'https://jsonplaceholder.typicode.com/posts'
+//url: 'http://hellofour-env.eba-mymqvrea.us-west-2.elasticbeanstalk.com/posts'
+
+
+//makePost() 
+
 
 /*
 fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
@@ -23,7 +74,7 @@ fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
 	
 //getText("https://dashboard.heroku.com/apps/kite-master-api");
 
-
+/*
 async function getText(file) {
 	let responseObject = await fetch(file);
 	console.log(responseObject);
@@ -90,7 +141,7 @@ function makePost() {
      .then(res => console.log(res))
      .catch(err => console.error(err));
 }
-
+*/
 
 
 
@@ -106,14 +157,5 @@ function makePost() {
     "postCaption": "Hi sam wanna garden today again! The weather is perfect!"
 }
 
-
-
-//GET ROUTES
-//Route 1: Get a Single Post by ID
-//Route 2: Get all Posts to a User 
-//Route 3: Get all Posts to a Group 
-//Route 4: Get all Posts 
-//POST ROUTES
-//Route 5: Make a Post 
 
 */

@@ -25,7 +25,13 @@ postRouter.get("/posts/group/:group_id", (req, res) => {
     postFunctions.getGroupPosts(req, res);
 })
 
-//Route 2: Get all Posts 
+//Route B2: Get Posts to a User
+postRouter.get("/posts/user/:user_id", (req, res) => {
+    postFunctions.getUserPosts(req, res);
+})
+
+
+//Route 4: Get all Posts 
 postRouter.get("/posts", (req, res) => {
 	postFunctions.getAllPosts(req, res);
 })

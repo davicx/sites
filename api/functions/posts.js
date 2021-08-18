@@ -82,6 +82,49 @@ function getGroupPosts(req, res) {
 
 
 //Function B2: Get Posts to a User
+function getUserPosts(req, res) {
+    const connection = db.getConnection(); 
+	const userID = req.params.user_id;
+	console.log("userID " + userID);
+	res.json({userID: userID});
+    
+	/*
+	//const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE group_id = ? ORDER BY post_id DESC";
+    const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE post_to = ? ORDER BY post_id DESC";
+	var groupPosts = {
+		posts: [],
+		outcome: 0,
+		errors: []
+	}
+
+    connection.query(queryString, [groupID], (err, rows) => {
+        if (!err) {
+			const posts = rows.map((row) => {
+				return {
+					postID: row.post_id,
+					postFrom: row.post_from,
+					postTo: row.post_to,
+					postCaption: row.post_caption
+				}
+			});
+	
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			groupPosts.posts = posts;
+			groupPosts.outcome = 1;
+			res.json({groupPosts: groupPosts});
+	   
+		} else {
+            console.log("Failed to Select Posts" + err)
+            //res.sendStatus(500)
+            //return
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			groupPosts.errors.push(err);
+			res.json({groupPosts: groupPosts});
+		}
+    })  
+	*/
+}
+
 //Function B3: Get Single Post by ID 
 //Function B4: Get all Posts  
 function getAllPosts(req, res) {
@@ -111,7 +154,7 @@ function getAllPosts(req, res) {
 }
 
 
-module.exports = { postText, getGroupPosts, getAllPosts };
+module.exports = { postText, getGroupPosts, getAllPosts, getUserPosts };
 
 
 
