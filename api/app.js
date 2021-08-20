@@ -3,8 +3,10 @@ const PORT = process.env.PORT || 3003;
 const app = express()
 const mysql = require('mysql');
 const posts = require('./application/routes/posts.js');
+const user = require('./application/routes/user.js');
 app.use(express.json());
 app.use(posts);
+app.use(user);
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');

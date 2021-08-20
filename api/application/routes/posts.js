@@ -5,11 +5,23 @@ const postFunctions = require('./../../functions/posts')
 const cors = require('cors');
 postRouter.use(cors())
 
+
 //POST ROUTES
 //Route A1: Post Text
 postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
 })
+
+//Route A2: Post Photo
+postRouter.post('/post/photo', function(req, res) {
+    postFunctions.postText(req, res);
+})
+
+//Route A3: Post Video
+postRouter.post('/post/video', function(req, res) {
+    postFunctions.postVideo(req, res);
+})
+
 
 
 //GET ROUTES
