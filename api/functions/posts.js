@@ -31,7 +31,7 @@ async function postText(req, res) {
 
 	//STEP 2: Create Notification
 	if(postOutcome.outcome == 1) {
-		Notification.createGroupPostNotification(req);
+		//Notification.createGroupPostNotification(req);
 	}
 
 	res.json(postOutcome);

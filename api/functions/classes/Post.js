@@ -46,6 +46,7 @@ class Post {
         const postFrom = req.body.postFrom 
         const postTo = req.body.postTo 
         const postCaption = req.body.postCaption 
+        console.log("new post from " + postFrom + " to " + postTo);
             
         var postOutcome = {
             outcome: 0,

@@ -2,15 +2,14 @@ const express = require('express')
 const postRouter = express.Router();
 const db = require('./../../functions/conn');
 const postFunctions = require('./../../functions/posts')
+const cors = require('cors');
+postRouter.use(cors())
 
 //POST ROUTES
 //Route A1: Post Text
 postRouter.post('/post/text', function(req, res) {
     postFunctions.postText(req, res);
 })
-
-
-
 
 
 //GET ROUTES
@@ -30,14 +29,10 @@ postRouter.get("/posts/user/:user_id", (req, res) => {
     postFunctions.getUserPosts(req, res);
 })
 
-
 //Route 4: Get all Posts 
 postRouter.get("/posts", (req, res) => {
 	postFunctions.getAllPosts(req, res);
 })
-
-
-
 
 
 
@@ -67,7 +62,25 @@ module.exports = postRouter;
 
 //APPENDIX
 
+/*
+postRouter.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
 
+
+postRouter.post("/learning", (req, res) => {
+    console.log("hiya!");
+    myReponse = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName
+    }
+    res.json({ response: myReponse });
+}) 
+
+
+*/
 
 
     /*
@@ -513,6 +526,8 @@ router.get('/groupusers/:group_id', function(req, res) {
             return
         }
         //TEMP
+        var cors = require('cors')
+        postRouter.use(cors())
         res.setHeader('Access-Control-Allow-Origin', '*');
         //TEMP
         res.json(rows);

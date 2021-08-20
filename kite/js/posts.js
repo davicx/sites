@@ -9,7 +9,38 @@ FUNCTIONS A: All Functions Related to Posts
 
 */ 
 
-getPosts();
+//Write
+window.onload = function() {
+   document.getElementById("p1").innerHTML = "Hiya!";
+}
+
+
+
+//GET ASYNC
+
+async function getData() {
+  return await axios.get('http://localhost:3003/posts');
+  //return await axios.get('https://jsonplaceholder.typicode.com/posts');
+}
+
+
+(async () => {
+	const response = await getData();
+	console.log(response);
+	
+	const posts = response.data.posts;
+	
+	for (let i = 0; i < posts.length; i++) {
+		//console.log(posts[i].postCaption);
+	}
+  //console.log(await getData())
+})()
+
+
+
+//getPosts();
+//const postCaption =  "Hi sam and frodo do you wanna explore today?!";
+//makePost(postCaption);
 
 function getPosts() {
   axios({
@@ -32,6 +63,45 @@ function getPosts() {
      .catch(err => console.error(err));
 	
 }
+
+function makePost(postCaption) {
+	axios.post('http://localhost:3003/post/text', {
+		
+		masterSite: "kite",
+		postType: "text",
+		postFrom: "davey",
+		postTo: 77,
+		groupID: 77,
+		listID: 0,
+		postCaption: postCaption,   
+		notificationMessage: "Posted a Message",  
+		notificationType: "new_post_text",
+		notificationLink: "http://localhost:3003/posts/group/77"  
+	  })
+	  .then(function (response) {
+		console.log(response);
+	  })
+	  .catch(function (error) {
+		console.log(error);
+	  });
+}
+
+
+function makePostRequest() {
+
+	axios.post('http://localhost:3003/learning', {
+	  firstName: 'david',
+	  lastName: 'Vas'
+	})
+	.then((response) => {
+	  console.log(response);
+	}, (error) => {
+	  console.log(error);
+	});
+}
+
+
+
 
 
 
