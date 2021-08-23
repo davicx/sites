@@ -1,4 +1,24 @@
 //POST ROUTES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 //Single Post (GET)
 http://localhost:3003/post/103

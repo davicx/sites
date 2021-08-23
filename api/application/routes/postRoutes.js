@@ -14,7 +14,7 @@ postRouter.post('/post/text', function(req, res) {
 
 //Route A2: Post Photo
 postRouter.post('/post/photo', function(req, res) {
-    postFunctions.postText(req, res);
+    postFunctions.postPhoto(req, res);
 })
 
 //Route A3: Post Video
@@ -37,8 +37,13 @@ postRouter.get("/posts/group/:group_id", (req, res) => {
 })
 
 //Route B2: Get Posts to a User
-postRouter.get("/posts/user/:user_id", (req, res) => {
+postRouter.get("/posts/user/:user_name", (req, res) => {
     postFunctions.getUserPosts(req, res);
+})
+
+//Route B3: Get Single Post by ID 
+postRouter.get("/posts/:post_id", (req, res) => {
+	postFunctions.getSinglePost(req, res);
 })
 
 //Route 4: Get all Posts 

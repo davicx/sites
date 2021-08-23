@@ -1,7 +1,7 @@
 const express = require('express')
 const userRouter = express.Router();
-const db = require('./../../functions/conn');
-const userFunctions = require('./../../functions/user')
+const db = require('../../functions/conn');
+const userFunctions = require('../../functions/user')
 const cors = require('cors');
 userRouter.use(cors())
 
@@ -15,7 +15,7 @@ userRouter.post('/user/friend/add', function(req, res) {
 
 //GET ROUTES
 //Route B1: Get User Information 
-userRouter.get("/user/:user_id", (req, res) => {
+userRouter.get("/user/:userName", (req, res) => {
     userFunctions.getUserProfile(req, res);
 })
 

@@ -1,6 +1,6 @@
 const db = require('./conn');
 //const Notification = require('./classes/Notifications');
-//const Post = require('./classes/Post')
+const User = require('./classes/User')
 
 /*
 FUNCTIONS A: All Functions Related to a User 
@@ -18,12 +18,16 @@ FUNCTIONS B: All Functions Related to Getting Posts
 function addFriend(req, res) {
     console.log(req.body.currentUser);
     console.log(req.body.friend);
-	res.json({addFriend: "you added a friend"});
+	const friend = req.body.friend;
+	res.json({addFriend: "you added a friend named " + friend});
 }
 
 function getUserProfile(req, res) {
-    const userID = req.params.user_id;
-	res.json({userProfile: "you got your info " + userID});
+    const userName = req.params.userName;
+	let currentUser = new User(userName);
+	currentUser.getUserInfo();
+	
+	res.json({userProfile: "you got your info " + userName});
 }
 
 
