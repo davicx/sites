@@ -34,19 +34,6 @@ function getUserProfile(req, res) {
 
 }
 
-	//let currentUser = new User(userName);
-	//console.log("Your Name Before " + currentUser.firstName + " " + currentUser.lastName);
-	//currentUser.getUserInfo();
-	//getUserInfo(currentUser);
-	//console.log("Your Name After " + currentUser.firstName + " " + currentUser.lastName);
-	//res.json({userProfile: "you got your info " + userName}); 
-
-
-function getUserInfo(currentUser) {
-	currentUser.lastName= "Vasq"
-
-}
-
  
 //Function A2: Add a Friend 
 function addFriend(req, res) {
@@ -56,11 +43,32 @@ function addFriend(req, res) {
 	res.json({addFriend: "you added a friend named " + friend});
 }
 
-
-
-
 module.exports = { addFriend, getUserProfile};
 
+
+
+
+
+
+
+
+
+//APPENDIX
+
+	//let currentUser = new User(userName);
+	//console.log("Your Name Before " + currentUser.firstName + " " + currentUser.lastName);
+	//currentUser.getUserInfo();
+	//getUserInfo(currentUser);
+	//console.log("Your Name After " + currentUser.firstName + " " + currentUser.lastName);
+	//res.json({userProfile: "you got your info " + userName}); 
+/*
+
+function getUserInfo(currentUser) {
+	currentUser.lastName= "Vasq"
+
+}
+*/
+	
 
 
 

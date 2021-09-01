@@ -32,10 +32,12 @@ async function postText(req, res) {
 	//STEP 2: Create Notification
 	if(postOutcome.outcome == 1) {
 		//Notification.createGroupPostNotification(req);
+		res.json(postOutcome);
+	} else {
+		console.log(postOutcome);
+		res.sendStatus(500);
+		return 
 	}
-
-	res.json(postOutcome);
-	
 }
 
 //Function A2: Post a Photo
@@ -219,17 +221,17 @@ module.exports = { postText, postPhoto, postVideo, getGroupPosts, getSinglePost,
 
 
 
+
+
 //APPENDIX
-
-
-	/*
-	try {
-		let response = await newGetUser("frodo no");
-		//console.log(response);
-	  } catch (err) {
-		//console.log('That did not go well.')
-	  }
-	*/
+/*
+try {
+	let response = await newGetUser("frodo no");
+	//console.log(response);
+	} catch (err) {
+	//console.log('That did not go well.')
+	}
+*/
 
 /*
 	//const queryString = "SELECT post_id, post_from, post_to, post_caption FROM posts WHERE group_id = ? ORDER BY post_id DESC";

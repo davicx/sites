@@ -9,15 +9,7 @@ FUNCTIONS A: All Functions Related to Posts
 
 */ 
 
-//Write
-window.onload = function() {
-   document.getElementById("p1").innerHTML = "Hiya!";
-}
-
-
-
 //GET ASYNC
-
 async function getData() {
   return await axios.get('http://localhost:3003/posts');
   //return await axios.get('https://jsonplaceholder.typicode.com/posts');
@@ -26,20 +18,19 @@ async function getData() {
 
 (async () => {
 	const response = await getData();
-	console.log(response);
+	console.log(response.data);
 	
-	const posts = response.data.posts;
-	
+	const posts = response.data;
+
 	for (let i = 0; i < posts.length; i++) {
-		//console.log(posts[i].postCaption);
+		console.log(posts[i].postCaption);
 	}
-  //console.log(await getData())
+   //console.log(await getData())
 })()
 
 
-
 //getPosts();
-//const postCaption =  "Hi sam and frodo do you wanna explore today?!";
+const postCaption =  "Newy! Hi! sam and frodo do you wanna explore today?!";
 //makePost(postCaption);
 
 function getPosts() {
@@ -88,7 +79,6 @@ function makePost(postCaption) {
 
 
 function makePostRequest() {
-
 	axios.post('http://localhost:3003/learning', {
 	  firstName: 'david',
 	  lastName: 'Vas'
@@ -101,6 +91,16 @@ function makePostRequest() {
 }
 
 
+
+
+
+//APPENDIX
+//Write
+/*
+window.onload = function() {
+   document.getElementById("p1").innerHTML = "Hiya!";
+}
+*/
 
 
 

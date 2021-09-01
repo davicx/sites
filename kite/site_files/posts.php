@@ -34,6 +34,7 @@
 			
 			<!-- BODY: Site Wrapper -->
 			<div id = "site-wrapper" class = "">	
+				<p> All the Posts right Now </p>
 					
 		
 				

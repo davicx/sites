@@ -30,6 +30,7 @@ class Notification {
 		})
 	}
 
+	//Method A1: Create Group Notification
 	static async createGroupPostNotification(req) {
 		const connection = db.getConnection(); 
 		const masterSite = req.body.masterSite;
