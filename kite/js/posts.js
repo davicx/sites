@@ -2,15 +2,136 @@
 /*
 
 FUNCTIONS A: All Functions Related to Posts
-	1) Function A1: Get All Posts
-	2) Function A2:  
- 	3) Function A3: 
-	4) Function A4: 
+	1) Function A1: Make a Post
+	2) Function A2: Get All Posts
+	3) Function A3: Get All Posts to a Group
+ 	4) Function A4: Get All Posts to a User
 
 */ 
 
+//Write
+window.onload = function() {
+   document.getElementById("p1").innerHTML = "Hiya!";
+}
+
+
+
+//GET ASYNC
+
+async function getData() {
+  return await axios.get('http://localhost:3003/posts');
+  //return await axios.get('https://jsonplaceholder.typicode.com/posts');
+}
+
+
+(async () => {
+	const response = await getData();
+	console.log(response);
+	
+	const posts = response.data.posts;
+	
+	for (let i = 0; i < posts.length; i++) {
+		//console.log(posts[i].postCaption);
+	}
+  //console.log(await getData())
+})()
+
+
+
+//getPosts();
+//const postCaption =  "Hi sam and frodo do you wanna explore today?!";
+//makePost(postCaption);
+
+function getPosts() {
+  axios({
+     method: 'get',
+     url: 'http://localhost:3003/posts'
+   })
+     .then(function (response) {
+		 const posts = response.data.posts;
+		 
+		 console.log(posts);
+		 //console.log(posts.length);
+
+		for (let i = 0; i < posts.length; i++) {
+			console.log(posts[i].postCaption);
+		}
+		//console.log(response.data);
+		
+		
+	 })
+     .catch(err => console.error(err));
+	
+}
+
+function makePost(postCaption) {
+	axios.post('http://localhost:3003/post/text', {
+		
+		masterSite: "kite",
+		postType: "text",
+		postFrom: "davey",
+		postTo: 77,
+		groupID: 77,
+		listID: 0,
+		postCaption: postCaption,   
+		notificationMessage: "Posted a Message",  
+		notificationType: "new_post_text",
+		notificationLink: "http://localhost:3003/posts/group/77"  
+	  })
+	  .then(function (response) {
+		console.log(response);
+	  })
+	  .catch(function (error) {
+		console.log(error);
+	  });
+}
+
+
+function makePostRequest() {
+
+	axios.post('http://localhost:3003/learning', {
+	  firstName: 'david',
+	  lastName: 'Vas'
+	})
+	.then((response) => {
+	  console.log(response);
+	}, (error) => {
+	  console.log(error);
+	});
+}
+
+
+
+
+
+
+//console.log("Before");
+//console.log(posts);
+//console.log("After");
+
+
+/*
+function getPosts() {
+  try {
+    const response = axios.get('http://localhost:3003/posts');
+    console.log(response.data);
+	return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+*/
+
+
+
+//APPENDIX
+//url: 'https://jsonplaceholder.typicode.com/posts'
+//url: 'http://hellofour-env.eba-mymqvrea.us-west-2.elasticbeanstalk.com/posts'
+
+
 //makePost() 
-getPosts();
+
 
 /*
 fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
@@ -23,7 +144,7 @@ fetch ('https://kite-master-api.herokuapp.com/posts', { method: 'get' })
 	
 //getText("https://dashboard.heroku.com/apps/kite-master-api");
 
-
+/*
 async function getText(file) {
 	let responseObject = await fetch(file);
 	console.log(responseObject);
@@ -90,7 +211,7 @@ function makePost() {
      .then(res => console.log(res))
      .catch(err => console.error(err));
 }
-
+*/
 
 
 
@@ -106,14 +227,5 @@ function makePost() {
     "postCaption": "Hi sam wanna garden today again! The weather is perfect!"
 }
 
-
-
-//GET ROUTES
-//Route 1: Get a Single Post by ID
-//Route 2: Get all Posts to a User 
-//Route 3: Get all Posts to a Group 
-//Route 4: Get all Posts 
-//POST ROUTES
-//Route 5: Make a Post 
 
 */
