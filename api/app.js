@@ -4,9 +4,12 @@ const app = express()
 //const mysql = require('mysql');
 const posts = require('./application/routes/postRoutes.js');
 const user = require('./application/routes/userRoutes.js');
+const group = require('./application/routes/groupRoutes.js');
 app.use(express.json());
-app.use(posts);
+
 app.use(user);
+app.use(group);
+app.use(posts);
 
 app.listen(PORT, () => {
   console.log("Server is up and listening on " + PORT)

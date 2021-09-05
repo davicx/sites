@@ -37,10 +37,14 @@ function getUserProfile(req, res) {
  
 //Function A2: Add a Friend 
 function addFriend(req, res) {
-    console.log(req.body.currentUser);
-    console.log(req.body.friend);
-	const friend = req.body.friend;
-	res.json({addFriend: "you added a friend named " + friend});
+	const currentUser = req.body.currentUser;
+	const friendName = req.body.friendName;
+
+    console.log(currentUser);
+    console.log(friendName);
+
+	res.json({addFriend: currentUser + " added a friend named " + friendName});
+
 }
 
 module.exports = { addFriend, getUserProfile};

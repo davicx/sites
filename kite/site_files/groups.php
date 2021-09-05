@@ -22,10 +22,9 @@
 		
 		<body id = "">
 			
-			<!-- HEADER: Login Header -->
+			<!-- HEADER -->
 			<header>
-				<p class = "font-nunito"> header </p>
- 
+				<p id = "logo-text" class = "font-nunito"> header </p> 
 			</header>	
 			
 			<!-- Spacer --> 

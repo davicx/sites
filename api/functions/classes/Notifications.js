@@ -8,7 +8,7 @@ class Notification {
     }
 
 	//Method A1: Create a Single Notification
-	static async createPostNotification(req) {
+	static async createNotification(req) {
 		const connection = db.getConnection(); 
 		const masterSite = req.body.masterSite;
 		const notificationFrom = req.body.postFrom;
@@ -31,7 +31,7 @@ class Notification {
 	}
 
 	//Method A1: Create Group Notification
-	static async createGroupPostNotification(req) {
+	static async createGroupNotification(req) {
 		const connection = db.getConnection(); 
 		const masterSite = req.body.masterSite;
 		const notificationFrom = req.body.postFrom;

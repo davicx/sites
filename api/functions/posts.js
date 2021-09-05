@@ -28,10 +28,11 @@ async function postText(req, res) {
 	
 	//STEP 1: Create Post
 	postOutcome = await Post.createPostText(req);
+	console.log("YOUR NEW POST ID! " + postOutcome.postID)
 
 	//STEP 2: Create Notification
 	if(postOutcome.outcome == 1) {
-		//Notification.createGroupPostNotification(req);
+		//Notification.createGroupNotification(req);
 		res.json(postOutcome);
 	} else {
 		console.log(postOutcome);

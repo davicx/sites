@@ -1,13 +1,161 @@
 const db = require('./conn');
 
+
 /*
 FUNCTIONS A: All Functions Related to Groups
-	1) Function A1: Get Group Users
-	2) Function A2: Get all Groups a User is in 
+	1) Function A1: Create a New Group
+	2) Function A2: Invite User to a Group 
+	3) Function A3: Leave a Group 
+
+
+FUNCTIONS B: All Functions Related to Groups
+	1) Function A1: Create a New Group
+	1) Function A2: Invite User to a Group 
 
 */
 
-//Function A1: Get Group Users
+//Function A1: Create a New Group
+function newGroup(req, res) {
+	/*
+	var postOutcome = {};
+	
+	//STEP 1: Create Post
+	postOutcome = await Post.createPostText(req);
+	console.log("YOUR NEW POST ID! " + postOutcome.postID)
+
+	//STEP 2: Create Notification
+	if(postOutcome.outcome == 1) {
+		Notification.createGroupNotification(req);
+		Requests.createGroupRequest(req);
+		res.json(postOutcome);
+	} else {
+		console.log(postOutcome);
+		res.sendStatus(500);
+		return 
+	}
+	 */
+
+	//WORKS NEED TO MOVE 
+	const connection = db.getConnection(); 
+	var groupID;
+	const currentUser = req.body.currentUser; 
+	const groupName = req.body.groupName; 
+	const groupType = req.body.groupType; 
+	const groupImage = "the_shire.jpg"; 
+	const groupPrivate = req.body.groupPrivate; 
+	const notificationMessage = req.body.notificationMessage 
+	const notificationType = req.body.notificationType 
+	const notificationLink = req.body.notificationLink 
+
+
+	//STEP 1: Create New Group 
+	//Part 1: Create new group and insert into groups table 
+	const queryString = "INSERT INTO groups (group_type, created_by, group_name, group_image, group_private) VALUES (?, ?, ?, ?, ?)"
+    
+	connection.query(queryString, [groupType, currentUser, groupName, groupImage, groupPrivate], (err, results) => {
+		if (!err) {
+			groupID = results.insertId
+			console.log("You created a new Group with ID " + groupID);    
+			const groupOutcome = {
+				outcome: "Success yay!",
+				groupID: groupID
+			}
+			res.json(groupOutcome);
+		} else {  
+			console.log(err);
+			res.json({error: "ERROR MAN!"})  
+
+		} 
+
+	}) 
+
+
+
+	//Part 2: Select group ID and use this to populate the rest of the fields		
+
+
+	//Part 3: Create a Class and Add all Users to this Group
+
+	//STEP 2: Create Requests 
+
+		
+	//STEP 3: Create Notifications 
+
+
+}
+
+/*
+	$logged_in_user 		= $_POST["logged_in_user"];	
+	$master_site 			= $_POST["master_site"];	
+	$group_name 			= $_POST["group_name"]; 
+	$notification_message 	= $_POST["notification_message"];	
+	$notification_link 		= $_POST["notification_link"];	
+	$notification_type 		= $_POST["notification_type"];	
+	$notification_from 		= $_POST["notification_from"];	
+	$selected_friends 		= $_POST["selected_friends"];	
+	$selected_friends_count = count($selected_friends);	
+	$group_key				= uniqid(microtime(),1);
+	$request_type			= "new_group";
+
+	//STEP 1: Create New Group 
+	//Part 1: Create new group and insert into groups table 
+	$insert = $conn->prepare("INSERT INTO groups (group_type, created_by, group_key, group_name) VALUES (?,?,?,?) ");
+	$insert->bind_param('ssss', $request_type, $logged_in_user, $group_key, $group_name);
+	
+	//Part 2: Select group ID and use this to populate the rest of the fields		
+	if ($insert->execute()) {
+		$query = "SELECT group_id FROM groups WHERE group_key ='$group_key' AND created_by = '$logged_in_user' LIMIT 1";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($result);
+		$new_group_id = $row['group_id'];
+		$group_id = $row['group_id'];
+	}
+
+	//Part 3: Create a Class and Add all Users to this Group
+	$Current_Group = new Group($new_group_id);
+	$Current_Group->createGroupExistingUsers($request_type, $logged_in_user, $selected_friends, $new_group_id, $group_key);	
+
+	//STEP 2: Create Requests 
+	for($x = 0; $x < $selected_friends_count; $x++) {
+		$friend_invited_current = $selected_friends[$x];
+		$Current_Request = new Requests($logged_in_user);	
+		echo $Current_Request->createGroupPendingRequest($master_site, $group_id, $logged_in_user, $friend_invited_current);			
+	}
+		
+	//STEP 3: Create Notifications 
+	$Current_Notification = new Notifications($logged_in_user);
+	for($x = 0; $x < $selected_friends_count; $x++) {
+		$notification_to = $selected_friends[$x];
+		echo $Current_Notification->createGroupInviteNotification($master_site, $notification_from, $notification_to, $notification_message, $notification_link, $notification_type, $group_id);
+	}	
+
+	*/
+
+
+//Function A2: Invite User to a Group 
+function addGroupUser(req, res) {
+
+}
+
+//Function A3: Leave a Group 
+function leaveGroup(req, res) {
+
+}
+
+
+//Function B1: Get All Groups 
+function getAllGroups(req, res) {
+
+}
+
+
+//Function B2: Get Single Group by ID 
+function getGroup(req, res) {
+
+}
+
+
+//Function B3: Get Group Users
 function getGroupUsers(groupID) {
 	console.log("get group users for " + groupID);
 	const connection = db.getConnection(); 
@@ -47,7 +195,7 @@ function getGroupUsers(groupID) {
 
 }
 
-module.exports = { getGroupUsers };
+module.exports = { newGroup, getGroupUsers };
 
 
 

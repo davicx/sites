@@ -132,6 +132,15 @@ header {
 	z-index: 10;
 }
 
+/* LOGO */
+#logo-text {
+	margin-top: 18px;
+	margin-left: 32px;
+	width: 100px;
+	
+}
+
+/* SEARCH */
 
 
 /****************************************************
@@ -175,7 +184,6 @@ SECTION 5B: Group
 	}
 } 
 
-
 /* Three Groups */
 @media (max-width: 1050px) {
 	#group-holder {
@@ -192,12 +200,6 @@ SECTION 5B: Group
 	}
 } 
 
-
-
-/****************************************************
-SECTION 4D: Pavilion Page
-*****************************************************/
- 
 
 /****************************************************
 APPENDIX A: CSS defaults  
