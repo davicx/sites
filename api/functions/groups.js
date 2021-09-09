@@ -1,5 +1,5 @@
 const db = require('./conn');
-
+const Group = require('./classes/Group')
 
 /*
 FUNCTIONS A: All Functions Related to Groups
@@ -15,7 +15,7 @@ FUNCTIONS B: All Functions Related to Groups
 */
 
 //Function A1: Create a New Group
-function newGroup(req, res) {
+async function newGroup(req, res) {
 	/*
 	var postOutcome = {};
 	
@@ -35,7 +35,40 @@ function newGroup(req, res) {
 	}
 	 */
 
+	let groupOutcome = {
+
+	}
+
+	//WORKING ON THIS!
+	try {
+		groupOutcome = await Group.createGroup(req);
+	} catch(err) {
+		console.log(err);
+	}
+     
+	if(groupOutcome.outcome == 1) {
+		console.log("worked!")
+		res.json(groupOutcome);
+	} else {
+		console.log("no worked!")
+		res.json(groupOutcome)
+	}
+	
+	/*
+	async function fetchAndUpdatePosts() {
+	const posts = await fetchPosts().catch(() => {
+		console.log('error in fetching posts');
+	});
+	
+	if (posts) {
+		doSomethingWithPosts(posts);
+	}
+	} 
+	*/
+
+
 	//WORKS NEED TO MOVE 
+	/*
 	const connection = db.getConnection(); 
 	var groupID;
 	const currentUser = req.body.currentUser; 
@@ -80,7 +113,7 @@ function newGroup(req, res) {
 
 		
 	//STEP 3: Create Notifications 
-
+	*/
 
 }
 
