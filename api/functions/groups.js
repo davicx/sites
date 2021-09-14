@@ -16,7 +16,30 @@ FUNCTIONS B: All Functions Related to Groups
 
 //Function A1: Create a New Group
 async function newGroup(req, res) {
+	var groupOutcome = {}
+	var groupUsersOutcome = {}
+
+	//STEP 1: Create the Group and Add the New Users
+	try {
+		groupOutcome = await Group.createGroup(req);
+		groupUsersOutcome = await Group.addGroupUsers(groupOutcome.groupID, req.body.groupUsers, req.body.currentUser);
+
+
+	} catch(err) {
+		console.log("were in the catch now!!");
+	}
+	
+     
+	if(groupOutcome.outcome == 1) {
+		console.log("worked!")
+		res.json(groupOutcome);
+	} else {
+		console.log("no worked!")
+		res.json(groupOutcome)
+	}
+	
 	/*
+
 	var postOutcome = {};
 	
 	//STEP 1: Create Post
@@ -35,25 +58,6 @@ async function newGroup(req, res) {
 	}
 	 */
 
-	let groupOutcome = {
-
-	}
-
-	//WORKING ON THIS!
-	try {
-		groupOutcome = await Group.createGroup(req);
-	} catch(err) {
-		console.log(err);
-	}
-     
-	if(groupOutcome.outcome == 1) {
-		console.log("worked!")
-		res.json(groupOutcome);
-	} else {
-		console.log("no worked!")
-		res.json(groupOutcome)
-	}
-	
 	/*
 	async function fetchAndUpdatePosts() {
 	const posts = await fetchPosts().catch(() => {
@@ -69,38 +73,6 @@ async function newGroup(req, res) {
 
 	//WORKS NEED TO MOVE 
 	/*
-	const connection = db.getConnection(); 
-	var groupID;
-	const currentUser = req.body.currentUser; 
-	const groupName = req.body.groupName; 
-	const groupType = req.body.groupType; 
-	const groupImage = "the_shire.jpg"; 
-	const groupPrivate = req.body.groupPrivate; 
-	const notificationMessage = req.body.notificationMessage 
-	const notificationType = req.body.notificationType 
-	const notificationLink = req.body.notificationLink 
-
-
-	//STEP 1: Create New Group 
-	//Part 1: Create new group and insert into groups table 
-	const queryString = "INSERT INTO groups (group_type, created_by, group_name, group_image, group_private) VALUES (?, ?, ?, ?, ?)"
-    
-	connection.query(queryString, [groupType, currentUser, groupName, groupImage, groupPrivate], (err, results) => {
-		if (!err) {
-			groupID = results.insertId
-			console.log("You created a new Group with ID " + groupID);    
-			const groupOutcome = {
-				outcome: "Success yay!",
-				groupID: groupID
-			}
-			res.json(groupOutcome);
-		} else {  
-			console.log(err);
-			res.json({error: "ERROR MAN!"})  
-
-		} 
-
-	}) 
 
 
 
