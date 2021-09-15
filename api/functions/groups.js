@@ -23,13 +23,24 @@ async function newGroup(req, res) {
 	try {
 		groupOutcome = await Group.createGroup(req);
 		groupUsersOutcome = await Group.addGroupUsers(groupOutcome.groupID, req.body.groupUsers, req.body.currentUser);
+		console.log("notification " + groupOutcome.groupID);
 
+		//Create Notifications and Requests
+		const notification = {
+			masterSite: "kite",
+			notificationFrom: req.body.currentUser,
+			notificationMessage: req.body.notificationMessage,
+			notificationLink: req.body.notificationLink,
+			notificationType: req.body.notificationType,
+			groupID: groupOutcome.groupID
+		}
 
 	} catch(err) {
 		console.log("were in the catch now!!");
 	}
 	
-     
+	res.json({output: "temp"});
+    	/* 
 	if(groupOutcome.outcome == 1) {
 		console.log("worked!")
 		res.json(groupOutcome);
@@ -38,7 +49,7 @@ async function newGroup(req, res) {
 		res.json(groupOutcome)
 	}
 	
-	/*
+
 
 	var postOutcome = {};
 	
