@@ -1,5 +1,8 @@
 const db = require('./conn');
-const Group = require('./classes/Group')
+const Group = require('./classes/Group');
+const Notification = require('./classes/Notification')
+//const Notification = require('./classes/Notification');
+//app.use(express.json());
 
 /*
 FUNCTIONS A: All Functions Related to Groups
@@ -14,33 +17,65 @@ FUNCTIONS B: All Functions Related to Groups
 
 */
 
+
 //Function A1: Create a New Group
-async function newGroup(req, res) {
-	var groupOutcome = {}
+//async function newGroup(req, res) {
+function newGroup(req, res) {
+	var groupOutcome = { groupID: 777}
 	var groupUsersOutcome = {}
+	var notification = {}
+	notification = {
+		masterSite: "kite",
+		notificationFrom: req.body.currentUser,
+		notificationMessage: req.body.notificationMessage,
+		notificationTo: req.body.groupUsers,
+		notificationLink: req.body.notificationLink,
+		notificationType: req.body.notificationType,
+		groupID: groupOutcome.groupID
+	}
+	Notification.createGroupNotification(notification)
+
+	//Notification.cr/ateGroupNotification(newNotification);
+	//Notification.createNotification();
+	//groupNotification = new Notification("davey");
+	//console.log(groupNotification.notificationFrom)
+	//
+
+	/*
 
 	//STEP 1: Create the Group and Add the New Users
 	try {
 		groupOutcome = await Group.createGroup(req);
-		groupUsersOutcome = await Group.addGroupUsers(groupOutcome.groupID, req.body.groupUsers, req.body.currentUser);
-		console.log("notification " + groupOutcome.groupID);
 
-		//Create Notifications and Requests
-		const notification = {
-			masterSite: "kite",
-			notificationFrom: req.body.currentUser,
-			notificationMessage: req.body.notificationMessage,
-			notificationLink: req.body.notificationLink,
-			notificationType: req.body.notificationType,
-			groupID: groupOutcome.groupID
+		if(groupOutcome.outcome == 1) {
+			groupUsersOutcome = await Group.addGroupUsers(groupOutcome.groupID, req.body.groupUsers, req.body.currentUser);
+		} 
+
+		//STEP 2: Add the Notifications and Requests
+		if(groupUsersOutcome.outcome == 1) {
+			newNotification = {
+				masterSite: "kite",
+				notificationFrom: req.body.currentUser,
+				notificationMessage: req.body.notificationMessage,
+				notificationLink: req.body.notificationLink,
+				notificationType: req.body.notificationType,
+				groupID: groupOutcome.groupID
+			}
+			Notification.createGroupNotification(newNotification);
+			
+			console.log("notification " + groupOutcome.groupID);
+			console.log("request " + groupOutcome.groupID);
 		}
 
 	} catch(err) {
+		console.log(err);
 		console.log("were in the catch now!!");
 	}
 	
-	res.json({output: "temp"});
-    	/* 
+	res.json({groupID: groupOutcome.groupID});
+	*/
+	res.json({test: "test"})
+    /* 
 	if(groupOutcome.outcome == 1) {
 		console.log("worked!")
 		res.json(groupOutcome);
@@ -48,7 +83,11 @@ async function newGroup(req, res) {
 		console.log("no worked!")
 		res.json(groupOutcome)
 	}
-	
+			//
+		//
+
+		//Create Notifications and Requests
+
 
 
 	var postOutcome = {};
@@ -167,6 +206,10 @@ function getAllGroups(req, res) {
 
 //Function B2: Get Single Group by ID 
 function getGroup(req, res) {
+	//const postID = req.params.post_id;
+	const groupID = req.params.groupID;
+	console.log(" You got " +  groupID);
+	res.json({groupID: groupID});
 
 }
 
@@ -211,7 +254,7 @@ function getGroupUsers(groupID) {
 
 }
 
-module.exports = { newGroup, getGroupUsers };
+module.exports = { newGroup, getGroupUsers, getGroup };
 
 
 

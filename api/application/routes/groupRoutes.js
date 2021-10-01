@@ -1,6 +1,7 @@
 const express = require('express')
 const groupRouter = express.Router();
 const groupFunctions = require('./../../functions/groups')
+//app.use(express.json());
 
 //USER ROUTES
 //Route A1: Create a New Group

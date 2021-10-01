@@ -7,7 +7,6 @@ const user = require('./application/routes/userRoutes.js');
 const group = require('./application/routes/groupRoutes.js');
 app.use(express.json());
 
-
 app.use(user);
 app.use(group);
 app.use(posts);

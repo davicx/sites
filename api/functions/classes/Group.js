@@ -5,6 +5,10 @@ class Group {
     constructor(groupID) {
         this.groupID = groupID;
     }
+
+    static groupTest() {
+        console.log("TEST GROUP")
+    }
     
     //Method A2: Create a Group
     static async addGroupUsers(groupID, groupUsers, groupCreator)  {
@@ -72,10 +76,10 @@ class Group {
                     if (!err) {
                         groupOutcome.outcome = 1;
                         groupOutcome.groupID = results.insertId
-                        console.log("You created a new Group with ID " + groupID);        
+                        //console.log("You created a new Group with ID " + results.insertId);        
                         //res.json(groupOutcome);
                     } else {  
-                        console.log(err);
+                        //console.log(err);
                         groupOutcome.errors.push(err);
                         //res.json({error: "ERROR MAN!"})  
                     }  

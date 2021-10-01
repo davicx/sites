@@ -1,11 +1,30 @@
-const groupFunctions = require('./../groups')
-const db = require('./../conn');
+const groupFunctions = require('../groups')
+const db = require('../conn');
 
 class Notification {
+	constructor(notificationFrom) {
+	  this.notificationFrom = notificationFrom;
+	}
+
+	static createNotification() {
+		console.log("created!")
+	}
+
+}
+
+module.exports = Notification;
+
+/*
+class NotificationOriginal {
     constructor(notificationTo) {
         this._notificationTo = notificationTo;
 
     }
+
+
+	getPostInfo() {
+        console.log("notification");
+	}
 
 	//Method A1: Create a Single Notification
 	static async createNotification(req) {
@@ -28,17 +47,18 @@ class Notification {
 				console.log("Failed to insert new Post: " + err);
 			} 
 		})
+		
 	}
 
 	//Method A1: Create Group Notification
 	static async createGroupNotification(req) {
 		const connection = db.getConnection(); 
-		const masterSite = req.body.masterSite;
-		const notificationFrom = req.body.postFrom;
-		const notificationMessage = req.body.notificationMessage;
-		const notificationLink = req.body.notificationLink;
-		const notificationType = req.body.notificationType;
-		const groupID = req.body.groupID;
+		const masterSite = notification.masterSite;
+		const notificationFrom = notification.notificationFrom;
+		const notificationMessage = notification.notificationMessage;
+		const notificationLink = notification.notificationLink;
+		const notificationType = notification.notificationType;
+		const groupID = notification.groupID;
 	
 		//Get Group Users 
 		const groupUsersObject = await groupFunctions.getGroupUsers(groupID);
@@ -58,14 +78,16 @@ class Notification {
 				} 
 			})
 		}
+	
 	}
+
 
 }
 
-module.exports = Notification;
 
 
 
+*/
 
 
 
