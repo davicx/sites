@@ -6,14 +6,13 @@ const groupFunctions = require('./../../functions/groups')
 //USER ROUTES
 //Route A1: Create a New Group
 groupRouter.post('/group/create/', function(req, res) {
-    groupFunctions.newGroup(req, res);
+    groupFunctions.createGroup(req, res);
 })
 
 //Route A2: Invite User to a Group 
 groupRouter.post('/group/invite/', function(req, res) {
     groupFunctions.addGroupUser(req, res);
 })
-
 
 //GET ROUTES
 //Route B1: Get All Groups 

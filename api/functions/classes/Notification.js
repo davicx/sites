@@ -16,7 +16,7 @@ class Notification {
 		const notificationLink = notification.notificationLink;
 		const notificationType = notification.notificationType;
 		const groupID = notification.groupID;
-        groupFunctions.groupFunctionTest();
+        //groupFunctions.groupFunctionTest();
 	
 		//Get Group Users 
         for(let i = 0; i < groupUsers.length; i++) {
@@ -24,22 +24,16 @@ class Notification {
             if(notificationTo != notificationFrom) {
                 const queryString = "INSERT INTO notifications (master_site, group_id, notification_from, notification_to, notification_message, notification_type, notification_link) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
-                connection.query(queryString, [masterSite, groupID, notificationFrom, notificationTo, notificationMessage, notificationType, notificationLink], (err, results) => {
-                    
+                connection.query(queryString, [masterSite, groupID, notificationFrom, notificationTo, notificationMessage, notificationType, notificationLink], (err, results) => {                  
                     if (!err) {
                         console.log("notification for " + notificationTo + " Worked!")
                     } else {
                         console.log("Failed to insert new Post: " + err);
                     } 
                 })
-    
             }
-
-		}
-	
+    	}
 	}
-
-
 
     static testCreateGroupNotification(notification) {
         console.log(notification);

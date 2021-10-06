@@ -3,7 +3,7 @@ const db = require('./../conn');
 class User {
     constructor(userName) {
         this.userName = userName;
-        this.firstName = "d";
+        this.firstName = "";
         this.lastName = "";
         this.database = ""
     }
