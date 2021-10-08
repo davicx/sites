@@ -6,10 +6,15 @@ class Group {
         this.groupID = groupID;
     }
 
-    static groupTest() {
-        console.log("TEST GROUP")
-    }
+    //Method A3: Get Group Users
+    static async getGroupUsers(groupID) {
+        console.log("CLASS get group users for " + groupID);
+        
+
+    } 
     
+
+
     //Method A2: Create a Group
     static async addGroupUsers(groupID, groupUsers, groupCreator)  {
         const connection = db.getConnection(); 
@@ -91,6 +96,8 @@ class Group {
             } 
         });
     }
+
+    //GET 
 }
 
 module.exports = Group;

@@ -10,83 +10,53 @@ class Requests {
     
     //Method A2: Create a Group Request 
     static async newGroupRequest(newRequest)  {
+		const masterSite = "kite";
         const connection = db.getConnection(); 
+        const requestType = newRequest.requestType;
+        const requestTypeText = newRequest.requestTypeText;
+        const requestIsPending = 1;
         const groupUsers = newRequest.sentTo;
         const requestFrom = newRequest.sentBy;
-        console.log("REQUEST");
+        const groupID = newRequest.groupID;
 
-        //Create request adn Loop over members
+        //Create request and Loop over members
         for(let i = 0; i < groupUsers.length; i++) {
 			let requestTo =  groupUsers[i];
-            const queryString = "SELECT COUNT(*) AS requestCount FROM pending_requests WHERE request_type = ? AND sent_by = ? AND sent_to = ?"
-           
-            connection.query(queryString, [newRequest.requestType, requestFrom, requestTo], (err, rows) => {
-                if (!err) {
-                    console.log(requestTo + " " + rows[0].requestCount);
-                } else {
-                    console.log("Failed to Select Requests: " + err);
-                }
-              
-            })
-                     /*
+			if(requestTo != requestFrom) {
+		
+				//Step 1: Check if there is already a request 
+				const queryString = "SELECT COUNT(*) AS requestCount FROM pending_requests WHERE request_type = ? AND sent_by = ? AND sent_to = ? AND request_is_pending = '1' AND group_id = ?"			
+				const insertString = "INSERT INTO pending_requests (master_site, request_type, request_type_text, request_is_pending, sent_by, sent_to, group_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
-			AND request_is_pending = '1' 
-			AND group_id = '$group_id' 
-			AND friend_id = '0'");	
-            //            
-            $result_request = mysqli_query($conn, "SELECT * FROM pending_requests WHERE request_type = 'new_group' 
-			AND sent_by = '$logged_in_user' 
-			AND sent_to = '$friend_invited_current' 
-			AND request_is_pending = '1' 
-			AND group_id = '$group_id' 
-			AND friend_id = '0'");	
-            */
-            
-            /*
-            	const queryString = "SELECT first_name, last_name FROM user_profile WHERE user_name = ?";
+				connection.query(queryString, [newRequest.requestType, requestFrom, requestTo, groupID], (err, rows) => {
+					if (!err) {
 
-	connection.query(queryString, [userName], (err, rows) => {
-		if (!err) {
-			const firstName = rows[0].first_name
-			const lastName = rows[0].last_name
+						//Step 2: Insert Record if it is new 
+						const existingRequestCount = rows[0].requestCount;	
+								
+						if(existingRequestCount == 0) {
+							console.log("MAKEY " + requestTo + " " + existingRequestCount);
+							connection.query(insertString, [masterSite, requestType, requestTypeText, requestIsPending, requestFrom, requestTo, groupID], (err, results) => {
+								if (!err) {
+									console.log("You created a new Request with ID " + results.insertId);    
+								} else {    
+									console.log(err)
+								} 
+							}) 			
+						} else {
+							console.log("NO MAKEY " + requestTo  + " " + existingRequestCount);
+						}
 
-			const currentUser = {
-				userName: userName,
-				firstName: firstName,
-				lastName: lastName
+					} else {
+						console.log("Failed to Select Requests: " + err);
+					}
+				})
 			}
-			res.json(currentUser);
-		} else {
-			console.log("Failed to Select User: " + err);
-		}
-	  
-	})
-     */
-   
-            /*
-            //WORKS
-            if(requestTo != requestFrom) {
-                console.log("request to " + requestTo);
-
-            } else {
-                console.log("No need request " + requestTo);
-            }
-            */
         }
-        /*	const newRequest = {
-		requestType: "new_group",
-		requestTypeText: "invited you to join a group",
-		sentBy: req.body.currentUser,
-		sentTo: req.body.groupUsers,
-		groupID: groupOutcome.groupID
-	    }
-	
-        */
-        //If they are found then don't add 
-        
-        //request_type, request_type_text, request_is_pending, sent_by, sent_to, group_id, updated, created
-    
+		
+	//Function End
     }
+//Class End 
 }
 
 module.exports = Requests;

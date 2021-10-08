@@ -20,22 +20,11 @@ FUNCTIONS B: All Functions Related to Groups
 
 //Function A1: Create a New Group
 async function createGroup(req, res) {
-	var groupOutcome = { groupID: 0}
+	var groupOutcome = { groupID: 7}
 	var groupUsersOutcome = {}
 	var notification = {}
-	const newRequest = {
-		requestType: "new_group",
-		requestTypeText: "invited you to join a group",
-		sentBy: req.body.currentUser,
-		sentTo: req.body.groupUsers,
-		groupID: groupOutcome.groupID
-	}
-	
-	Requests.newGroupRequest(newRequest) 
-
 
 	//STEP 1: Create the Group and Add the New Users
-	/*
 	try {
 		groupOutcome = await Group.createGroup(req);
 
@@ -54,6 +43,7 @@ async function createGroup(req, res) {
 				notificationType: req.body.notificationType,
 				groupID: groupOutcome.groupID
 			}
+
 			Notification.createGroupNotification(notification)
 
 			const newRequest = {
@@ -63,9 +53,8 @@ async function createGroup(req, res) {
 				sentTo: req.body.groupUsers,
 				groupID: groupOutcome.groupID
 			}
-			
-			Requests.newGroupRequest(newRequest) 
 
+			Requests.newGroupRequest(newRequest) 
 		}
 
 	} catch(err) {
@@ -74,9 +63,6 @@ async function createGroup(req, res) {
 	}
 	
 	res.json({groupID: groupOutcome.groupID});
-	*/
-	res.json({groupID: "change me!"});
-	
 }
 
 //Function A2: Invite User to a Group 
@@ -96,11 +82,16 @@ function getAllGroups(req, res) {
 
 
 //Function B2: Get Single Group by ID 
-function getGroup(req, res) {
-	//const postID = req.params.post_id;
+async function getGroup(req, res) {
 	const groupID = req.params.groupID;
+	Group.getGroupUsers(groupID);
+	//const groupOutcomeClass = Group.getGroupUsers(groupID);
+	//console.log(groupOutcomeClass); 
+
+	const groupOutcome = await getGroupUsers(groupID);
 	console.log(" You got " +  groupID);
-	res.json({groupID: groupID});
+	res.json({groupOutcome: groupOutcome});
+	//res.json({groupOutcome: groupOutcome});
 
 }
 
@@ -117,11 +108,13 @@ function getGroupUsers(groupID) {
 		groupUsers: [],
 		errors: [],
 	}
-	
+
 	//GET GROUP USERS
 	return new Promise(async function(resolve, reject) {
 		try {
+			
 			connection.query(queryString, [groupID], (err, rows) => {
+				
 				if (!err) {
 					rows.map((row) => {
 						groupUsersSet.add(row.user_name) 
@@ -133,6 +126,7 @@ function getGroupUsers(groupID) {
 					groupUsersResponse.outcome = "no worky"
 					groupUsersResponse.errors.push(err);
 				} 
+				
 				resolve(groupUsersResponse);
 			}) 
 			
@@ -141,8 +135,9 @@ function getGroupUsers(groupID) {
 			console.log("REJECTED ");
 			reject(groupUsersResponse);
 		} 
+		
+		//resolve(groupUsersResponse);
 	});
-
 }
 
 module.exports = { createGroup, getGroupUsers, getGroup };
