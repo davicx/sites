@@ -8,7 +8,7 @@ const Requests = require('./classes/Requests');
 FUNCTIONS A: All Functions Related to Groups
 	1) Function A1: Create a New Group
 	2) Function A2: Invite User to a Group 
-	3) Function A3: Leave a Group 
+	3) Function A3: Accept Group Invite
 
 
 FUNCTIONS B: All Functions Related to Groups
@@ -67,12 +67,26 @@ async function createGroup(req, res) {
 
 //Function A2: Invite User to a Group 
 function addGroupUser(req, res) {
-
+	console.log("Added!")
 }
 
-//Function A3: Leave a Group 
-function leaveGroup(req, res) {
+//Function A3: Accept Group Invite
+function acceptGroupInvite(req, res) {
+	const currentUser = req.body.currentUser;
+	const groupID = req.body.groupID;
+	const requestID = req.body.requestID;
+	Group.acceptGroupInvite(groupID, currentUser, requestID)
+	
+	res.json({currentUser: currentUser, groupID: groupID});
+}
 
+
+//Function A4: Leave a Group 
+function leaveGroup(req, res) {
+	const currentUser = req.body.currentUser;
+	const groupID = req.body.groupID;
+	Group.leaveGroup(currentUser, groupID);
+	res.json({leave: "leave"})
 }
 
 //Function B1: Get All Groups 
@@ -84,21 +98,36 @@ function getAllGroups(req, res) {
 //Function B2: Get Single Group by ID 
 async function getGroup(req, res) {
 	const groupID = req.params.groupID;
-	Group.getGroupUsers(groupID);
-	//const groupOutcomeClass = Group.getGroupUsers(groupID);
-	//console.log(groupOutcomeClass); 
-
-	const groupOutcome = await getGroupUsers(groupID);
+	const groupOutcome = await Group.getGroupUsers(groupID);
+	Group.getGroup(groupID) 
 	console.log(" You got " +  groupID);
 	res.json({groupOutcome: groupOutcome});
-	//res.json({groupOutcome: groupOutcome});
 
 }
 
 
 //Function B3: Get Group Users
-function getGroupUsers(groupID) {
-	console.log("get group users for " + groupID);
+async function getGroupUsers(req, res) {
+	const groupID = req.params.groupID;
+	const groupOutcome = await Group.getGroupUsers(groupID);
+	console.log(" You got " +  groupID);
+	const groupUsers = {
+		activeGroupUsers: groupOutcome.groupUsers,
+		pendingGroupUsers: groupOutcome.pendingGroupUsers,
+	}
+
+	res.json({groupUsers});
+
+}
+
+module.exports = { createGroup, addGroupUser, acceptGroupInvite, getGroup, getGroupUsers, leaveGroup };
+
+
+
+
+//APPENDIX
+	
+	/*
 	const connection = db.getConnection(); 
 	const queryString = "SELECT user_name FROM group_users WHERE group_id = ? AND active_member = '1'";
 	
@@ -138,15 +167,7 @@ function getGroupUsers(groupID) {
 		
 		//resolve(groupUsersResponse);
 	});
-}
-
-module.exports = { createGroup, getGroupUsers, getGroup };
-
-
-
-
-//APPENDIX
-
+	*/
 
 /*
 	$logged_in_user 		= $_POST["logged_in_user"];	

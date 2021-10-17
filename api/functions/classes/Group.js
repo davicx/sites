@@ -6,13 +6,107 @@ class Group {
         this.groupID = groupID;
     }
 
+
+    
+    //Method A5: Create a Group
+    static leaveGroup(currentUser, groupID)  {
+        console.log("LEAVE " + currentUser + " " + groupID)
+
+
+    }
+
+    //Method A4: Accept Group Invite
+    static acceptGroupInvite(groupID, currentUser, requestID) {
+        const connection = db.getConnection(); 
+        console.log("Yay! " + groupID + " " + currentUser + " " + requestID)
+
+        //Update Request
+        const requestQuery = "UPDATE pending_requests SET request_is_pending = '0' WHERE request_id = ? AND group_id = ? AND sent_to = ? AND (request_type = 'new_group' OR request_type = 'group_invite')"
+        //const requestQuery = "UPDATE pending_requests SET request_is_pending = '0' WHERE request_id = ?"
+
+        connection.query(requestQuery, [requestID, groupID, currentUser], (err, results) => {
+            if (!err) {
+                console.log("request worky! ")
+                console.log(results);
+            } else {
+                console.log(err);
+            }
+        }) 
+
+        //Update Group 
+        const queryString = "UPDATE group_users SET active_member = '1' WHERE group_id = ? AND user_name = ?"
+
+        connection.query(queryString, [groupID, currentUser], (err, results) => {
+            if (!err) {
+                console.log("worky! ")
+                console.log(results);
+            } else {
+                console.log(err);
+            }
+        })  
+    }
+    
+        
+    //Method A3: Get Group Users
+    static getGroup(groupID) {
+        this.sayHi();
+        //Get Users
+        //Get Name 
+    }
+
+    static sayHi() {
+        console.log("hiya!!")
+    }
+
+
     //Method A3: Get Group Users
     static async getGroupUsers(groupID) {
-        console.log("CLASS get group users for " + groupID);
+        console.log("CLASS GROUP " + groupID)
+        const connection = db.getConnection(); 
+        const queryString = "SELECT user_name, active_member FROM group_users WHERE group_id = ?";
         
-
-    } 
+        var groupUsersSet = new Set();
+        var pendingGroupUsersSet = new Set();
+        var groupUsersResponse = {
+            status: 500,
+            groupUsers: [],
+            pendingGroupUsers: [],
+            errors: [],
+        }
     
+        //GET GROUP USERS
+        return new Promise(async function(resolve, reject) {
+            try {
+                
+                connection.query(queryString, [groupID], (err, rows) => {
+                    
+                    if (!err) {
+                        rows.map((row) => {
+                            if(row.active_member == 1) {
+                                groupUsersSet.add(row.user_name) 
+                            } else {
+                                pendingGroupUsersSet.add(row.user_name) 
+                            }
+                        }); 
+                        groupUsersResponse.status = 200;
+                        groupUsersResponse.groupUsers = Array.from(groupUsersSet);    
+                        groupUsersResponse.pendingGroupUsers = Array.from(pendingGroupUsersSet);    
+                    } else {
+                        console.log("error getting group users")    
+                        groupUsersResponse.outcome = "no worky"
+                        groupUsersResponse.errors.push(err);
+                    } 
+                    
+                    resolve(groupUsersResponse);
+                }) 
+                
+            } catch(err) {
+                groupUsersResponse.outcome = "rejected";
+                console.log("REJECTED ");
+                reject(groupUsersResponse);
+            } 
+        });
+    } 
 
 
     //Method A2: Create a Group
@@ -55,6 +149,7 @@ class Group {
             } 
         });
     }
+
 
 
     //Method A1: Create a Group
