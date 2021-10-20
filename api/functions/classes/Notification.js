@@ -16,8 +16,8 @@ class Notification {
 		const notificationLink = notification.notificationLink;
 		const notificationType = notification.notificationType;
 		const groupID = notification.groupID;
-        //groupFunctions.groupFunctionTest();
-	
+        console.log(groupUsers);
+   
 		//Get Group Users 
         for(let i = 0; i < groupUsers.length; i++) {
 			let notificationTo =  groupUsers[i];
@@ -36,7 +36,7 @@ class Notification {
 	}
 
     //Method A2: Create Single Notification
-	static async createGroupNotification(notification) {
+	static async createSingleNotification(notification) {
         
     }
 

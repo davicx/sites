@@ -14,23 +14,24 @@ async function postText(req, res) {
 	postOutcome = await Post.createPostText(req);
 
 	//STEP 2: Add the Notifications and Requests
-	const groupUsers = await Group.getGroupUsers(groupID);
-	console.log(groupUsers);
-
-	//Need to change Notification To to the array of new users 
+	var notification = {}
+	const groupUsersOutcome = await Group.getGroupUsers(groupID);
+	const groupUsers = groupUsersOutcome.groupUsers;
+	
 	if(postOutcome.outcome == 200) {
 		notification = {
 			masterSite: "kite",
-			notificationFrom: req.body.currentUser,
+			notificationFrom: req.body.postFrom,
 			notificationMessage: req.body.notificationMessage,
-			notificationTo: req.body.groupID,
+			notificationTo: groupUsers,
 			notificationLink: req.body.notificationLink,
 			notificationType: req.body.notificationType,
 			groupID: groupID
 		}
-		console.log(notification);
-
-		//Notification.createGroupNotification(notification)
+		//console.log(notification);
+		if(groupUsers.length > 0) {
+			Notification.createGroupNotification(notification);
+		}
 	}
 
 	res.json({postOutcome});
