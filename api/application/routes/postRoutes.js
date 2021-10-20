@@ -1,10 +1,9 @@
 const express = require('express')
 const postRouter = express.Router();
 const db = require('./../../functions/conn');
-const postFunctions = require('./../../functions/posts')
+const postFunctions = require('../../functions/postFunctions')
 const cors = require('cors');
 postRouter.use(cors())
-
 
 //POST ROUTES
 //Route A1: Post Text
@@ -13,9 +12,24 @@ postRouter.post('/post/text', function(req, res) {
 })
 
 //Route A2: Post Photo
+const multer  = require('multer')
+const upload = multer({ dest: 'C:/Users/vasquez_d/Desktop/sites/sites/shareshare/user_uploads/post_images' })
+
+postRouter.post('/post/photo', upload.single('postImage'), (req, res) => {
+    const postType = req.body.postType;
+    const file = req.file;
+
+    //This creates a Filename 
+    console.log(file);
+    console.log("Hiya! " + postType);
+	res.json({postType:postType});
+})
+
+/*
 postRouter.post('/post/photo', function(req, res) {
     postFunctions.postPhoto(req, res);
 })
+*/
 
 //Route A3: Post Video
 postRouter.post('/post/video', function(req, res) {
@@ -28,7 +42,6 @@ postRouter.post('/post/video', function(req, res) {
 //Route B2: Get Posts to a User
 //Route B3: Get Single Post by ID 
 //Route B4: Get all Posts 
-
 
 //Route B1: Get Posts to a Group
 postRouter.get("/posts/group/:group_id", (req, res) => {

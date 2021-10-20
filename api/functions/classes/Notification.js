@@ -35,6 +35,11 @@ class Notification {
     	}
 	}
 
+    //Method A2: Create Single Notification
+	static async createGroupNotification(notification) {
+        
+    }
+
     static testCreateGroupNotification(notification) {
         console.log(notification);
         console.log("TEST GROUP")
