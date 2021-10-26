@@ -66,7 +66,6 @@ function getGroupPosts(req, res) {
     connection.query(queryString, [group_id], (err, rows) => {
         if (!err) {
 			const posts = rows.map((row) => {
-				console.log(row)
 				return {
 					postID: row.post_id,
 					postFrom: row.post_from,
@@ -74,7 +73,6 @@ function getGroupPosts(req, res) {
 					postCaption: row.post_caption
 				}
 			});
-			
 
 			res.setHeader('Access-Control-Allow-Origin', '*');
 			res.json({posts:posts});
