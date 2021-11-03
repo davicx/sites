@@ -38,7 +38,7 @@ class Post {
     
     }
 
-    //Method A2: Make a Post
+    //Method A2: Make a Text Post
     static async createPostText(req)  {
         const connection = db.getConnection(); 
         const masterSite = req.body.masterSite 
@@ -78,7 +78,54 @@ class Post {
             } 
         });
     }
+
+    //Method A2: Make a Photo Post
+    static async createPostPhoto(req, file)  {
+        const connection = db.getConnection(); 
+        const masterSite = req.body.masterSite 
+        const postType = req.body.postType 
+        const postFrom = req.body.postFrom 
+        const postTo = req.body.postTo 
+        const groupID = req.body.groupID 
+        const postCaption = req.body.postCaption 
+        const photoName = file.filename; 
+     
+        var postOutcome = {
+            outcome: 0,
+            postID: 0,
+            errors: []
+        }
+
+        //INSERT POST
+        return new Promise(async function(resolve, reject) {
+            try {
+                const queryString = "INSERT INTO posts (master_site, post_type, group_id, post_from, post_to, post_caption, photo_name) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    
+                connection.query(queryString, [masterSite, postType, groupID, postFrom, postTo, postCaption, photoName], (err, results, fields) => {
+                    if (!err) {
+                        console.log("You created a new Post with ID " + results.insertId);    
+                        postOutcome.outcome = 200;       
+                        postOutcome.postID = results.insertId;       
+                    } else {    
+                        postOutcome.outcome = "no worky"
+                        postOutcome.errors.push(err);
+                    } 
+                    resolve(postOutcome);
+                }) 
+                
+            } catch(err) {
+                postOutcome.outcome = "rejected";
+                console.log("REJECTED " + err);
+                reject(postOutcome);
+            } 
+        });
+    }
 }
+/*
+$stmt = $conn->prepare("INSERT INTO posts( master_site, post_type, post_status, group_id, board_id, post_from, post_to, post_caption,
+image_url, file_name, file_name_server, updated, created) 
+VALUES (?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())");
+*/
 
 module.exports = Post;
 

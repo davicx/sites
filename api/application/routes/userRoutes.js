@@ -13,7 +13,7 @@ userRouter.post('/user/friend/add', function(req, res) {
 })
 
 
-//GET ROUTESnod
+//GET ROUTES
 //Route B1: Get User Information 
 userRouter.get("/user/:userName", (req, res) => {
     userFunctions.getUserProfile(req, res);

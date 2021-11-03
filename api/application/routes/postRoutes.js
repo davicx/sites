@@ -1,6 +1,6 @@
 const express = require('express')
 const postRouter = express.Router();
-const db = require('./../../functions/conn');
+//const db = require('./../../functions/conn');
 const postFunctions = require('../../functions/postFunctions')
 const cors = require('cors');
 postRouter.use(cors())
@@ -12,38 +12,9 @@ postRouter.post('/post/text', function(req, res) {
 })
 
 //Route A2: Post Photo
-const multer  = require('multer')
-var path = require('path')
-
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'C:/Users/vasquez_d/Desktop/sites/sites/shareshare/user_uploads/post_images')
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
-    }
-  })
-
-//const upload = multer({ dest: 'C:/Users/vasquez_d/Desktop/sites/sites/shareshare/user_uploads/post_images' })
-var upload = multer({ storage: storage });
-
-postRouter.post('/post/photo', upload.single('postImage'), (req, res) => {
-    const postType = req.body.postType;
-    const file = req.file;
-    const fileNameServer = req.file.filename + req.file.originalname;
-    console.log(fileNameServer);
-
-    //This creates a Filename 
-    console.log(file);
-    console.log("Hiya! " + postType);
-	res.json({postType:postType});
-})
-
-/*
 postRouter.post('/post/photo', function(req, res) {
     postFunctions.postPhoto(req, res);
 })
-*/
 
 //Route A3: Post Video
 postRouter.post('/post/video', function(req, res) {

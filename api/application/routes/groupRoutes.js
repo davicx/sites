@@ -1,6 +1,6 @@
 const express = require('express')
 const groupRouter = express.Router();
-const groupFunctions = require('./../../functions/groups')
+const groupFunctions = require('./../../functions/groupFunctions')
 //app.use(express.json());
 
 //USER ROUTES
@@ -23,7 +23,6 @@ groupRouter.post('/group/join/', function(req, res) {
 groupRouter.post('/group/leave/', function(req, res) {
     groupFunctions.leaveGroup(req, res);
 })
-
 
 //GET ROUTES
 //Route B1: Get Single Group by ID 

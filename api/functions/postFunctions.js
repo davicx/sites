@@ -3,9 +3,6 @@ const Group = require('./classes/Group');
 const Post = require('./classes/Post');
 const Notification = require('./classes/Notification')
 const Requests = require('./classes/Requests');
-const multer  = require('multer')
-//const upload = multer({ dest: 'uploads/' })
-const upload = multer({ dest: 'C:/Users/vasquez_d/Desktop/sites/sites/shareshare/user_uploads/post_images' })
 
 //Route A1: Post Text
 async function postText(req, res) {
@@ -38,10 +35,13 @@ async function postText(req, res) {
 }
 
 //Route A2: Post Photo
-async function postPhoto(req, res) {
-	console.log("post photo")
+async function postPhoto(req, res, file) {
+	console.log("post photo! yay!")
+	postOutcome = await Post.createPostPhoto(req, file);
+	//Post.createPostPhoto(req, file);
+
 	const postType = req.body.postType;
-	res.json({postType:postType});
+	res.json(postOutcome);
 }
 
 //Route A3: Post Video
