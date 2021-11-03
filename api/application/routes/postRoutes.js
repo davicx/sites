@@ -24,11 +24,6 @@ postRouter.post('/post/video', function(req, res) {
 
 //GET ROUTES
 //Route B1: Get Posts to a Group
-//Route B2: Get Posts to a User
-//Route B3: Get Single Post by ID 
-//Route B4: Get all Posts 
-
-//Route B1: Get Posts to a Group
 postRouter.get("/posts/group/:group_id", (req, res) => {
     postFunctions.getGroupPosts(req, res);
 })
