@@ -10,7 +10,7 @@ async function postText(req, res) {
 	const groupID = req.body.groupID;
 	postOutcome = await Post.createPostText(req);
 
-	//STEP 2: Add the Notifications and Requests
+	//STEP 2: Add the Notifications
 	var notification = {}
 	const groupUsersOutcome = await Group.getGroupUsers(groupID);
 	const groupUsers = groupUsersOutcome.groupUsers;
@@ -36,12 +36,36 @@ async function postText(req, res) {
 
 //Route A2: Post Photo
 async function postPhoto(req, res, file) {
-	console.log("post photo! yay!")
+	console.log("post photo")
+	const groupID = req.body.groupID;
 	postOutcome = await Post.createPostPhoto(req, file);
-	//Post.createPostPhoto(req, file);
 
-	const postType = req.body.postType;
-	res.json(postOutcome);
+	//STEP 2: Add the Notification
+	var notification = {}
+	const groupUsersOutcome = await Group.getGroupUsers(groupID);
+	const groupUsers = groupUsersOutcome.groupUsers;
+	
+	if(postOutcome.outcome == 200) {
+		notification = {
+			masterSite: "kite",
+			notificationFrom: req.body.postFrom,
+			notificationMessage: req.body.notificationMessage,
+			notificationTo: groupUsers,
+			notificationLink: req.body.notificationLink,
+			notificationType: req.body.notificationType,
+			groupID: groupID
+		}
+		//console.log(notification);
+		if(groupUsers.length > 0) {
+			Notification.createGroupNotification(notification);
+		}
+	}
+
+	res.json({postOutcome});
+	
+	//console.log("post photo! yay!")
+	//postOutcome = await Post.createPostPhoto(req, file);
+	//res.json(postOutcome);
 }
 
 //Route A3: Post Video

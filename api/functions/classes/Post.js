@@ -21,21 +21,16 @@ class Post {
                 res.sendStatus(500)
                 return
             }
-            //console.log(post)
+
             const posts = rows.map((row) => {
                 return {
                     postFrom: row.post_from,
                     postTo: row.post_to,
                     postCaption: row.post_caption
                 }
-            });
-            console.log("_________________")
-            console.log(posts.length);          
+            });       
             console.log(posts);          
-            console.log("_________________")
-
-        })
-    
+        }) 
     }
 
     //Method A2: Make a Text Post
@@ -121,11 +116,7 @@ class Post {
         });
     }
 }
-/*
-$stmt = $conn->prepare("INSERT INTO posts( master_site, post_type, post_status, group_id, board_id, post_from, post_to, post_caption,
-image_url, file_name, file_name_server, updated, created) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?, NOW(), NOW())");
-*/
+
 
 module.exports = Post;
 

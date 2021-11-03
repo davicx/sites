@@ -2,11 +2,8 @@ const express = require('express')
 const uploadRouter = express.Router();
 const postFunctions = require('../../functions/postFunctions')
 const { uploadFile, getFileStream } = require('../../functions/s3')
-//const db = require('./../../functions/conn');
 const cors = require('cors');
 const multer  = require('multer')
-//const path = require('path')
-
 uploadRouter.use(cors())
 
 const storage = multer.diskStorage({
