@@ -61,21 +61,10 @@ uploadRouter.post('/upload/photo/local', uploadLocal.single('postImage'), (req, 
 uploadRouter.post('/upload/photo/local/aws', uploadLocal.single('postImage'), async (req, res) => {
   const file = req.file
   if(file !== undefined) {
-      //const postOutcome = await postFunctions.postPhoto(req, res, file); 
-      //postFunctions.postPhoto(req, res, file); 
       const result = await uploadFile(file);
       if(result) {
         postFunctions.postPhoto(req, res, file); 
       }
-
-      //console.log("_____________");
-      //console.log(postOutcome);
-      //console.log("_____________");
-      console.log(file)        
-      console.log(result)
-      //res.json(result)   
-      //res.json({file: file, imagePath: `/post/image/${result.Key}`});
-      //console.log(result.Key);
   } else {
       res.json({postType:'please choose an image file'});
   }
@@ -85,8 +74,8 @@ uploadRouter.post('/upload/photo/local/aws', uploadLocal.single('postImage'), as
 uploadRouter.post('/upload/photo', uploadPostPhoto.single('postImage'), (req, res) => {
   const file = req.file
   if(file !== undefined) {
-      //postFunctions.postPhoto(req, res, file);
-      res.json({file: file})
+      postFunctions.postPhoto(req, res, file);
+      //res.json({file: file})
   } else {
       res.json({postType:'please choose an image file'});
   }  
